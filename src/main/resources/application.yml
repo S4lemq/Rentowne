@@ -1,0 +1,19 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/rentowne
+        username: postgres
+        password: postgres
+        driver-class-name: org.postgresql.Driver
+    liquibase:
+        change-log: classpath:db/changelog/changeLog.xml
+        enabled: true
+    jpa:
+        hibernate:
+            ddl-auto: none
+        show-sql: true
+        generate-ddl: false
+        properties:
+            hibernate:
+                format_sql: true
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQLDialect

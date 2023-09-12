@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="002-create_user_sequence">
+        <createSequence sequenceName="USER_ACCOUNT_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="002-create_user_table">
+        <createTable tableName="USER_ACCOUNT">
+            <column name="ID" type="bigint" defaultValueSequenceNext="USER_ACCOUNT_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_USER_ACCOUNT"/>
+            </column>
+            <column name="FIRST_NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMAIL" type="varchar(60)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="PASSWORD" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="INSERT_DATE"  type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="UPDATE_DATE"  type="timestamp"/>
+            <column  name="INSERT_OPERATOR"  type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="UPDATE_OPERATOR"  type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="test" author="plubowicz">
+        <sql splitStatements="true" endDelimiter=";">
+            ALTER INDEX PK_USER_ACCOUNT RENAME TO I_USER_ACCOUNT_1;
+        </sql>
+    </changeSet>
+
+<!--    <changeSet id="test1" author="plubowicz">
+        <addUniqueConstraint columnNames="EMAIL" constraintName="UK_USER_ACCOUNT_1" tableName="USER_ACCOUNT"/>
+    </changeSet>-->
+
+    <changeSet author="pl15001" id="650_TFMS-9381_rename_index">
+        <sql>
+            ALTER INDEX USER_ACCOUNT_EMAIL_KEY RENAME TO I_USER_ACCOUNT_2;
+        </sql>
+    </changeSet>
+
+<!--
+    <changeSet id="002-create_user_indexes" author="plubowicz">
+        <createIndex indexName="I_USER_ACCOUNT_1" tableName="USER_ACCOUNT" unique="true">
+            <column name="ID"/>
+        </createIndex>
+        <createIndex indexName="I_USER_ACCOUNT_2" tableName="USER_ACCOUNT" unique="true">
+            <column name="EMAIL"/>
+        </createIndex>
+    </changeSet>
+-->
+
+    <changeSet author="plubowicz" id="002-create_user_check_constraint">
+        <sql splitStatements="true" endDelimiter=";">
+            SELECT p_add_check_constraint('USER_ACCOUNT', 'ID');
+            SELECT p_add_check_constraint('USER_ACCOUNT', 'FIRST_NAME');
+            SELECT p_add_check_constraint('USER_ACCOUNT', 'EMAIL');
+            SELECT p_add_check_constraint('USER_ACCOUNT', 'PASSWORD');
+            SELECT p_add_check_constraint('USER_ACCOUNT', 'INSERT_DATE');
+            SELECT p_add_check_constraint('USER_ACCOUNT', 'INSERT_OPERATOR');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
