@@ -1,11 +1,15 @@
 package pl.rentowne.user.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import pl.rentowne.common.model.BaseEntity;
+import pl.rentowne.security.model.Token;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Tabela użytkowników
@@ -13,6 +17,7 @@ import pl.rentowne.common.model.BaseEntity;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -27,7 +32,7 @@ import pl.rentowne.common.model.BaseEntity;
                 @Index(name = User.USER_ACCOUNT_INDEX_2, columnList = User.COL_EMAIL, unique = true)
         }
 )
-public class User extends BaseEntity {
+public class User extends BaseEntity implements UserDetails {
     static final String TABLE_NAME = "USER_ACCOUNT";
     private static final String SEQ_NAME_LC = "user_account_seq";
     private static final String SEQ_NAME_UC = "USER_ACCOUNT_SEQ";
@@ -42,6 +47,7 @@ public class User extends BaseEntity {
     private static final String COL_LAST_NAME = "LAST_NAME";
     static final String COL_EMAIL = "EMAIL";
     private static final String COL_PASSWORD = "PASSWORD";
+    private static final String COL_ROLE = "ROLE";
 
     @Id
     @SequenceGenerator(name = SEQ_NAME_LC, sequenceName = SEQ_NAME_UC, allocationSize = 1)
@@ -60,4 +66,46 @@ public class User extends BaseEntity {
 
     @Column(name = COL_PASSWORD, nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = COL_ROLE, nullable = false)
+    private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
 }

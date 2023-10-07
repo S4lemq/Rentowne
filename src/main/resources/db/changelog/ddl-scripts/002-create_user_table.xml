@@ -26,43 +26,31 @@
             <column name="PASSWORD" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column  name="INSERT_DATE"  type="timestamp">
+            <column name="ROLE" type="varchar(32)">
                 <constraints nullable="false"/>
             </column>
-            <column  name="UPDATE_DATE"  type="timestamp"/>
-            <column  name="INSERT_OPERATOR"  type="varchar(60)">
+            <column name="INSERT_DATE"  type="timestamp">
                 <constraints nullable="false"/>
             </column>
-            <column  name="UPDATE_OPERATOR"  type="varchar(60)"/>
+            <column name="UPDATE_DATE"  type="timestamp"/>
+            <column name="INSERT_OPERATOR"  type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR"  type="varchar(60)"/>
         </createTable>
     </changeSet>
 
-    <changeSet id="test" author="plubowicz">
+    <changeSet author="plubowicz" id="002-rename_index_1">
         <sql splitStatements="true" endDelimiter=";">
             ALTER INDEX PK_USER_ACCOUNT RENAME TO I_USER_ACCOUNT_1;
         </sql>
     </changeSet>
 
-<!--    <changeSet id="test1" author="plubowicz">
-        <addUniqueConstraint columnNames="EMAIL" constraintName="UK_USER_ACCOUNT_1" tableName="USER_ACCOUNT"/>
-    </changeSet>-->
-
-    <changeSet author="pl15001" id="650_TFMS-9381_rename_index">
+    <changeSet author="plubowicz" id="002-rename_index_2">
         <sql>
             ALTER INDEX USER_ACCOUNT_EMAIL_KEY RENAME TO I_USER_ACCOUNT_2;
         </sql>
     </changeSet>
-
-<!--
-    <changeSet id="002-create_user_indexes" author="plubowicz">
-        <createIndex indexName="I_USER_ACCOUNT_1" tableName="USER_ACCOUNT" unique="true">
-            <column name="ID"/>
-        </createIndex>
-        <createIndex indexName="I_USER_ACCOUNT_2" tableName="USER_ACCOUNT" unique="true">
-            <column name="EMAIL"/>
-        </createIndex>
-    </changeSet>
--->
 
     <changeSet author="plubowicz" id="002-create_user_check_constraint">
         <sql splitStatements="true" endDelimiter=";">
@@ -70,9 +58,23 @@
             SELECT p_add_check_constraint('USER_ACCOUNT', 'FIRST_NAME');
             SELECT p_add_check_constraint('USER_ACCOUNT', 'EMAIL');
             SELECT p_add_check_constraint('USER_ACCOUNT', 'PASSWORD');
+            SELECT p_add_check_constraint('USER_ACCOUNT', 'ROLE');
             SELECT p_add_check_constraint('USER_ACCOUNT', 'INSERT_DATE');
             SELECT p_add_check_constraint('USER_ACCOUNT', 'INSERT_OPERATOR');
         </sql>
     </changeSet>
 
+    <changeSet author="plubowicz" id="002-add_comments_to_user_table">
+        <setTableRemarks tableName="USER_ACCOUNT" remarks="Tabela użytkowników" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="FIRST_NAME" remarks="Imię" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="LAST_NAME" remarks="Nazwisko" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="EMAIL" remarks="Email" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="PASSWORD" remarks="Hasło" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="ROLE" remarks="Rola" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
 </databaseChangeLog>

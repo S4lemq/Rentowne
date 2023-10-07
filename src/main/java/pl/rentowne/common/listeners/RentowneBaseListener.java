@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import pl.rentowne.common.model.BaseEntity;
-import pl.rentowne.trackingchanges.TrackingChangesService;
 
 import java.time.LocalDateTime;
 import java.util.Date;

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="003-create_token_sequence">
+        <createSequence sequenceName="TOKEN_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="003-create_token_table">
+        <createTable tableName="TOKEN">
+            <column name="ID" type="bigint" defaultValueSequenceNext="TOKEN_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_TOKEN"/>
+            </column>
+            <column name="TOKEN_VALUE" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="TOKEN_TYPE" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EXPIRED" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REVOKED" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_TOKEN_USER_ACCOUNT" references="USER_ACCOUNT(ID)"/>
+            </column>
+            <column  name="INSERT_DATE"  type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="UPDATE_DATE"  type="timestamp"/>
+            <column  name="INSERT_OPERATOR"  type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="UPDATE_OPERATOR"  type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="003-rename_index_1">
+        <sql splitStatements="true" endDelimiter=";">
+            ALTER INDEX PK_TOKEN RENAME TO I_TOKEN_1;
+        </sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="003-rename_index_2">
+        <sql>
+            ALTER INDEX TOKEN_TOKEN_VALUE_KEY RENAME TO I_TOKEN_2;
+        </sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="003-create_token_check_constraint">
+        <sql splitStatements="true" endDelimiter=";">
+            SELECT p_add_check_constraint('TOKEN', 'ID');
+            SELECT p_add_check_constraint('TOKEN', 'TOKEN_VALUE');
+            SELECT p_add_check_constraint('TOKEN', 'TOKEN_TYPE');
+            SELECT p_add_check_constraint('TOKEN', 'EXPIRED');
+            SELECT p_add_check_constraint('TOKEN', 'REVOKED');
+            SELECT p_add_check_constraint('TOKEN', 'INSERT_DATE');
+            SELECT p_add_check_constraint('TOKEN', 'INSERT_OPERATOR');
+        </sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="003-add_comments_to_token_table">
+        <setTableRemarks tableName="TOKEN" remarks="Tabela tokenów" />
+        <setColumnRemarks tableName="TOKEN" columnName="ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="TOKEN" columnName="TOKEN_VALUE" remarks="Token" />
+        <setColumnRemarks tableName="TOKEN" columnName="TOKEN_TYPE" remarks="Typ tokena" />
+        <setColumnRemarks tableName="TOKEN" columnName="EXPIRED" remarks="Wygasł - 1, nie wygasł - 0" />
+        <setColumnRemarks tableName="TOKEN" columnName="REVOKED" remarks="Nie ważny - 1, ważny - 0" />
+        <setColumnRemarks tableName="TOKEN" columnName="USER_ID" remarks="Referencja od użytkownika" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+</databaseChangeLog>
