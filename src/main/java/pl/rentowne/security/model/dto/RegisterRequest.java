@@ -1,4 +1,4 @@
-package pl.rentowne.security.controller;
+package pl.rentowne.security.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

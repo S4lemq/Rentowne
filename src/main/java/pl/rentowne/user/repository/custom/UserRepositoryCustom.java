@@ -13,7 +13,7 @@ public interface UserRepositoryCustom {
      * Zwraca encę użytkownika po jego adresie email
      *
      * @param email adres email
-     * @return encja użytkownika
+     * @return encja użytkownika {@link User}
      */
     Optional<User> findByEmail(String email);
 
