@@ -48,6 +48,8 @@ public class User extends BaseEntity implements UserDetails {
     static final String COL_EMAIL = "EMAIL";
     private static final String COL_PASSWORD = "PASSWORD";
     private static final String COL_ROLE = "ROLE";
+    private static final String COL_MFA_ENABLED = "MFA_ENABLED";
+    private static final String COL_SECRET = "SECRET";
 
     @Id
     @SequenceGenerator(name = SEQ_NAME_LC, sequenceName = SEQ_NAME_UC, allocationSize = 1)
@@ -74,9 +76,15 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
 
+    @Column(name = COL_MFA_ENABLED, nullable = false)
+    private boolean mfaEnabled;
+
+    @Column(name = COL_SECRET)
+    private String secret;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return role.getAuthorities();
     }
 
     @Override

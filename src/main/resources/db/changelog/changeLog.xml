@@ -7,5 +7,6 @@
     <include file="db/changelog/ddl-scripts/001-create_function_p_add_check_constraint.xml"/>
     <include file="db/changelog/ddl-scripts/002-create_user_table.xml"/>
     <include file="db/changelog/ddl-scripts/003-create_token_table.xml"/>
+    <include file="db/changelog/ddl-scripts/004-add_mfa_and_secret_column_to_user.xml"/>
 
 </databaseChangeLog>
