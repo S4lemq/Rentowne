@@ -23,4 +23,12 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User, Long> implement
                 .where(USER.email.eq(email))
                 .fetchOne());
     }
+
+    @Override
+    public boolean isUserExistsByEmail(String email) {
+        return queryFactory.select(USER.id)
+                .from(USER)
+                .where(USER.email.eq(email))
+                .fetchCount() > 0;
+    }
 }

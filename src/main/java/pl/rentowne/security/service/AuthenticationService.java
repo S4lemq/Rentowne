@@ -11,6 +11,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.rentowne.exception.RentowneBusinessException;
+import pl.rentowne.exception.RentowneErrorCode;
+import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.security.model.Token;
 import pl.rentowne.security.model.TokenType;
 import pl.rentowne.security.model.dto.AuthenticationRequest;
@@ -24,6 +27,7 @@ import pl.rentowne.user.repository.UserRepository;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +39,12 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final TwoFactorAuthenticationService tfaService;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) throws RentowneBusinessException {
+        boolean isUserExistsByEmail = userRepository.isUserExistsByEmail(request.getEmail());
+        if (isUserExistsByEmail) {
+            throw new RentowneBusinessException(RentowneErrorCode.USER_ALREADY_EXISTS, "email");
+        }
+
         User user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -45,15 +54,11 @@ public class AuthenticationService {
                 .mfaEnabled(request.isMfaEnabled())
                 .build();
 
-        String encode = passwordEncoder.encode(request.getPassword());
-        System.out.println("długość hasła: "+  encode.length());
-
         if (request.isMfaEnabled()) {
             user.setSecret(tfaService.generateNewSecret());
         }
 
-        user.setInsertDate(LocalDateTime.now());
-        user.setInsertOperator("jżaba");
+        user.setInsertOperator(user.getEmail());
         User savedUser = userRepository.save(user);
 
         if (!request.isMfaEnabled()) {
@@ -68,7 +73,7 @@ public class AuthenticationService {
                     .build();
         } else {
             return AuthenticationResponse.builder()
-                    .secretImageUri(tfaService.generateQrCodeImageUri(user.getSecret()))
+                    .secretImageUri(tfaService.generateQrCodeImageUri(user.getSecret(), user.getEmail()))
                     .mfaEnabled(user.isMfaEnabled())
                     .build();
         }

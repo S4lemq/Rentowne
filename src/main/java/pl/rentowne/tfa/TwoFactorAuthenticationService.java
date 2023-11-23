@@ -21,11 +21,11 @@ public class TwoFactorAuthenticationService {
         return new DefaultSecretGenerator().generate();
     }
 
-    public String generateQrCodeImageUri(String secret) {
+    public String generateQrCodeImageUri(String secret, String email) {
         QrData data = new QrData.Builder()
-                .label("Rentowne")
+                .label(email)
                 .secret(secret)
-                .issuer("PŁ-Enterprise")
+                .issuer("Rentowne")
                 .algorithm(HashingAlgorithm.SHA1)
                 .digits(6)
                 .period(30)
@@ -37,7 +37,7 @@ public class TwoFactorAuthenticationService {
             imageData = generator.generate(data);
         } catch (QrGenerationException e) {
             e.printStackTrace();
-            log.error("Error while generating QR-CODE");
+            log.error("Error while generating QR-CODE for user with email: {}", email);
             throw new RuntimeException(e);
         }
 

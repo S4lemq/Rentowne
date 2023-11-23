@@ -17,4 +17,10 @@ public interface UserRepositoryCustom {
      */
     Optional<User> findByEmail(String email);
 
+    /**
+     * Sprawdza czy istnieje użytkownik z podanym mailem
+     * @param email - email użytkownika
+     * @return true - istnieje / false - nie istnieje
+     */
+    boolean isUserExistsByEmail(String email);
 }
