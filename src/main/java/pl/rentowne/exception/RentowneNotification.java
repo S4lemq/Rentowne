@@ -68,7 +68,7 @@ public class RentowneNotification implements Serializable {
 
     @Override
     public String toString() {
-        return "TfmsNotification{" +
+        return "RentowneNotification{" +
                 "code=" + code +
                 ", parameters=" + parameters +
                 '}';
