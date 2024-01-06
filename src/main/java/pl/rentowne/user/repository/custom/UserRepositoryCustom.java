@@ -1,6 +1,7 @@
 package pl.rentowne.user.repository.custom;
 
 import pl.rentowne.user.model.User;
+import pl.rentowne.user.model.dto.UserBasicDto;
 
 import java.util.Optional;
 
@@ -23,4 +24,6 @@ public interface UserRepositoryCustom {
      * @return true - istnieje / false - nie istnieje
      */
     boolean isUserExistsByEmail(String email);
+
+    UserBasicDto getByEmail(String email);
 }

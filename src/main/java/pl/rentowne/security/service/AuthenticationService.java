@@ -112,7 +112,7 @@ public class AuthenticationService {
                 .expired(false)
                 .build();
         token.setInsertDate(LocalDateTime.now());
-        token.setInsertOperator("jżaba");
+        token.setInsertOperator(user.getEmail());
         tokenRepository.save(token);
     }
 

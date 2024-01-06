@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="006-create_apartment_sequence">
+        <createSequence sequenceName="APARTMENT_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="006-create_apartment_table">
+        <createTable tableName="APARTMENT">
+            <column name="APARTMENT_ID" type="bigint" defaultValueSequenceNext="APARTMENT_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_APARTMENT"/>
+            </column>
+            <column name="APARTMENT_NAME" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LEASES_NUMBER" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AREA" type="numeric(5,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IS_RENTED" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ACCOUNT_ID" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_APARTMENT_ON_USER_ACCOUNT" references="USER_ACCOUNT(USER_ACCOUNT_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="006-create_index_apartment_name" author="plubowicz">
+        <createIndex tableName="APARTMENT" indexName="I_APARTMENT_1">
+            <column name="APARTMENT_NAME"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="006-create_apartment_check_constraint">
+        <sql splitStatements="true" endDelimiter=";">
+            SELECT p_add_check_constraint('APARTMENT', 'APARTMENT_ID');
+            SELECT p_add_check_constraint('APARTMENT', 'APARTMENT_NAME');
+            SELECT p_add_check_constraint('APARTMENT', 'LEASES_NUMBER');
+            SELECT p_add_check_constraint('APARTMENT', 'IS_RENTED');
+            SELECT p_add_check_constraint('APARTMENT', 'INSERT_DATE');
+            SELECT p_add_check_constraint('APARTMENT', 'INSERT_OPERATOR');
+        </sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="002-add_comments_to_user_table">
+        <setTableRemarks tableName="APARTMENT" remarks="Tabela nieruchomości" />
+        <setColumnRemarks tableName="APARTMENT" columnName="APARTMENT_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="APARTMENT" columnName="APARTMENT_NAME" remarks="Nazwa mieszkania" />
+        <setColumnRemarks tableName="APARTMENT" columnName="LEASES_NUMBER" remarks="Liczba umów najmu" />
+        <setColumnRemarks tableName="APARTMENT" columnName="AREA" remarks="Powierzchnia mieszkania w metrach kwadratowych" />
+        <setColumnRemarks tableName="APARTMENT" columnName="IS_RENTED" remarks="Wynajęty - 1, nie wynajęty - 0" />
+        <setColumnRemarks tableName="APARTMENT" columnName="USER_ACCOUNT_ID" remarks="Właściciel mieszkania" />
+        <setColumnRemarks tableName="APARTMENT" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="APARTMENT" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="APARTMENT" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="APARTMENT" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+        <setColumnRemarks tableName="TOKEN" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="TOKEN" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="TOKEN" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="TOKEN" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+</databaseChangeLog>

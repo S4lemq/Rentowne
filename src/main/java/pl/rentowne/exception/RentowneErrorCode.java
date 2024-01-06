@@ -12,6 +12,7 @@ import java.util.Set;
 public enum RentowneErrorCode implements Serializable {
     UNKNOWN_ERROR(),
     ITEM_NOT_FOUND(),
+    USER_IS_NOT_LOGGED(),
     NO_PERMISSION("data"),
     USER_ALREADY_EXISTS("email")
     ;

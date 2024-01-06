@@ -5,6 +5,8 @@ import lombok.*;
 import pl.rentowne.common.model.BaseEntity;
 import pl.rentowne.user.model.User;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @Builder
@@ -12,53 +14,51 @@ import pl.rentowne.user.model.User;
 @AllArgsConstructor
 @Entity
 @Table(
-        name = Token.TABLE_NAME,
+        name = "TOKEN",
         uniqueConstraints = {
-                @UniqueConstraint(name = Token.TOKEN_PRIMARY_KEY, columnNames = Token.COL_ID),
-                @UniqueConstraint(name = Token.TOKEN_UNIQUE_KEY_1, columnNames = Token.COL_TOKEN)
+                @UniqueConstraint(name = "PK_TOKEN", columnNames = "TOKEN_ID"),
+                @UniqueConstraint(name = "UK_TOKEN_1", columnNames = "TOKEN_VALUE")
         },
         indexes = {
-                @Index(name = Token.TOKEN_INDEX_1, columnList = Token.COL_ID, unique = true),
-                @Index(name = Token.TOKEN_INDEX_2, columnList = Token.COL_TOKEN, unique = true)
+                @Index(name = "PK_TOKEN", columnList = "TOKEN_ID", unique = true),
+                @Index(name = "UK_TOKEN_1", columnList = "TOKEN_VALUE", unique = true)
         }
 )
 public class Token extends BaseEntity {
-    static final String TABLE_NAME = "TOKEN";
-    private static final String SEQ_NAME_LC = "token_seq";
-    private static final String SEQ_NAME_UC = "TOKEN_SEQ";
-
-    static final String TOKEN_PRIMARY_KEY = "PK_TOKEN";
-    static final String TOKEN_UNIQUE_KEY_1 = "UK_TOKEN_1";
-
-    static final String TOKEN_INDEX_1 = "I_TOKEN_1";
-    static final String TOKEN_INDEX_2 = "I_TOKEN_2";
-
-    static final String COL_TOKEN = "TOKEN_VALUE";
-    static final String COL_TOKEN_TYPE = "TOKEN_TYPE";
-    private static final String COL_EXPIRED = "EXPIRED";
-    private static final String COL_REVOKED = "REVOKED";
-    private static final String COL_USER = "USER_ID";
 
     @Id
-    @SequenceGenerator(name = SEQ_NAME_LC, sequenceName = SEQ_NAME_UC, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME_LC)
-    @Column(name = COL_ID, nullable = false)
+    @SequenceGenerator(name = "token_seq", sequenceName = "TOKEN_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_seq")
+    @Column(name = "TOKEN_ID", nullable = false)
     private Long id;
 
-    @Column(name = COL_TOKEN, nullable = false, unique = true)
+    @Column(name = "TOKEN_VALUE", nullable = false, unique = true)
     private String tokenValue;
 
-    @Column(name = COL_TOKEN_TYPE, nullable = false)
+    @Column(name = "TOKEN_TYPE", nullable = false)
     @Enumerated(EnumType.STRING)
     private TokenType tokenType;
 
-    @Column(name = COL_EXPIRED, nullable = false)
+    @Column(name = "EXPIRED", nullable = false)
     private boolean expired;
 
-    @Column(name = COL_REVOKED, nullable = false)
+    @Column(name = "REVOKED", nullable = false)
     private boolean revoked;
 
     @ManyToOne
-    @JoinColumn(name = COL_USER, nullable = false)
+    @JoinColumn(name = "USER_ACCOUNT_ID", nullable = false)
     private User user;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Token token = (Token) o;
+        return Objects.equals(tokenValue, token.tokenValue);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tokenValue);
+    }
 }

@@ -10,6 +10,7 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import pl.rentowne.dataTable.filter.DTFilter;
 import pl.rentowne.dataTable.filter.DTFilterColumnDefinition;
 import pl.rentowne.dataTable.filter.DTFilterPredicateGenerator;
+import pl.rentowne.exception.RentowneBusinessException;
 
 import java.util.ArrayList;
 import java.util.List;
