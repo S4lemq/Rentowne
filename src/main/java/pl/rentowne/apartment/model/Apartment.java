@@ -2,6 +2,7 @@ package pl.rentowne.apartment.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pl.rentowne.address.model.Address;
 import pl.rentowne.common.model.BaseEntity;
 import pl.rentowne.user.model.User;
 
@@ -32,7 +33,7 @@ public class Apartment extends BaseEntity {
     @Column(name = "APARTMENT_ID", nullable = false)
     private Long id;
 
-    @Column(name = "APARTMENT_NAME", nullable = false)
+    @Column(name = "APARTMENT_NAME", nullable = false, length = 60)
     private String apartmentName;
 
     @Column(name = "LEASES_NUMBER", nullable = false)
@@ -47,6 +48,10 @@ public class Apartment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ACCOUNT_ID")
     private User user;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ADDRESS_ID", unique = true)
+    private Address address;
 
     //set nie zadziała gdy dodajesz nowe obiekty, bo porównujesz id, które są nullowe, jak trzeba dodaj UUID lub nowy uniqueContraint z polem
     @Override

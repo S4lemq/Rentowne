@@ -57,7 +57,7 @@
         </sql>
     </changeSet>
 
-    <changeSet author="plubowicz" id="002-add_comments_to_user_table">
+    <changeSet author="plubowicz" id="006-add_comments_to_appartment_table">
         <setTableRemarks tableName="APARTMENT" remarks="Tabela nieruchomości" />
         <setColumnRemarks tableName="APARTMENT" columnName="APARTMENT_ID" remarks="Klucz główny" />
         <setColumnRemarks tableName="APARTMENT" columnName="APARTMENT_NAME" remarks="Nazwa mieszkania" />

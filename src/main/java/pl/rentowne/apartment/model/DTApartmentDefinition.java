@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import pl.rentowne.address.model.QAddress;
 import pl.rentowne.apartment.model.dto.QApartmentRowDto;
 import pl.rentowne.dataTable.dtDefinition.DTColumnDefinition;
 import pl.rentowne.dataTable.dtDefinition.DTDefinition;
@@ -29,6 +30,7 @@ public class DTApartmentDefinition implements DTDefinition {
 
     private final UserService userService;
     private static final QApartment apartment = QApartment.apartment;
+    private static final QAddress address = QAddress.address;
 
     @Override
     public ConstructorExpression getSelect() {
@@ -36,7 +38,11 @@ public class DTApartmentDefinition implements DTDefinition {
                 apartment.id,
                 apartment.apartmentName,
                 apartment.leasesNumber,
-                apartment.isRented
+                apartment.isRented,
+                address.cityName,
+                address.streetName,
+                address.buildingNumber,
+                address.apartmentNumber
         );
     }
 
@@ -51,7 +57,21 @@ public class DTApartmentDefinition implements DTDefinition {
                 new DTColumnDefinition("id", apartment.id, true),
                 new DTColumnDefinition("apartmentName", apartment.apartmentName),
                 new DTColumnDefinition("leasesNumber", apartment.leasesNumber, true),
-                new DTColumnDefinition("isRented", apartment.isRented, true)
+                new DTColumnDefinition("isRented", apartment.isRented, true),
+                new DTColumnDefinition("cityName", address.cityName,
+                        jpaQuery -> jpaQuery
+                                .join(address).on(apartment.address.id.eq(address.id))),
+                new DTColumnDefinition("streetName", address.streetName,
+                        jpaQuery -> jpaQuery
+                            .join(address).on(apartment.address.id.eq(address.id))),
+                new DTColumnDefinition("buildingNumber", address.buildingNumber,
+                        jpaQuery -> jpaQuery
+                                .join(address).on(apartment.address.id.eq(address.id)),
+                        true),
+                new DTColumnDefinition("apartmentNumber", address.apartmentNumber,
+                        jpaQuery -> jpaQuery
+                                .join(address).on(apartment.address.id.eq(address.id)),
+                        true)
         );
     }
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="007-create_address_sequence">
+        <createSequence sequenceName="ADDRESS_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="007-create_address_table">
+        <createTable tableName="ADDRESS">
+            <column name="ADDRESS_ID" type="bigint" defaultValueSequenceNext="ADDRESS_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_ADDRESS"/>
+            </column>
+            <column name="STREET_NAME" type="varchar(100)"/>
+            <column name="BUILDING_NUMBER" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="APARTMENT_NUMBER" type="varchar(10)"/>
+            <column name="ZIP_CODE" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CITY_NAME" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VOIVODE_SHIP" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="007-create_address_check_constraint">
+        <sql splitStatements="true" endDelimiter=";">
+            SELECT p_add_check_constraint('ADDRESS', 'ADDRESS_ID');
+            SELECT p_add_check_constraint('ADDRESS', 'BUILDING_NUMBER');
+            SELECT p_add_check_constraint('ADDRESS', 'ZIP_CODE');
+            SELECT p_add_check_constraint('ADDRESS', 'CITY_NAME');
+            SELECT p_add_check_constraint('ADDRESS', 'VOIVODE_SHIP');
+            SELECT p_add_check_constraint('ADDRESS', 'INSERT_DATE');
+            SELECT p_add_check_constraint('ADDRESS', 'INSERT_OPERATOR');
+        </sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="007-add_comments_to_address_table">
+        <setTableRemarks tableName="ADDRESS" remarks="Tabela adresów" />
+        <setColumnRemarks tableName="ADDRESS" columnName="ADDRESS_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="ADDRESS" columnName="STREET_NAME" remarks="Ulica" />
+        <setColumnRemarks tableName="ADDRESS" columnName="BUILDING_NUMBER" remarks="Nr budynku" />
+        <setColumnRemarks tableName="ADDRESS" columnName="APARTMENT_NUMBER" remarks="Nr mieszkania" />
+        <setColumnRemarks tableName="ADDRESS" columnName="ZIP_CODE" remarks="Kod pocztowy" />
+        <setColumnRemarks tableName="ADDRESS" columnName="CITY_NAME" remarks="Miejscowość" />
+        <setColumnRemarks tableName="ADDRESS" columnName="VOIVODE_SHIP" remarks="Województwo" />
+        <setColumnRemarks tableName="ADDRESS" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="ADDRESS" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="ADDRESS" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="ADDRESS" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+    <changeSet author="plubowicz" id="007-foreign_constraint">
+        <addColumn tableName="APARTMENT">
+            <column name="ADDRESS_ID" type="bigint">
+                <constraints nullable="false" unique="true"
+                             foreignKeyName="FK_APARTMENT_ON_ADDRESS"
+                             references="ADDRESS(ADDRESS_ID)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+
+</databaseChangeLog>

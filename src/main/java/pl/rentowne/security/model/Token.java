@@ -35,7 +35,7 @@ public class Token extends BaseEntity {
     @Column(name = "TOKEN_VALUE", nullable = false, unique = true)
     private String tokenValue;
 
-    @Column(name = "TOKEN_TYPE", nullable = false)
+    @Column(name = "TOKEN_TYPE", nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     private TokenType tokenType;
 

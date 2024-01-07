@@ -12,13 +12,23 @@ public class ApartmentRowDto implements DTRow {
     private String apartmentName;
     private BigInteger leasesNumber;
     private boolean isRented;
+    private String cityName;
+    private String streetName;
+    private String buildingNumber;
+    private String apartmentNumber;
+
 
     @QueryProjection
-    public ApartmentRowDto(Long id, String apartmentName, BigInteger leasesNumber, boolean isRented) {
+    public ApartmentRowDto(Long id, String apartmentName, BigInteger leasesNumber, boolean isRented, String cityName,
+                           String streetName, String buildingNumber, String apartmentNumber) {
         this.id = id;
         this.apartmentName = apartmentName;
         this.leasesNumber = leasesNumber;
         this.isRented = isRented;
+        this.cityName = cityName;
+        this.streetName = streetName;
+        this.buildingNumber = buildingNumber;
+        this.apartmentNumber = apartmentNumber;
     }
 
 }

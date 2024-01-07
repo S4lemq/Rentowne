@@ -49,14 +49,14 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "LAST_NAME", nullable = false)
     private String lastname;
 
-    @Column(name = "EMAIL", nullable = false, unique = true)
+    @Column(name = "EMAIL", nullable = false, unique = true, length = 60)
     private String email;
 
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(name = "PASSWORD", nullable = false, length = 64)
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "ROLE", nullable = false)
+    @Column(name = "ROLE", nullable = false, length = 32)
     private Role role;
 
     @Column(name = "MFA_ENABLED", nullable = false)

@@ -30,10 +30,10 @@ public class BaseEntity {
     @Column(name = COL_UPDATE_DATE, insertable = false)
     private LocalDateTime updateDate;
 
-    @Column(name = COL_INSERT_OPERATOR, nullable = false, updatable = false)
+    @Column(name = COL_INSERT_OPERATOR, nullable = false, updatable = false, length = 60)
     private String insertOperator;
 
-    @Column(name = COL_UPDATE_OPERATOR, insertable = false)
+    @Column(name = COL_UPDATE_OPERATOR, insertable = false, length = 60)
     private String updateOperator;
 
 }
