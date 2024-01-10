@@ -7,12 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneErrorCode;
+import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.model.dto.UserBasicDto;
 import pl.rentowne.user.repository.UserRepository;
 import pl.rentowne.user.service.UserService;
-
-import java.util.Optional;
 
 @Service("USER_SERVICE")
 @RequiredArgsConstructor
@@ -21,8 +20,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User getByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(NullPointerException::new);
+    public User getByEmail(String email) throws RentowneNotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(() -> new RentowneNotFoundException(email));
     }
 
     @Override

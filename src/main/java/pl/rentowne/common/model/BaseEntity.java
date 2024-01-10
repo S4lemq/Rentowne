@@ -5,12 +5,13 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @MappedSuperclass
 @EntityListeners({AuditingEntityListener.class})
@@ -30,9 +31,11 @@ public class BaseEntity {
     @Column(name = COL_UPDATE_DATE, insertable = false)
     private LocalDateTime updateDate;
 
+    @CreatedBy
     @Column(name = COL_INSERT_OPERATOR, nullable = false, updatable = false, length = 60)
     private String insertOperator;
 
+    @LastModifiedBy
     @Column(name = COL_UPDATE_OPERATOR, insertable = false, length = 60)
     private String updateOperator;
 

@@ -1,6 +1,7 @@
 package pl.rentowne.user.service;
 
 import pl.rentowne.exception.RentowneBusinessException;
+import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.model.dto.UserBasicDto;
 
@@ -15,7 +16,7 @@ public interface UserService {
      * @param email adres email
      * @return encja użytkownika
      */
-    User getByEmail(String email);
+    User getByEmail(String email) throws RentowneNotFoundException;
 
     /**
      * Zwraca zalogowanego aktualnie użytkowanika

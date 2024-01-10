@@ -71,8 +71,9 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Apartment> apartments;
 
-
-
+    public User(Long id) {
+        this.id = id;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

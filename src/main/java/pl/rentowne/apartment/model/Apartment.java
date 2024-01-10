@@ -13,6 +13,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(
@@ -49,7 +50,7 @@ public class Apartment extends BaseEntity {
     @JoinColumn(name = "USER_ACCOUNT_ID")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID", unique = true)
     private Address address;
 

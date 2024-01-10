@@ -6,8 +6,6 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.EntityPathBase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import pl.rentowne.address.model.QAddress;
 import pl.rentowne.apartment.model.dto.QApartmentRowDto;
@@ -18,7 +16,6 @@ import pl.rentowne.dataTable.filter.DTFilter;
 import pl.rentowne.dataTable.filter.DTFilterColumnDefinition;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.user.service.UserService;
-import pl.rentowne.user.service.impl.UserServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;
