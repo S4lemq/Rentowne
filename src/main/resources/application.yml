@@ -33,5 +33,5 @@ application:
 logging:
     level:
         org.springframework.security: DEBUG
-#        org.springframework.web: DEBUG
+        org.springframework.web: DEBUG
 

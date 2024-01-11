@@ -1,18 +1,34 @@
 package pl.rentowne.apartment.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.rentowne.address.model.Address;
 import pl.rentowne.apartment.model.Apartment;
+import pl.rentowne.apartment.model.dto.AddApartmentDto;
 import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.apartment.repository.ApartmentRepository;
 import pl.rentowne.apartment.service.ApartmentService;
+import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
+import pl.rentowne.rentedObject.model.RentedObject;
+import pl.rentowne.rentedObject.service.RentedObjectService;
+import pl.rentowne.user.model.User;
+import pl.rentowne.user.service.UserService;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ApartmentServiceImpl implements ApartmentService {
+    private static final Long EMPTY_ID = null;
 
     private final ApartmentRepository apartmentRepository;
+    private final UserService userService;
+    private final RentedObjectService rentedObjectService;
 
     @Override
     public ApartmentDto getApartment(Long id) throws RentowneNotFoundException {
@@ -20,17 +36,85 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public Long addApartment(Apartment apartment) {
-        return apartmentRepository.save(apartment).getId();
-    }
-
-    @Override
-    public void updateApartment(Apartment apartment) {
-        apartmentRepository.save(apartment);
+    @Transactional
+    public Long addApartment(AddApartmentDto apartmentDto) throws RentowneBusinessException {
+        Long savedApartmentId = apartmentRepository.saveAndFlush(mapApartment(apartmentDto, EMPTY_ID)).getId();
+        Set<RentedObject> rentedObjects = this.mapToRentedObjectEntities(apartmentDto, savedApartmentId);
+        rentedObjectService.saveAll(rentedObjects);
+        return savedApartmentId;
     }
 
     @Override
     public Long getAddressId(Long id) {
         return apartmentRepository.getAddressId(id);
     }
+
+    @Override
+    @Transactional
+    public void  updateApartment(AddApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
+        this.updateRenetObjects(apartmentDto, apartmentId);
+        apartmentRepository.save(mapApartment(apartmentDto, apartmentId));
+    }
+
+    private Apartment mapApartment(AddApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
+        Long loggedUserId = userService.getLoggedUser().getId();
+
+        return Apartment.builder()
+                .id(apartmentId)
+                .apartmentName(apartmentDto.getApartmentName())
+                .leasesNumber(apartmentDto.getLeasesNumber())
+                .isRented(apartmentDto.isRented())
+                .area(apartmentDto.getArea())
+                .user(new User(loggedUserId))
+                .address(Address.builder()
+                        .id(apartmentDto.getAddressDto().getId())
+                        .streetName(apartmentDto.getAddressDto().getStreetName())
+                        .buildingNumber(apartmentDto.getAddressDto().getBuildingNumber())
+                        .apartmentNumber(apartmentDto.getAddressDto().getApartmentNumber())
+                        .zipCode(apartmentDto.getAddressDto().getZipCode())
+                        .cityName(apartmentDto.getAddressDto().getCityName())
+                        .voivodeship(apartmentDto.getAddressDto().getVoivodeship())
+                        .build())
+                .build();
+    }
+
+    private void updateRenetObjects(AddApartmentDto apartmentDto, Long apartmentId) {
+        if (apartmentId != null) {
+            Set<RentedObject> rentedObjects = this.mapToRentedObjectEntities(apartmentDto, apartmentId);
+            List<RentedObject> rentedObjectsFromDB = rentedObjectService.getAllByApartmentId(apartmentId);
+
+            Set<String> namesFromFront = rentedObjects.stream()
+                    .map(RentedObject::getRentedObjectName)
+                    .collect(Collectors.toSet());
+
+            Set<String> namesFromDb = rentedObjectsFromDB.stream()
+                    .map(RentedObject::getRentedObjectName)
+                    .collect(Collectors.toSet());
+
+            // Obiekty do usunięcia - są w bazie danych, ale nie ma ich w danych z frontu
+            List<RentedObject> toDelete = rentedObjectsFromDB.stream()
+                    .filter(entity -> !namesFromFront.contains(entity.getRentedObjectName()))
+                    .toList();
+
+            // Obiekty do dodania - są w danych z frontu, ale nie ma ich w bazie danych
+            List<RentedObject> toAdd = rentedObjects.stream()
+                    .filter(entity -> !namesFromDb.contains(entity.getRentedObjectName()))
+                    .toList();
+
+
+            rentedObjectService.deleteAll(toDelete);
+            rentedObjectService.saveAll(new HashSet<>(toAdd));
+        }
+    }
+
+    private Set<RentedObject> mapToRentedObjectEntities(AddApartmentDto apartmentDto, Long savedApartmentId) {
+        return apartmentDto.getRentedObjectDtos().stream()
+                .map(dto -> RentedObject.builder()
+                        .rentedObjectName(dto.getRentedObjectName())
+                        .isRented(false)
+                        .apartment(new Apartment(savedApartmentId))
+                        .build())
+                .collect(Collectors.toSet());
+    }
+
 }

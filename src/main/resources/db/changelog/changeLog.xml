@@ -11,5 +11,6 @@
     <include file="db/changelog/ddl-scripts/005-rename_all_id_cols_name.xml"/>
     <include file="db/changelog/ddl-scripts/006-add_apartment_table.xml"/>
     <include file="db/changelog/ddl-scripts/007-add_address_table.xml"/>
+    <include file="db/changelog/ddl-scripts/008-add_rented_object_table.xml"/>
 
 </databaseChangeLog>

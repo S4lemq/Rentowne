@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="008-create_rented_object_sequence">
+        <createSequence sequenceName="RENTED_OBJECT_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="008-create_rented_object_table">
+        <createTable tableName="RENTED_OBJECT">
+            <column name="RENTED_OBJECT_ID" type="bigint" defaultValueSequenceNext="RENTED_OBJECT_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_RENTED_OBJECT"/>
+            </column>
+            <column name="RENTED_OBJECT_NAME" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IS_RENTED" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="APARTMENT_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_RENTED_OBJECT_ON_APARTMENT"
+                             references="APARTMENT(APARTMENT_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="008-create_rented_object_check_constraint">
+        <sql splitStatements="true" endDelimiter=";">
+            SELECT p_add_check_constraint('RENTED_OBJECT', 'RENTED_OBJECT_ID');
+            SELECT p_add_check_constraint('RENTED_OBJECT', 'RENTED_OBJECT_NAME');
+            SELECT p_add_check_constraint('RENTED_OBJECT', 'IS_RENTED');
+        </sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="008-add_comments_to_rented_object_table">
+        <setTableRemarks tableName="RENTED_OBJECT" remarks="Tabela obiektów do wynajęcia" />
+        <setColumnRemarks tableName="RENTED_OBJECT" columnName="RENTED_OBJECT_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="RENTED_OBJECT" columnName="RENTED_OBJECT_NAME" remarks="Nazwa obiektu do wynajęcia" />
+        <setColumnRemarks tableName="RENTED_OBJECT" columnName="APARTMENT_ID" remarks="Referencja do mieszkania" />
+        <setColumnRemarks tableName="RENTED_OBJECT" columnName="IS_RENTED" remarks="Wynajęty - 1, nie wynajęty - 0" />
+        <setColumnRemarks tableName="RENTED_OBJECT" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="RENTED_OBJECT" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="RENTED_OBJECT" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="RENTED_OBJECT" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+</databaseChangeLog>

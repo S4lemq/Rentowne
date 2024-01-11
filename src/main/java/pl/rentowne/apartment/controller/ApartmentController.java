@@ -9,25 +9,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.rentowne.address.model.Address;
-import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.apartment.model.dto.AddApartmentDto;
 import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
-import pl.rentowne.user.model.User;
-import pl.rentowne.user.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Mieszkania")
 @RequestMapping("/api/apartments")
 public class ApartmentController {
-    private static final Long EMPTY_ID = null;
 
     private final ApartmentService apartmentService;
-    private final UserService userService;
 
     @Operation(
             summary = "Pobiera mieszkanie",
@@ -56,8 +50,8 @@ public class ApartmentController {
     )
     @PostMapping()
     public ResponseEntity<ApartmentDto> addApartment(@RequestBody AddApartmentDto apartmentDto) throws RentowneBusinessException {
-        Long id = apartmentService.addApartment(mapApartment(apartmentDto, EMPTY_ID));
-        return new ResponseEntity<>(apartmentService.getApartment(id), HttpStatus.CREATED);
+        Long apartmentId = apartmentService.addApartment(apartmentDto);
+        return new ResponseEntity<>(apartmentService.getApartment(apartmentId), HttpStatus.CREATED);
     }
 
     @Operation(
@@ -72,30 +66,8 @@ public class ApartmentController {
     )
     @PutMapping("/{id}")
     public ResponseEntity<ApartmentDto> updateApartment(@RequestBody AddApartmentDto apartmentDto, @PathVariable Long id) throws RentowneBusinessException {
-        apartmentService.updateApartment(mapApartment(apartmentDto, id));
+        apartmentService.updateApartment(apartmentDto, id);
         return ResponseEntity.ok(apartmentService.getApartment(id));
-    }
-
-    private Apartment mapApartment(AddApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
-        Long addressId = apartmentService.getAddressId(apartmentId);
-        Long loggedUserId = userService.getLoggedUser().getId();
-        return Apartment.builder()
-                .id(apartmentId)
-                .apartmentName(apartmentDto.getApartmentName())
-                .leasesNumber(apartmentDto.getLeasesNumber())
-                .isRented(apartmentDto.isRented())
-                .area(apartmentDto.getArea())
-                .user(new User(loggedUserId))
-                .address(Address.builder()
-                        .id(addressId)
-                        .streetName(apartmentDto.getAddressDto().getStreetName())
-                        .buildingNumber(apartmentDto.getAddressDto().getBuildingNumber())
-                        .apartmentNumber(apartmentDto.getAddressDto().getApartmentNumber())
-                        .zipCode(apartmentDto.getAddressDto().getZipCode())
-                        .cityName(apartmentDto.getAddressDto().getCityName())
-                        .voivodeship(apartmentDto.getAddressDto().getVoivodeship())
-                        .build())
-                .build();
     }
 
 }

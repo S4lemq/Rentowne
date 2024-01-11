@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.rentowne.address.model.Address;
 import pl.rentowne.common.model.BaseEntity;
+import pl.rentowne.rentedObject.model.RentedObject;
 import pl.rentowne.user.model.User;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -50,11 +52,18 @@ public class Apartment extends BaseEntity {
     @JoinColumn(name = "USER_ACCOUNT_ID")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ADDRESS_ID", unique = true)
     private Address address;
 
-    //set nie zadziała gdy dodajesz nowe obiekty, bo porównujesz id, które są nullowe, jak trzeba dodaj UUID lub nowy uniqueContraint z polem
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "apartment")
+    private Set<RentedObject> rentedObjects;
+
+    public Apartment(Long id) {
+        this.id = id;
+    }
+
+    //set nie zadziała, tzn gdy dodajesz nowe obiekty, wtedy one mają id = null, jak trzeba dodaj UUID lub nowy uniqueContraint z polem
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

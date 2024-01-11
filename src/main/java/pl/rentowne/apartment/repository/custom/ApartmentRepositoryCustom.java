@@ -1,6 +1,7 @@
 package pl.rentowne.apartment.repository.custom;
 
 import pl.rentowne.apartment.model.dto.ApartmentDto;
+import pl.rentowne.exception.RentowneNotFoundException;
 
 import java.util.Optional;
 
@@ -15,6 +16,6 @@ public interface ApartmentRepositoryCustom {
      * @param id id mieszkania
      * @return {@link ApartmentDto} dto mieszkania
      */
-    Optional<ApartmentDto> findApartmentById(Long id);
+    Optional<ApartmentDto> findApartmentById(Long id) throws RentowneNotFoundException;
 
 }
