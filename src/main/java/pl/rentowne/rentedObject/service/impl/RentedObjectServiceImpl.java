@@ -30,4 +30,9 @@ public class RentedObjectServiceImpl implements RentedObjectService {
         rentedObjectRepository.deleteAll(toDelete);
     }
 
+    @Override
+    public void deleteAllByApartmentId(Long apartmentId) {
+        rentedObjectRepository.deleteAllByApartmentId(apartmentId);
+    }
+
 }

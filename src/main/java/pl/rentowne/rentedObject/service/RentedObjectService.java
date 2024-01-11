@@ -25,4 +25,10 @@ public interface RentedObjectService {
      * @param toDelete obiekty do usunięcia
      */
     void deleteAll(List<RentedObject> toDelete);
+
+    /**
+     * Usuwa wszystkie wynajęte obiekty po id mieszkania
+     * @param apartmentId id mieszkania
+     */
+    void deleteAllByApartmentId(Long apartmentId);
 }

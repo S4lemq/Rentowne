@@ -15,4 +15,10 @@ public interface RentedObjectRepositoryCustom {
      * @return lista encji obiektów do wynajęcia
      */
     List<RentedObject> getAllByApartmentId(Long apartmentId);
+
+    /**
+     * Usuwa wszystkie wynajęte obiekty po id mieszkania
+     * @param apartmentId id mieszkania
+     */
+    void deleteAllByApartmentId(Long apartmentId);
 }

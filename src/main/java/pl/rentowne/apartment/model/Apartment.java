@@ -56,7 +56,7 @@ public class Apartment extends BaseEntity {
     @JoinColumn(name = "ADDRESS_ID", unique = true)
     private Address address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "apartment", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "apartment")
     private Set<RentedObject> rentedObjects;
 
     public Apartment(Long id) {

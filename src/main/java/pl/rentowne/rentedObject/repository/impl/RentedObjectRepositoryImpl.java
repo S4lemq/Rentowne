@@ -24,4 +24,11 @@ public class RentedObjectRepositoryImpl extends BaseRepositoryImpl<RentedObject,
                 .where(rentedObject.apartment().id.eq(apartmentId))
                 .fetch();
     }
+
+    @Override
+    public void deleteAllByApartmentId(Long apartmentId) {
+        queryFactory.delete(rentedObject)
+                .where(rentedObject.apartment().id.eq(apartmentId))
+                .execute();
+    }
 }

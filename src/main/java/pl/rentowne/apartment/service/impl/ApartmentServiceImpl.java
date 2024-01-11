@@ -67,7 +67,9 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
+    @Transactional
     public void deleteApartment(Long id) {
+        rentedObjectService.deleteAllByApartmentId(id);
         apartmentRepository.deleteById(id);
     }
 
