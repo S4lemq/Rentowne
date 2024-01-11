@@ -15,6 +15,7 @@ import pl.rentowne.rentedObject.model.QRentedObject;
 import pl.rentowne.rentedObject.model.dto.QRentedObjectDto;
 import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -60,7 +61,7 @@ public class ApartmentRepositoryImpl extends BaseRepositoryImpl<Apartment, Long>
                 .isRented(partialApartment.isRented())
                 .area(partialApartment.getArea())
                 .addressDto(partialApartment.getAddressDto())
-                .rentedObjectDtos(rentedObjects)
+                .rentedObjectDtos(new ArrayList<>(rentedObjects))
                 .build());
 
     }

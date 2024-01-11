@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.rentowne.apartment.model.dto.AddApartmentDto;
 import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.exception.RentowneBusinessException;
@@ -49,7 +48,7 @@ public class ApartmentController {
             }
     )
     @PostMapping()
-    public ResponseEntity<ApartmentDto> addApartment(@RequestBody AddApartmentDto apartmentDto) throws RentowneBusinessException {
+    public ResponseEntity<ApartmentDto> addApartment(@RequestBody ApartmentDto apartmentDto) throws RentowneBusinessException {
         Long apartmentId = apartmentService.addApartment(apartmentDto);
         return new ResponseEntity<>(apartmentService.getApartment(apartmentId), HttpStatus.CREATED);
     }
@@ -65,7 +64,7 @@ public class ApartmentController {
             }
     )
     @PutMapping("/{id}")
-    public ResponseEntity<ApartmentDto> updateApartment(@RequestBody AddApartmentDto apartmentDto, @PathVariable Long id) throws RentowneBusinessException {
+    public ResponseEntity<ApartmentDto> updateApartment(@RequestBody ApartmentDto apartmentDto, @PathVariable Long id) throws RentowneBusinessException {
         apartmentService.updateApartment(apartmentDto, id);
         return ResponseEntity.ok(apartmentService.getApartment(id));
     }

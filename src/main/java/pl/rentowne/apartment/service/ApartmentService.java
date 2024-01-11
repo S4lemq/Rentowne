@@ -1,6 +1,5 @@
 package pl.rentowne.apartment.service;
 
-import pl.rentowne.apartment.model.dto.AddApartmentDto;
 import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
@@ -24,7 +23,7 @@ public interface ApartmentService {
      * @param apartmentDto dto mieszkania
      * @return id zapisanego mieszkania
      */
-    Long addApartment(AddApartmentDto apartmentDto) throws RentowneBusinessException;
+    Long addApartment(ApartmentDto apartmentDto) throws RentowneBusinessException;
 
     /**
      * pobiera id adresu mieszkania
@@ -39,7 +38,7 @@ public interface ApartmentService {
      * @param apartmentId id mieszkania
      * @throws RentowneBusinessException wyjątek biznesowy
      */
-    void updateApartment(AddApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException;
+    void updateApartment(ApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException;
 
     /**
      * Usuwa mieszkanie po id

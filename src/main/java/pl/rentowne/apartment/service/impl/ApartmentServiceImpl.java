@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.rentowne.address.model.Address;
 import pl.rentowne.apartment.model.Apartment;
-import pl.rentowne.apartment.model.dto.AddApartmentDto;
 import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.apartment.repository.ApartmentRepository;
 import pl.rentowne.apartment.service.ApartmentService;
@@ -39,7 +38,7 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     @Transactional
-    public Long addApartment(AddApartmentDto apartmentDto) throws RentowneBusinessException {
+    public Long addApartment(ApartmentDto apartmentDto) throws RentowneBusinessException {
         List<RentedObjectDto> rentedObjectDtos = apartmentDto.getRentedObjectDtos();
         Set<String> uniqueNames = new HashSet<>();
         for (RentedObjectDto dto : rentedObjectDtos) {
@@ -61,7 +60,7 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     @Transactional
-    public void  updateApartment(AddApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
+    public void  updateApartment(ApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
         this.updateRenetObjects(apartmentDto, apartmentId);
         apartmentRepository.save(mapApartment(apartmentDto, apartmentId));
     }
@@ -73,7 +72,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         apartmentRepository.deleteById(id);
     }
 
-    private Apartment mapApartment(AddApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
+    private Apartment mapApartment(ApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
         Long loggedUserId = userService.getLoggedUser().getId();
 
         return Apartment.builder()
@@ -95,7 +94,7 @@ public class ApartmentServiceImpl implements ApartmentService {
                 .build();
     }
 
-    private void updateRenetObjects(AddApartmentDto apartmentDto, Long apartmentId) {
+    private void updateRenetObjects(ApartmentDto apartmentDto, Long apartmentId) {
         if (apartmentId != null) {
             Set<RentedObject> rentedObjects = this.mapToRentedObjectEntities(apartmentDto, apartmentId);
             List<RentedObject> rentedObjectsFromDB = rentedObjectService.getAllByApartmentId(apartmentId);
@@ -124,7 +123,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         }
     }
 
-    private Set<RentedObject> mapToRentedObjectEntities(AddApartmentDto apartmentDto, Long savedApartmentId) {
+    private Set<RentedObject> mapToRentedObjectEntities(ApartmentDto apartmentDto, Long savedApartmentId) {
         return apartmentDto.getRentedObjectDtos().stream()
                 .map(dto -> RentedObject.builder()
                         .rentedObjectName(dto.getRentedObjectName())

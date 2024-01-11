@@ -10,6 +10,7 @@ import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,7 +24,7 @@ public class ApartmentDto {
     private boolean isRented;
     private BigDecimal area;
     private AddressDto addressDto;
-    private Set<RentedObjectDto> rentedObjectDtos;
+    private List<RentedObjectDto> rentedObjectDtos;
 
     @QueryProjection
     public ApartmentDto(Long id, String apartmentName, BigInteger leasesNumber, boolean isRented, BigDecimal area, AddressDto addressDto) {
