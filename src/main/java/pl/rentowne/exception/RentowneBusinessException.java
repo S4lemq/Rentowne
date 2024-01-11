@@ -31,6 +31,11 @@ public class RentowneBusinessException extends Exception {
         this.errNumber = this.getRandomErrNumber();
     }
 
+    public RentowneBusinessException(RentowneErrorCode code) {
+        this(code, code.toString(), "");
+        this.errNumber = this.getRandomErrNumber();
+    }
+
     /**
      * Konstruktor wyjątku biznesowego
      * @param code kod wyjątku {@link RentowneErrorCode}

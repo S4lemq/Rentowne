@@ -70,4 +70,19 @@ public class ApartmentController {
         return ResponseEntity.ok(apartmentService.getApartment(id));
     }
 
+    @Operation(
+            summary = "Usuwa mieszkanie",
+            description = "Metoda służy do usunięcia mieszkania",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Mieszkanie zostało usunięte pomyślnie"),
+                    @ApiResponse(responseCode = "404", description = "Nie znaleziono danych"),
+                    @ApiResponse(responseCode = "500", description = "Wewnętrzny błąd serwera")
+            }
+    )
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteApartment(@PathVariable Long id) {
+        apartmentService.deleteApartment(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

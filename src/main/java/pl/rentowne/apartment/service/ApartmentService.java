@@ -40,4 +40,11 @@ public interface ApartmentService {
      * @throws RentowneBusinessException wyjątek biznesowy
      */
     void updateApartment(AddApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException;
+
+    /**
+     * Usuwa mieszkanie po id
+     * @param id id mieszkania
+     * @return
+     */
+    void deleteApartment(Long id);
 }

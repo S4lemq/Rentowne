@@ -14,7 +14,8 @@ public enum RentowneErrorCode implements Serializable {
     ITEM_NOT_FOUND(),
     USER_IS_NOT_LOGGED(),
     NO_PERMISSION("data"),
-    USER_ALREADY_EXISTS("email")
+    USER_ALREADY_EXISTS("email"),
+    NON_UNIQUE_RENTED_OBJECT_NAME()
     ;
 
     private Set<String> translateKeys;

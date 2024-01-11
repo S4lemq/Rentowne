@@ -10,8 +10,10 @@ import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.apartment.repository.ApartmentRepository;
 import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.exception.RentowneBusinessException;
+import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.rentedObject.model.RentedObject;
+import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
 import pl.rentowne.rentedObject.service.RentedObjectService;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.service.UserService;
@@ -38,6 +40,14 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     @Transactional
     public Long addApartment(AddApartmentDto apartmentDto) throws RentowneBusinessException {
+        List<RentedObjectDto> rentedObjectDtos = apartmentDto.getRentedObjectDtos();
+        Set<String> uniqueNames = new HashSet<>();
+        for (RentedObjectDto dto : rentedObjectDtos) {
+            if (!uniqueNames.add(dto.getRentedObjectName())) {
+                throw new RentowneBusinessException(RentowneErrorCode.NON_UNIQUE_RENTED_OBJECT_NAME);
+            }
+        }
+
         Long savedApartmentId = apartmentRepository.saveAndFlush(mapApartment(apartmentDto, EMPTY_ID)).getId();
         Set<RentedObject> rentedObjects = this.mapToRentedObjectEntities(apartmentDto, savedApartmentId);
         rentedObjectService.saveAll(rentedObjects);
@@ -54,6 +64,11 @@ public class ApartmentServiceImpl implements ApartmentService {
     public void  updateApartment(AddApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
         this.updateRenetObjects(apartmentDto, apartmentId);
         apartmentRepository.save(mapApartment(apartmentDto, apartmentId));
+    }
+
+    @Override
+    public void deleteApartment(Long id) {
+        apartmentRepository.deleteById(id);
     }
 
     private Apartment mapApartment(AddApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
