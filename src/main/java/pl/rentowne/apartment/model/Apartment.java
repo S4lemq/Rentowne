@@ -21,11 +21,13 @@ import java.util.Set;
 @Table(
         name = "APARTMENT",
         uniqueConstraints = {
-                @UniqueConstraint(name = "PK_APARTMENT", columnNames = "APARTMENT_ID")
+                @UniqueConstraint(name = "PK_APARTMENT", columnNames = "APARTMENT_ID"),
+                @UniqueConstraint(name = "UK_APARTMENT_2", columnNames = "ADDRESS_ID")
         },
         indexes = {
                 @Index(name = "PK_APARTMENT", columnList = "APARTMENT_ID", unique = true),
-                @Index(name = "I_APARTMENT_1", columnList = "APARTMENT_NAME")
+                @Index(name = "UK_APARTMENT_1", columnList = "ADDRESS_ID", unique = true),
+                @Index(name = "I_APARTMENT_1", columnList = "APARTMENT_NAME"),
         }
 )
 public class Apartment extends BaseEntity {
