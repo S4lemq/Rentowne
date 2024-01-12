@@ -23,16 +23,18 @@ public class ApartmentDto {
     private BigInteger leasesNumber;
     private boolean isRented;
     private BigDecimal area;
+    private String image;
     private AddressDto addressDto;
-    private List<RentedObjectDto> rentedObjectDtos;
+    private List<RentedObjectDto> rentedObjectDtos;//do not generate with @QueryProjection
 
     @QueryProjection
-    public ApartmentDto(Long id, String apartmentName, BigInteger leasesNumber, boolean isRented, BigDecimal area, AddressDto addressDto) {
+    public ApartmentDto(Long id, String apartmentName, BigInteger leasesNumber, boolean isRented, BigDecimal area, String image, AddressDto addressDto) {
         this.id = id;
         this.apartmentName = apartmentName;
         this.leasesNumber = leasesNumber;
         this.isRented = isRented;
         this.area = area;
+        this.image = image;
         this.addressDto = addressDto;
     }
 }

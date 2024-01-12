@@ -81,6 +81,7 @@ public class ApartmentServiceImpl implements ApartmentService {
                 .leasesNumber(apartmentDto.getLeasesNumber())
                 .isRented(apartmentDto.isRented())
                 .area(apartmentDto.getArea())
+                .image(apartmentDto.getImage())
                 .user(new User(loggedUserId))
                 .address(Address.builder()
                         .id(apartmentDto.getAddressDto().getId())

@@ -24,6 +24,8 @@
 		<jjwt.version>0.11.5</jjwt.version>
 		<totp.version>1.7.1</totp.version>
 		<guava.version>32.1.3-jre</guava.version>
+		<apacheCommons.version>2.15.1</apacheCommons.version>
+		<slugify.version>3.0.6</slugify.version>
 	</properties>
 	<dependencies>
 		<!-- Spring Data JPA for database interaction -->
@@ -119,6 +121,18 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!--Commons functions from Apache-->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${apacheCommons.version}</version>
+		</dependency>
+		<!--generate SEO-friendly URLs-->
+		<dependency>
+			<groupId>com.github.slugify</groupId>
+			<artifactId>slugify</artifactId>
+			<version>${slugify.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

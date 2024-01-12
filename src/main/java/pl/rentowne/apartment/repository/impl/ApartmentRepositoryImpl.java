@@ -29,7 +29,7 @@ public class ApartmentRepositoryImpl extends BaseRepositoryImpl<Apartment, Long>
             address.zipCode, address.cityName, address.voivodeship);
     private static final QRentedObject rentedObject = QRentedObject.rentedObject;
     private static final QApartmentDto apartmentDto = new QApartmentDto(apartment.id, apartment.apartmentName,
-            apartment.leasesNumber, apartment.isRented, apartment.area, addressDto);
+            apartment.leasesNumber, apartment.isRented, apartment.area, apartment.image, addressDto);
     private static final QRentedObjectDto rentedObjectDto = new QRentedObjectDto(rentedObject.rentedObjectName);
 
     public ApartmentRepositoryImpl(EntityManager entityManager) {
@@ -62,6 +62,7 @@ public class ApartmentRepositoryImpl extends BaseRepositoryImpl<Apartment, Long>
                 .area(partialApartment.getArea())
                 .addressDto(partialApartment.getAddressDto())
                 .rentedObjectDtos(new ArrayList<>(rentedObjects))
+                .image(partialApartment.getImage())
                 .build());
 
     }

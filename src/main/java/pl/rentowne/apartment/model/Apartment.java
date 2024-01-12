@@ -52,6 +52,9 @@ public class Apartment extends BaseEntity {
     @JoinColumn(name = "USER_ACCOUNT_ID")
     private User user;
 
+    @Column(name = "IMAGE", length = 128)
+    private String image;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ADDRESS_ID", unique = true)
     private Address address;

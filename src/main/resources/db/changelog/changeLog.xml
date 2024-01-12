@@ -12,5 +12,6 @@
     <include file="db/changelog/ddl-scripts/006-add_apartment_table.xml"/>
     <include file="db/changelog/ddl-scripts/007-add_address_table.xml"/>
     <include file="db/changelog/ddl-scripts/008-add_rented_object_table.xml"/>
+    <include file="db/changelog/ddl-scripts/009-add_image_column_to_apartment.xml"/>
 
 </databaseChangeLog>

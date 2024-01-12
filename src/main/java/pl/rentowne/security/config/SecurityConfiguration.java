@@ -24,6 +24,7 @@ import static pl.rentowne.user.model.Role.USER;
 public class SecurityConfiguration {
     private static final String[] WHITE_LIST_URL = {
             "/api/auth/**",
+            "/api/data/apartmentImage/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
