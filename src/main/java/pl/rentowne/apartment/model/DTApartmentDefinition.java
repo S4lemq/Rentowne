@@ -39,7 +39,8 @@ public class DTApartmentDefinition implements DTDefinition {
                 address.cityName,
                 address.streetName,
                 address.buildingNumber,
-                address.apartmentNumber
+                address.apartmentNumber,
+                apartment.image
         );
     }
 

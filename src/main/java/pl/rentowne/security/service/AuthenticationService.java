@@ -155,14 +155,14 @@ public class AuthenticationService {
         }
     }
 
-    public AuthenticationResponse verifyCode(VerificationRequest verificationRequest) {
+    public AuthenticationResponse verifyCode(VerificationRequest verificationRequest) throws RentowneBusinessException {
         User user = userRepository
                 .findByEmail(verificationRequest.getEmail())
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("No user found with %S", verificationRequest.getEmail())
                 ));
         if (tfaService.isOtpNotValid(user.getSecret(), verificationRequest.getCode())) {
-            throw new BadCredentialsException("Code is not correct");
+            throw new RentowneBusinessException(RentowneErrorCode.WRONG_GOOGLE_AUTH_CODE);
         }
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);

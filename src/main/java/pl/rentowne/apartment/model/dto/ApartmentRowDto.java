@@ -16,10 +16,11 @@ public class ApartmentRowDto implements DTRow {
     private String streetName;
     private String buildingNumber;
     private String apartmentNumber;
+    private String image;
 
     @QueryProjection
     public ApartmentRowDto(Long id, String apartmentName, BigInteger leasesNumber, boolean isRented, String cityName,
-                           String streetName, String buildingNumber, String apartmentNumber) {
+                           String streetName, String buildingNumber, String apartmentNumber, String image) {
         this.id = id;
         this.apartmentName = apartmentName;
         this.leasesNumber = leasesNumber;
@@ -28,5 +29,6 @@ public class ApartmentRowDto implements DTRow {
         this.streetName = streetName;
         this.buildingNumber = buildingNumber;
         this.apartmentNumber = apartmentNumber;
+        this.image = image;
     }
 }

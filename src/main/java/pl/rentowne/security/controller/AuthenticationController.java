@@ -19,6 +19,7 @@ import pl.rentowne.security.model.dto.RegisterRequest;
 import pl.rentowne.security.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import pl.rentowne.security.service.LogoutService;
 import pl.rentowne.security.service.VerificationRequest;
 
 import java.io.IOException;
@@ -30,6 +31,7 @@ import java.io.IOException;
 public class AuthenticationController extends AbstractController {
 
     private final AuthenticationService authService;
+    private final LogoutService logoutService;
 
     @Operation(
             summary = "Rejestracja użytkownika",
@@ -89,8 +91,24 @@ public class AuthenticationController extends AbstractController {
             }
     )
     @PostMapping("/verify")
-    public ResponseEntity<?> verifyCode(@RequestBody VerificationRequest verificationRequest) {
+    public ResponseEntity<?> verifyCode(@RequestBody VerificationRequest verificationRequest) throws RentowneBusinessException {
         return ResponseEntity.ok(authService.verifyCode(verificationRequest));
+    }
+
+    @Operation(
+            summary = "Wylogowanie użytkownika",
+            description = "Wylogowuje użytkownika i unieważnia token autentykacji.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Pomyślne wylogowanie użytkownika.",
+                            content = @Content(mediaType = "application/json")),
+                    @ApiResponse(responseCode = "401", description = "Brak autoryzacji lub błędny token."),
+                    @ApiResponse(responseCode = "500", description = "Wewnętrzny błąd serwera.")
+            }
+    )
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        logoutService.logout(request, null, null);
+        return ResponseEntity.ok().build();
     }
 
 }
