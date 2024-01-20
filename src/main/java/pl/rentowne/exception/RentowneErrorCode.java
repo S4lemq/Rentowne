@@ -16,7 +16,8 @@ public enum RentowneErrorCode implements Serializable {
     NO_PERMISSION("data"),
     USER_ALREADY_EXISTS("email"),
     NON_UNIQUE_RENTED_OBJECT_NAME(),
-    WRONG_GOOGLE_AUTH_CODE()
+    WRONG_GOOGLE_AUTH_CODE(),
+    BAD_CREDENTIALS()
     ;
 
     private Set<String> translateKeys;

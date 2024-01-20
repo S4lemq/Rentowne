@@ -63,7 +63,7 @@ public class AuthenticationController extends AbstractController {
             }
     )
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) throws RentowneNotFoundException {
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) throws RentowneBusinessException {
         return ResponseEntity.ok(authService.authenticate(request));
     }
 

@@ -24,8 +24,7 @@ public class TokenRepositoryImpl extends BaseRepositoryImpl<Token, Long> impleme
     public List<Token> findAllValidTokensByUser(Long userId) {
         return queryFactory.selectFrom(TOKEN)
                 .join(USER).on(TOKEN.user().id.eq(USER.id))
-                .where(USER.id.eq(userId)
-                        .and(TOKEN.expired.isFalse()).or(TOKEN.revoked.isFalse()))
+                .where(USER.id.eq(userId).and((TOKEN.expired.isFalse()).or(TOKEN.revoked.isFalse())))
                 .fetch();
     }
 
