@@ -30,7 +30,7 @@ public class ApartmentRepositoryImpl extends BaseRepositoryImpl<Apartment, Long>
     private static final QRentedObject rentedObject = QRentedObject.rentedObject;
     private static final QApartmentDto apartmentDto = new QApartmentDto(apartment.id, apartment.apartmentName,
             apartment.leasesNumber, apartment.isRented, apartment.area, apartment.image, addressDto);
-    private static final QRentedObjectDto rentedObjectDto = new QRentedObjectDto(rentedObject.rentedObjectName);
+    private static final QRentedObjectDto rentedObjectDto = new QRentedObjectDto(rentedObject.id, rentedObject.rentedObjectName);
 
     public ApartmentRepositoryImpl(EntityManager entityManager) {
         super(Apartment.class, entityManager);

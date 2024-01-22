@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="011-create_meter_sequence">
+        <createSequence sequenceName="METER_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="011-create_meter_table">
+        <createTable tableName="METER">
+            <column name="METER_ID" type="bigint" defaultValueSequenceNext="METER_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_METER"/>
+            </column>
+            <column name="NAME" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RENTED_OBJECT_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_METER_ON_RENTED_OBJECT"
+                             references="RENTED_OBJECT(RENTED_OBJECT_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="011-create_meter_check_constraint">
+        <sql splitStatements="true" endDelimiter=";">
+            SELECT p_add_check_constraint('METER', 'METER_ID');
+            SELECT p_add_check_constraint('METER', 'NAME');
+            SELECT p_add_check_constraint('METER', 'TYPE');
+            SELECT p_add_check_constraint('METER', 'RENTED_OBJECT_ID');
+        </sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="011-add_comments_to_meter_table">
+        <setTableRemarks tableName="METER" remarks="Tabela liczników" />
+        <setColumnRemarks tableName="METER" columnName="METER_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="METER" columnName="NAME" remarks="Nazwa licznika" />
+        <setColumnRemarks tableName="METER" columnName="RENTED_OBJECT_ID" remarks="Referencja do obiektu do wynajęcia" />
+        <setColumnRemarks tableName="METER" columnName="TYPE" remarks="Typ licznika" />
+        <setColumnRemarks tableName="METER" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="METER" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="METER" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="METER" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+</databaseChangeLog>

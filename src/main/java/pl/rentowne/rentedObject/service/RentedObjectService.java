@@ -1,6 +1,8 @@
 package pl.rentowne.rentedObject.service;
 
+import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.rentedObject.model.RentedObject;
+import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
 
 import java.util.List;
 import java.util.Set;
@@ -31,4 +33,18 @@ public interface RentedObjectService {
      * @param apartmentId id mieszkania
      */
     void deleteAllByApartmentId(Long apartmentId);
+
+    /**
+     * Pobiera wszystkie dto'sy obiektów do wynajęcia wraz z licznikami po id mieszkania
+     * @param apartmentId id mieszkania
+     * @return {@link List<RentedObjectDto}
+    */
+    List<RentedObjectDto> getAllRentedObjectDtosWithMeters(Long apartmentId);
+
+    /**
+     * Pobiera wszystkie obiekty do wynajęcia zalogowanego użytkownika
+     * @return lista obiektów do wynajęcia zalogowanego użytkownika
+     * @throws RentowneBusinessException wyjątek biznesowy
+     */
+    List<RentedObjectDto> getAllRentedObjectDtos() throws RentowneBusinessException;
 }

@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,16 +16,16 @@ import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.apartment.service.ApartmentImageService;
 import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.exception.RentowneBusinessException;
-import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.exception.RentowneNotFoundException;
+import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
+import pl.rentowne.rentedObject.service.RentedObjectService;
 import pl.rentowne.user.model.dto.UploadResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +34,7 @@ public class ApartmentController {
 
     private final ApartmentService apartmentService;
     private final ApartmentImageService apartmentImageService;
+    private final RentedObjectService rentedObjectService;
 
     @Operation(
             summary = "Pobiera mieszkanie",
@@ -114,6 +114,21 @@ public class ApartmentController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
                 .body(file);
+    }
+
+    @Operation(
+            summary = "Pobiera obiekty do wynajęcia wraz z licznikami",
+            description = "Metoda zwracająca obiekty do wynajęcia z licznikami po id mieszkania",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Sukces", content = @Content(mediaType = "application/json")),
+                    @ApiResponse(responseCode = "400", description = "Niepoprawne dane wejściowe"),
+                    @ApiResponse(responseCode = "404", description = "Nie znaleziono danych"),
+                    @ApiResponse(responseCode = "500", description = "Wewnętrzny błąd serwera")
+            }
+    )
+    @GetMapping(value = "/api/apartments/{id}/rented-objects/meters")
+    public ResponseEntity<List<RentedObjectDto>> getRentedObjectsWithMeters(@Parameter(description = "id mieszkania", required = true) @PathVariable Long id) {
+        return ResponseEntity.ok(rentedObjectService.getAllRentedObjectDtosWithMeters(id));
     }
 
 }

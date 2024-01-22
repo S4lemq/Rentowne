@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.common.model.BaseEntity;
+import pl.rentowne.meter.model.Meter;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -39,6 +41,13 @@ public class RentedObject extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "APARTMENT_ID")
     private Apartment apartment;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rentedObject")
+    private Set<Meter> meters;
+
+    public RentedObject(Long id) {
+        this.id = id;
+    }
 
     @Override
     public boolean equals(Object o) {
