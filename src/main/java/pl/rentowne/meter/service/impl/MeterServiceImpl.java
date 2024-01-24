@@ -1,6 +1,6 @@
 package pl.rentowne.meter.service.impl;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.rentowne.meter.model.Meter;

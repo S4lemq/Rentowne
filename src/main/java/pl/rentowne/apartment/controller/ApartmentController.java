@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.apartment.service.ApartmentImageService;
 import pl.rentowne.apartment.service.ApartmentService;
+import pl.rentowne.common.controler.AbstractController;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
@@ -30,7 +31,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Mieszkania")
-public class ApartmentController {
+public class ApartmentController extends AbstractController {
 
     private final ApartmentService apartmentService;
     private final ApartmentImageService apartmentImageService;

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="012-create_tenant_sequence">
+        <createSequence sequenceName="TENANT_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="012-create_tenant_table">
+        <createTable tableName="TENANT">
+            <column name="TENANT_ID" type="bigint" defaultValueSequenceNext="TENANT_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_TENANT"/>
+            </column>
+            <column name="FIRST_NAME" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMAIL" type="varchar(60)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="ACCOUNT_NUMBER" type="varchar(28)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="PHONE_NUMBER" type="varchar(20)">
+                <constraints unique="true"/>
+            </column>
+            <column name="ADDRESS_ID" type="bigint">
+                <constraints nullable="false" unique="true"
+                             foreignKeyName="FK_TENANT_ON_ADDRESS"
+                             references="ADDRESS(ADDRESS_ID)"/>
+            </column>
+            <column name="LEASE_AGREEMENT_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_TENANT_ON_LEASE_AGREEMENT"
+                             references="LEASE_AGREEMENT(LEASE_AGREEMENT_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="012-add_comments_to_tenant_table">
+        <setTableRemarks tableName="TENANT" remarks="Tabela najemców" />
+        <setColumnRemarks tableName="TENANT" columnName="TENANT_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="TENANT" columnName="FIRST_NAME" remarks="Imię" />
+        <setColumnRemarks tableName="TENANT" columnName="LAST_NAME" remarks="Nazwisko" />
+        <setColumnRemarks tableName="TENANT" columnName="EMAIL" remarks="Email" />
+        <setColumnRemarks tableName="TENANT" columnName="ACCOUNT_NUMBER" remarks="Numer konta bankowego" />
+        <setColumnRemarks tableName="TENANT" columnName="PHONE_NUMBER" remarks="Numer telefonu" />
+        <setColumnRemarks tableName="TENANT" columnName="ADDRESS_ID" remarks="Referencja do adresu" />
+        <setColumnRemarks tableName="TENANT" columnName="LEASE_AGREEMENT_ID" remarks="Referencja do umowy" />
+        <setColumnRemarks tableName="TENANT" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="TENANT" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="TENANT" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="TENANT" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+    <changeSet author="plubowicz" id="012-rename_index_tenant">
+        <sql>
+            ALTER INDEX tenant_email_key RENAME TO UK_TENANT_1;
+            ALTER INDEX tenant_account_number_key RENAME TO UK_TENANT_2;
+            ALTER INDEX tenant_phone_number_key RENAME TO UK_TENANT_3;
+            ALTER INDEX tenant_address_id_key RENAME TO UK_TENANT_4;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

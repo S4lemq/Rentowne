@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="013-create_lease_agreement_sequence">
+        <createSequence sequenceName="LEASE_AGREEMENT_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="013-create_lease_agreement_table">
+        <createTable tableName="LEASE_AGREEMENT">
+            <column name="LEASE_AGREEMENT_ID" type="bigint" defaultValueSequenceNext="LEASE_AGREEMENT_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_LEASE_AGREEMENT"/>
+            </column>
+            <column name="START_CONTRACT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_CONTRACT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DEPOSIT" type="numeric(7,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DEPOSIT_PAID" type="numeric(7,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PAYMENT_DUE_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RENT_AMOUNT" type="numeric(7,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COMPENSATION_AMOUNT" type="numeric(7,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="INTERNET_FEE" type="numeric(5,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GAS_DEPOSIT" type="numeric(5,2)"/>
+            <column name="INCLUDED_WATER_METERS" type="numeric(8,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="INITIAL_ENERGY_METER_READING" type="numeric(11,5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="INITIAL_WATER_METER_READING" type="numeric(11,5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="INITIAL_GAS_METER_READING" type="numeric(11,5)"/>
+            <column name="DEPOSIT_RETURN_DATE" type="timestamp"/>
+            <column name="RETURNED_DEPOSIT_AMOUNT" type="numeric(7,2)"/>
+            <column name="IS_CONTRACT_ACTIVE" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="013-add_comments_to_lease_agreement_table">
+        <setTableRemarks tableName="LEASE_AGREEMENT" remarks="Tabela umowy" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="LEASE_AGREEMENT_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="START_CONTRACT_DATE" remarks="Od kiedy najem" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="END_CONTRACT_DATE" remarks="Do kiedy najem" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="DEPOSIT" remarks="Kaucja" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="DEPOSIT_PAID" remarks="Wpłacona kaucja" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="PAYMENT_DUE_DATE" remarks="Termin płatności" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="RENT_AMOUNT" remarks="Kwota czynszu" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="COMPENSATION_AMOUNT" remarks="Kwota odstępnego" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="INTERNET_FEE" remarks="Kwota za internet" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="GAS_DEPOSIT" remarks="Opłata za gaz" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="INCLUDED_WATER_METERS" remarks="Ilość m^3 wliczonej wody" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="INITIAL_ENERGY_METER_READING" remarks="Początkowy odczyt energii" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="INITIAL_WATER_METER_READING" remarks="Początkowy odczyt wody" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="INITIAL_GAS_METER_READING" remarks="Początkowy odczyt gazu" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="DEPOSIT_RETURN_DATE" remarks="Data zwrotu kaucji" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="RETURNED_DEPOSIT_AMOUNT" remarks="Kwota zwróconej kaucji" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="IS_CONTRACT_ACTIVE" remarks="Umowa aktywna - 1, Umowa nie aktywna - 0" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+</databaseChangeLog>

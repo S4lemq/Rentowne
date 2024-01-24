@@ -1,6 +1,6 @@
 package pl.rentowne.apartment.service.impl;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.rentowne.address.model.Address;

@@ -45,7 +45,7 @@ public class Token extends BaseEntity {
     @Column(name = "REVOKED", nullable = false)
     private boolean revoked;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ACCOUNT_ID", nullable = false)
     private User user;
 

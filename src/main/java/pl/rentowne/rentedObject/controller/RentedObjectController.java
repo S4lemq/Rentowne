@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.rentowne.common.controler.AbstractController;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
 import pl.rentowne.rentedObject.service.RentedObjectService;
@@ -17,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Obiekty do wynajęcia")
-public class RentedObjectController {
+public class RentedObjectController extends AbstractController {
 
     private final RentedObjectService rentedObjectService;
 
