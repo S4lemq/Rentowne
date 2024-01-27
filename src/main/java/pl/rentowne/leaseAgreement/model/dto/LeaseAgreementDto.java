@@ -15,7 +15,7 @@ public class LeaseAgreementDto {
     private LocalDateTime endContractDate; //do kiedy najem
     private BigDecimal deposit; //kaucja
     private BigDecimal depositPaid; //wpłacona kaucja
-    private LocalDateTime paymentDueDate; //termin płatności
+    private int paymentDueDayOfMonth; //termin płatności
     private BigDecimal rentAmount; //kwota czynszu
     private BigDecimal compensationAmount; //kwota odstępnego
     private BigDecimal internetFee; //kwota za internet
@@ -26,7 +26,7 @@ public class LeaseAgreementDto {
     private BigDecimal initialGasMeterReading; //początkowy odczyt gazu
     private LocalDateTime depositReturnDate; //data zwrotu kaucji
     private BigDecimal returnedDepositAmount; //kwota zwróconej kaucji
-    private boolean isContractActive; //czy aktywna umowa
+    private boolean contractActive; //czy aktywna umowa
 
     public static LeaseAgreement asEntity(LeaseAgreementDto dto) {
         return LeaseAgreement.builder()
@@ -35,7 +35,7 @@ public class LeaseAgreementDto {
                 .endContractDate(dto.endContractDate)
                 .deposit(dto.deposit)
                 .depositPaid(dto.depositPaid)
-                .paymentDueDate(dto.paymentDueDate)
+                .paymentDueDayOfMonth(dto.paymentDueDayOfMonth)
                 .rentAmount(dto.rentAmount)
                 .compensationAmount(dto.compensationAmount)
                 .internetFee(dto.internetFee)
@@ -46,7 +46,7 @@ public class LeaseAgreementDto {
                 .initialGasMeterReading(dto.initialGasMeterReading)
                 .depositReturnDate(dto.depositReturnDate)
                 .returnedDepositAmount(dto.returnedDepositAmount)
-                .isContractActive(dto.isContractActive)
+                .isContractActive(dto.contractActive)
                 .build();
     }
 
@@ -57,7 +57,7 @@ public class LeaseAgreementDto {
                 .endContractDate(entity.getEndContractDate())
                 .deposit(entity.getDeposit())
                 .depositPaid(entity.getDepositPaid())
-                .paymentDueDate(entity.getPaymentDueDate())
+                .paymentDueDayOfMonth(entity.getPaymentDueDayOfMonth())
                 .rentAmount(entity.getRentAmount())
                 .compensationAmount(entity.getCompensationAmount())
                 .internetFee(entity.getInternetFee())
@@ -68,7 +68,7 @@ public class LeaseAgreementDto {
                 .initialGasMeterReading(entity.getInitialGasMeterReading())
                 .depositReturnDate(entity.getDepositReturnDate())
                 .returnedDepositAmount(entity.getReturnedDepositAmount())
-                .isContractActive(entity.isContractActive())
+                .contractActive(entity.isContractActive())
                 .build();
     }
 

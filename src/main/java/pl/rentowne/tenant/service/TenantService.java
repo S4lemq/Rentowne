@@ -8,17 +8,23 @@ import pl.rentowne.tenant.model.dto.TenantDto;
  */
 public interface TenantService {
     /**
-     * Dodaje najemcję
+     * Dodaje najemcę wraz z umową najmu
      * @param tenantDto dto najemcy {@link TenantDto}
      * @return id dodanego najemcy
      */
-    Long addTenant(TenantDto tenantDto) throws RentowneNotFoundException;
+    Long addTenantAndLeaseAgreement(TenantDto tenantDto) throws RentowneNotFoundException;
 
     /**
-     * Pobiera najemcę wraz z umową oraz adresem
+     * Pobiera najemcę wraz z umową
      * @param id id najemcy
      * @return dto najemcy {@link TenantDto}
      * @throws RentowneNotFoundException wyjatek gdy nie ma takiego najemcy
      */
-    TenantDto getTenant(Long id) throws RentowneNotFoundException;
+    TenantDto getTenantAndLeaseAgreement(Long id) throws RentowneNotFoundException;
+
+    /**
+     * Metoda służy do aktualizacji danych najemcy oraz umowy
+     * @param dto dto najemcy {@link TenantDto}
+     */
+    void updateTenantAndLeaseAgreement(TenantDto dto);
 }

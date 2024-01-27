@@ -17,5 +17,6 @@
     <include file="/db/changelog/ddl-scripts/011-add_meter_table.xml"/>
     <include file="/db/changelog/ddl-scripts/013-add_lease_agreement_table.xml"/>
     <include file="/db/changelog/ddl-scripts/012-add_tenant_table.xml"/>
+    <include file="/db/changelog/ddl-scripts/014-rename_payment_day_column.xml"/>
 
 </databaseChangeLog>

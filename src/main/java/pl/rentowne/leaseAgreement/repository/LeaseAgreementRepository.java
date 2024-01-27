@@ -8,4 +8,5 @@ import pl.rentowne.leaseAgreement.repository.custom.LeaseAgreementRepositoryCust
  * Repozytorium umów najmu
  */
 public interface LeaseAgreementRepository extends JpaRepository<LeaseAgreement, Long>, LeaseAgreementRepositoryCustom {
+
 }

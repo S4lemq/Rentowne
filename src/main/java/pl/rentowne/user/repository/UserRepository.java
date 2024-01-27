@@ -2,7 +2,6 @@ package pl.rentowne.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.rentowne.user.model.User;
-import pl.rentowne.user.model.dto.UserBasicDto;
 import pl.rentowne.user.repository.custom.UserRepositoryCustom;
 
 /**
@@ -10,5 +9,4 @@ import pl.rentowne.user.repository.custom.UserRepositoryCustom;
  */
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
 
-//    UserBasicDto findByEmail(String email);
 }

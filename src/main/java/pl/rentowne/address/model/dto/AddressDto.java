@@ -16,17 +16,6 @@ public class AddressDto {
     private String cityName;
     private String voivodeship;
 
-    @QueryProjection
-    public AddressDto(Long id, String streetName, String buildingNumber, String apartmentNumber, String zipCode,
-                      String cityName, String voivodeship) {
-        this.id = id;
-        this.streetName = streetName;
-        this.buildingNumber = buildingNumber;
-        this.apartmentNumber = apartmentNumber;
-        this.zipCode = zipCode;
-        this.cityName = cityName;
-        this.voivodeship = voivodeship;
-    }
 
     public static Address asEntity(AddressDto dto) {
         return Address.builder()

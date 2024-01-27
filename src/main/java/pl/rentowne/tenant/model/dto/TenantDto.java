@@ -20,7 +20,7 @@ public class TenantDto {
     private LeaseAgreementDto leaseAgreementDto;
 
 
-    public static Tenant asEntity(TenantDto dto, LeaseAgreement leaseAgreement) {
+    public static Tenant asEntity(TenantDto dto) {
         return Tenant.builder()
                 .id(dto.id)
                 .firstname(dto.firstname)
@@ -29,7 +29,7 @@ public class TenantDto {
                 .accountNumber(dto.accountNumber)
                 .phoneNumber(dto.phoneNumber)
                 .address(AddressDto.asEntity(dto.addressDto))
-                .leaseAgreement(leaseAgreement)
+                .leaseAgreement(LeaseAgreementDto.asEntity(dto.getLeaseAgreementDto()))
                 .build();
     }
 
@@ -42,6 +42,7 @@ public class TenantDto {
                 .accountNumber(entity.getAccountNumber())
                 .phoneNumber(entity.getPhoneNumber())
                 .addressDto(AddressDto.asDto(entity.getAddress()))
+                .leaseAgreementDto(LeaseAgreementDto.asDto(entity.getLeaseAgreement()))
                 .build();
     }
 

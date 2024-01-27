@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.rentowne.address.model.dto.AddressDto;
+import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
 
 import java.math.BigDecimal;
@@ -25,16 +26,20 @@ public class ApartmentDto {
     private BigDecimal area;
     private String image;
     private AddressDto addressDto;
-    private List<RentedObjectDto> rentedObjectDtos;//do not generate with @QueryProjection
+    private List<RentedObjectDto> rentedObjectDtos;
 
-    @QueryProjection
-    public ApartmentDto(Long id, String apartmentName, BigInteger leasesNumber, boolean isRented, BigDecimal area, String image, AddressDto addressDto) {
-        this.id = id;
-        this.apartmentName = apartmentName;
-        this.leasesNumber = leasesNumber;
-        this.isRented = isRented;
-        this.area = area;
-        this.image = image;
-        this.addressDto = addressDto;
+    public static ApartmentDto asDto(Apartment apartment){
+        return ApartmentDto.builder()
+                .id(apartment.getId())
+                .apartmentName(apartment.getApartmentName())
+                .leasesNumber(apartment.getLeasesNumber())
+                .isRented(apartment.isRented())
+                .area(apartment.getArea())
+                .image(apartment.getImage())
+                .addressDto(AddressDto.asDto(apartment.getAddress()))
+                .rentedObjectDtos(
+                        apartment.getRentedObjects().stream().map(RentedObjectDto::asDtoWithoutMeters).toList()
+                )
+                .build();
     }
 }

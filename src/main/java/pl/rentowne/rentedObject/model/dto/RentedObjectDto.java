@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.rentowne.meter.model.dto.MeterDto;
+import pl.rentowne.rentedObject.model.RentedObject;
 
 import java.util.List;
 
@@ -29,6 +30,14 @@ public class RentedObjectDto {
         this.id = id;
         this.rentedObjectName = rentedObjectName;
         this.meters = meters;
+    }
+
+
+    public static RentedObjectDto asDtoWithoutMeters(RentedObject rentedObject) {
+        return RentedObjectDto.builder()
+                .id(rentedObject.getId())
+                .rentedObjectName(rentedObject.getRentedObjectName())
+                .build();
     }
 }
 

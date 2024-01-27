@@ -44,8 +44,8 @@ public class LeaseAgreement extends BaseEntity {
     @Column(name = "DEPOSIT_PAID", nullable = false)
     private BigDecimal depositPaid; //wpłacona kaucja
 
-    @Column(name = "PAYMENT_DUE_DATE", nullable = false)
-    private LocalDateTime paymentDueDate; //termin płatności
+    @Column(name = "PAYMENT_DUE_DAY_OF_MONTH", nullable = false)
+    private int paymentDueDayOfMonth; //termin płatności
 
     @Column(name = "RENT_AMOUNT", nullable = false)
     private BigDecimal rentAmount; //kwota czynszu
@@ -79,5 +79,8 @@ public class LeaseAgreement extends BaseEntity {
 
     @Column(name = "IS_CONTRACT_ACTIVE", nullable = false)
     private boolean isContractActive; //czy aktywna umowa
+
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "leaseAgreement")
+    private Tenant tenant;
 
 }

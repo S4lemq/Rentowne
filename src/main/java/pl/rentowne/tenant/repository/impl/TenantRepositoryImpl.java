@@ -16,6 +16,7 @@ public class TenantRepositoryImpl extends BaseRepositoryImpl<Tenant, Long> imple
 
     private static final QAddress address = QAddress.address;
     private static final QTenant tenant = QTenant.tenant;
+    private static final QLeaseAgreement leaseAgreement = QLeaseAgreement.leaseAgreement;
 
     public TenantRepositoryImpl(EntityManager entityManager) {
         super(Tenant.class, entityManager);
@@ -25,7 +26,8 @@ public class TenantRepositoryImpl extends BaseRepositoryImpl<Tenant, Long> imple
     public Optional<Tenant> findByTenantId(Long id) {
         return Optional.ofNullable(
                 queryFactory.selectFrom(tenant)
-                        .leftJoin(tenant.address(), address).fetchJoin()
+                        .join(tenant.address(), address).fetchJoin()
+                        .join(tenant.leaseAgreement(), leaseAgreement).fetchJoin()
                         .where(tenant.id.eq(id))
                         .fetchOne()
         );
