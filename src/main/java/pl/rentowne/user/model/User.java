@@ -3,12 +3,12 @@ package pl.rentowne.user.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.common.model.BaseEntity;
 import pl.rentowne.security.model.Token;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -64,6 +64,12 @@ public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "SECRET")
     private String secret;
+
+    @Column(name = "HASH")
+    private String hash;
+
+    @Column(name = "HASH_DATE")
+    private LocalDateTime hashDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Token> tokens;

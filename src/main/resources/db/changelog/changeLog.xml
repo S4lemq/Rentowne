@@ -18,5 +18,6 @@
     <include file="/db/changelog/ddl-scripts/013-add_lease_agreement_table.xml"/>
     <include file="/db/changelog/ddl-scripts/012-add_tenant_table.xml"/>
     <include file="/db/changelog/ddl-scripts/014-rename_payment_day_column.xml"/>
+    <include file="/db/changelog/ddl-scripts/015-add_hash_and_hash_date_columns_to_users.xml"/>
 
 </databaseChangeLog>

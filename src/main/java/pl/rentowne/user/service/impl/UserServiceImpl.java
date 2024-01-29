@@ -13,6 +13,8 @@ import pl.rentowne.user.model.dto.UserBasicDto;
 import pl.rentowne.user.repository.UserRepository;
 import pl.rentowne.user.service.UserService;
 
+import java.util.Optional;
+
 @Service("USER_SERVICE")
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -36,5 +38,10 @@ public class UserServiceImpl implements UserService {
         String email = userDetails.getUsername();
 
         return userRepository.getByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findByHash(String hash) {
+        return userRepository.findByHash(hash);
     }
 }

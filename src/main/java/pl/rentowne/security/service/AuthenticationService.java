@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneErrorCode;
-import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.security.model.Token;
 import pl.rentowne.security.model.TokenType;
 import pl.rentowne.security.model.dto.AuthenticationRequest;
@@ -27,7 +26,6 @@ import pl.rentowne.user.repository.UserRepository;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @Service

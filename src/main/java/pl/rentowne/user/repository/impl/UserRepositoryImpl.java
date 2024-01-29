@@ -43,4 +43,14 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User, Long> implement
                 .where(user.email.eq(email))
                 .fetchOne();
     }
+
+    @Override
+    public Optional<User> findByHash(String hash) {
+        return Optional.ofNullable(
+                queryFactory.select(user)
+                        .from(user)
+                        .where(user.hash.eq(hash))
+                        .fetchOne()
+        );
+    }
 }

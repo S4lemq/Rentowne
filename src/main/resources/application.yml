@@ -25,6 +25,17 @@ spring:
         multipart:
             max-file-size: 10MB
             max-request-size: 10MB
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: rentowneApp@gmail.com
+        password: pusty
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
 
 application:
     security:
@@ -34,6 +45,9 @@ application:
             refresh-token:
                 expiration: 604800000 # 7 days
     uploadDir: "./data/apartmentImages/"
+    email:
+        sender: pusty
+    serviceAddress: http://localhost:4200
 
 logging:
     level:

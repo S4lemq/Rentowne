@@ -134,6 +134,17 @@
 			<artifactId>slugify</artifactId>
 			<version>${slugify.version}</version>
 		</dependency>
+		<!--mail sender-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<!--simple encoder and decoders for various formats such as Base64 and Hexadecimal.-->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.16.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

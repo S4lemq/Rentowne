@@ -25,5 +25,17 @@ public interface UserRepositoryCustom {
      */
     boolean isUserExistsByEmail(String email);
 
+    /**
+     * Pobiera id użytkownika
+     * @param email email użytkownika
+     * @return {@link UserBasicDto}
+     */
     UserBasicDto getByEmail(String email);
+
+    /**
+     * Pobiera użytkownika po hashu z linka resetu hasła
+     * @param hash hash resetu hasła
+     * @return dane użytkownika
+     */
+    Optional<User> findByHash(String hash);
 }

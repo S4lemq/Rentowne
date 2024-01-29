@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="015-add_hash_and_hash_date_columns">
+        <addColumn tableName="USER_ACCOUNT">
+            <column name="HASH" type="varchar(120)"/>
+        </addColumn>
+        <addColumn tableName="USER_ACCOUNT">
+            <column name="HASH_DATE" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="015-add_hash_comments">
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="HASH" remarks="hash linku do resetu hasła" />
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="HASH_DATE" remarks="data ważności linku do resetu hasła" />
+    </changeSet>
+
+</databaseChangeLog>
