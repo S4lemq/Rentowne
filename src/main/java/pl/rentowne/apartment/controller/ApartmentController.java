@@ -132,4 +132,11 @@ public class ApartmentController extends AbstractController {
         return ResponseEntity.ok(rentedObjectService.getAllRentedObjectDtosWithMeters(id));
     }
 
+    @GetMapping(value = "/api/apartments/all-by-logged-user")
+    public ResponseEntity<List<ApartmentDto>> getAllApartmentsByLoggedUser(
+            @RequestParam(name = "apartmentId", required = false) Long apartmentId
+    ) throws RentowneBusinessException {
+        return ResponseEntity.ok(apartmentService.getAllApartmentsByLoggedUserAndApartment(apartmentId));
+    }
+
 }

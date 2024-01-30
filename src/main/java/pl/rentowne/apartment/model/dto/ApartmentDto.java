@@ -42,4 +42,10 @@ public class ApartmentDto {
                 )
                 .build();
     }
+
+    @QueryProjection
+    public ApartmentDto(Long id, String apartmentName) {
+        this.id = id;
+        this.apartmentName = apartmentName;
+    }
 }

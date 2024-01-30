@@ -29,4 +29,20 @@ public interface RentedObjectRepositoryCustom {
      * @return lista obiektów do wynajęcia
      */
     List<RentedObjectDto> getAllRentedObjectDtos(Long userId);
+
+    /**
+     * Aktualizuje flagę czy wynajęte
+     * @param rentedObjectId id obiektu do wynajęcia
+     * @param flag flaga
+     */
+    void updateRentedFlag(Long rentedObjectId, boolean flag);
+
+    /**
+     * Pobiera wszystkie obiekty do wynajęcia po id mieszkania i opcjonalnie pobiera jeszcze dany obiekt po drugim parametrze
+     * @param apartmentId id mieszkania
+     * @param rentedObjectId id obiektu opcjonalnego
+     * @return lista obiektów do wynajęcia
+     */
+    List<RentedObjectDto> getAllByApartmentAndOptionalRentedObject(Long apartmentId, Long rentedObjectId);
+
 }

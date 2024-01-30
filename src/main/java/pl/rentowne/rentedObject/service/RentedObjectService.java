@@ -47,4 +47,12 @@ public interface RentedObjectService {
      * @throws RentowneBusinessException wyjątek biznesowy
      */
     List<RentedObjectDto> getAllRentedObjectDtos() throws RentowneBusinessException;
+
+    /**
+     * Pobiera wszystkie obiekty do wynajęcia po id mieszkania i opcjonalnie pobiera jeszcze dany obiekt po drugim parametrze
+     * @param apartmentId id mieszkania
+     * @param rentedObjectId id obiektu opcjonalnego
+     * @return lista obiektów do wynajęcia
+     */
+    List<RentedObjectDto> getAllByApartmentAndOptionalRentedObject(Long apartmentId, Long rentedObjectId) throws RentowneBusinessException;
 }

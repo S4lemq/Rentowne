@@ -13,6 +13,7 @@ import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.rentedObject.model.RentedObject;
 import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
+import pl.rentowne.rentedObject.repository.RentedObjectRepository;
 import pl.rentowne.rentedObject.service.RentedObjectService;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.service.UserService;
@@ -30,6 +31,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     private final ApartmentRepository apartmentRepository;
     private final UserService userService;
     private final RentedObjectService rentedObjectService;
+    private final RentedObjectRepository rentedObjectRepository;
 
     @Override
     public ApartmentDto getApartment(Long id) throws RentowneNotFoundException {
@@ -71,6 +73,23 @@ public class ApartmentServiceImpl implements ApartmentService {
     public void deleteApartment(Long id) {
         rentedObjectService.deleteAllByApartmentId(id);
         apartmentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ApartmentDto> getAllApartmentsByLoggedUserAndApartment(Long apartmentId) throws RentowneBusinessException {
+        Long loggedUser = userService.getLoggedUser().getId();
+        return apartmentRepository.getAllApartmentsByLoggedUserAndApartment(loggedUser, apartmentId);
+    }
+
+    @Override
+    @Transactional
+    public void updateRentedFlagOnApartment(Long rentedObjectId) {
+        rentedObjectRepository.updateRentedFlag(rentedObjectId, true);
+        Long apartmentId = apartmentRepository.getApartmentIdByRentedObject(rentedObjectId);
+        List<Long> ids = apartmentRepository.getAllRentedObjectsByApartmentIdAndRentedFlag(apartmentId, false);
+        if (ids.isEmpty()) {
+            apartmentRepository.updateRentedFlag(apartmentId, true);
+        }
     }
 
     private Apartment mapApartment(ApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {

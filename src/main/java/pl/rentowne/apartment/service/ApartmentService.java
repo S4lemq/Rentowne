@@ -4,6 +4,8 @@ import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
 
+import java.util.List;
+
 /**
  * Serwis mieszkań
  */
@@ -46,4 +48,18 @@ public interface ApartmentService {
      * @return
      */
     void deleteApartment(Long id);
+
+    /**
+     * Pobiera wszystkie mieszkania zalogowanego użytkownika po oraz opcjonalnie dodaje do wyników jeszcze przekazany parametr apartmentId
+     * @param apartmentId id mieszkania
+     * @return lista mieszkań
+     */
+    List<ApartmentDto> getAllApartmentsByLoggedUserAndApartment(Long apartmentId) throws RentowneBusinessException;
+
+    /**
+     * Aktualizuje flagę czy wynajęte
+     * @param rentedObjectId id obiektu
+     */
+    void updateRentedFlagOnApartment(Long rentedObjectId);
+
 }

@@ -53,6 +53,11 @@ public class RentedObjectServiceImpl implements RentedObjectService {
         return rentedObjectRepository.getAllRentedObjectDtos(userId);
     }
 
+    @Override
+    public List<RentedObjectDto> getAllByApartmentAndOptionalRentedObject(Long apartmentId, Long rentedObjectId) throws RentowneBusinessException {
+        return rentedObjectRepository.getAllByApartmentAndOptionalRentedObject(apartmentId, rentedObjectId);
+    }
+
     private List<RentedObjectDto> mapToDtos(List<RentedObject> rentedObjects) {
         return rentedObjects.stream()
                 .map(ro -> {

@@ -49,4 +49,35 @@ public class RentedObjectRepositoryImpl extends BaseRepositoryImpl<RentedObject,
                 .where(user.id.eq(userId))
                 .fetch();
     }
+
+    @Override
+    public void updateRentedFlag(Long rentedObjectId, boolean flag) {
+        queryFactory.update(rentedObject)
+                .set(rentedObject.isRented, flag)
+                .where(rentedObject.id.eq(rentedObjectId))
+                .execute();
+    }
+
+
+    @Override
+    public List<RentedObjectDto> getAllByApartmentAndOptionalRentedObject(Long apartmentId, Long rentedObjectId) {
+
+        if (rentedObjectId != null) {
+            return queryFactory.select(rentedObjectDto)
+                .from(rentedObject)
+                .where(
+                    (
+                        (rentedObject.apartment().id.eq(apartmentId))
+                        .and(rentedObject.isRented.eq(Boolean.FALSE))
+                    ).or(
+                        rentedObject.id.eq(rentedObjectId)
+                    )
+                ).fetch();
+        } else {
+            return queryFactory.select(rentedObjectDto)
+                .from(rentedObject)
+                .where(rentedObject.apartment().id.eq(apartmentId)
+                        .and(rentedObject.isRented.eq(Boolean.FALSE))).fetch();
+        }
+    }
 }

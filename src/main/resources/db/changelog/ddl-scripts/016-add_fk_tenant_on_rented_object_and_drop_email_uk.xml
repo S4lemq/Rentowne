@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="016-drop_email_uk">
+        <!-- Usuwanie kolumny EMAIL -->
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="TENANT" columnName="EMAIL"/>
+        </preConditions>
+        <dropColumn tableName="TENANT" columnName="EMAIL"/>
+
+        <!-- Dodawanie kolumny EMAIL ponownie -->
+        <addColumn tableName="TENANT">
+            <column name="EMAIL" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <!-- Tworzenie zwykłego indeksu na kolumnie EMAIL -->
+        <createIndex indexName="I_TENANT_1" tableName="TENANT">
+            <column name="EMAIL"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="016-rename_index_tenant-1">
+        <sql>
+            ALTER INDEX UK_TENANT_2 RENAME TO tenant_account_number_key;
+            ALTER INDEX UK_TENANT_3 RENAME TO tenant_phone_number_key;
+            ALTER INDEX UK_TENANT_4 RENAME TO tenant_address_id_key;
+        </sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="016-rename_index_tenant-2">
+        <sql>
+            ALTER INDEX tenant_account_number_key RENAME TO UK_TENANT_1;
+            ALTER INDEX tenant_phone_number_key RENAME TO UK_TENANT_2;
+            ALTER INDEX tenant_address_id_key RENAME TO UK_TENANT_3;
+        </sql>
+    </changeSet>
+
+
+    <changeSet author="plubowicz" id="016-add_rented_object_id_column">
+        <addColumn tableName="TENANT">
+            <column name="RENTED_OBJECT_ID" type="bigint">
+                <constraints nullable="false" unique="true"
+                             foreignKeyName="FK_TENANT_ON_RENTED_OBJECT"
+                             references="RENTED_OBJECT(RENTED_OBJECT_ID)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet author="plubowicz" id="016-add_comment_to_new_column">
+        <setColumnRemarks tableName="TENANT" columnName="RENTED_OBJECT_ID" remarks="Referencja do obiektu do wynajęcia" />
+    </changeSet>
+
+    <changeSet author="plubowicz" id="016-rename_rented_object_index">
+        <sql>
+            ALTER INDEX TENANT_RENTED_OBJECT_ID_KEY RENAME TO UK_TENANT_4;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

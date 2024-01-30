@@ -1,5 +1,6 @@
 package pl.rentowne.tenant.repository.custom;
 
+import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.tenant.model.Tenant;
 
 import java.util.Optional;
@@ -15,4 +16,10 @@ public interface TenantRepositoryCustom {
      */
     Optional<Tenant> findByTenantId(Long id);
 
+    /**
+     * Pobiera id obiektu do wynajęcia po id najemcy
+     * @param id id najemcy
+     * @return id obiektu do wynajęcia
+     */
+    Long getRentedObjectId(Long id);
 }
