@@ -26,4 +26,15 @@ public interface TokenRepositoryCustom {
      */
     Optional<Token> findByToken(String token);
 
+    /**
+     * Znajduje wszystkie tokeny jwt które wygasły i są nie ważne
+     * @return list id tokenów
+     */
+    List<Long> findAllExpiredAndRevokedJwtToken();
+
+    /**
+     * Usuwa wszystkie tokeny po id
+     * @param tokenIds lista id
+     */
+    void deleteAllByIds(List<Long> tokenIds);
 }
