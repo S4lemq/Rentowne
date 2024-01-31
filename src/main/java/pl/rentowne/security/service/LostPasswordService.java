@@ -12,7 +12,7 @@ import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.security.model.dto.ChangePassword;
-import pl.rentowne.security.model.dto.EmailObject;
+import pl.rentowne.security.model.dto.LostPasswordRequest;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.service.UserService;
 
@@ -30,19 +30,19 @@ public class LostPasswordService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void sendLostPasswordLink(EmailObject emailObject) {
+    public void sendLostPasswordLink(LostPasswordRequest lostPasswordRequest) {
         User user;
         try {
-            user = userService.getByEmail(emailObject.getEmail());
+            user = userService.getByEmail(lostPasswordRequest.getEmail());
         } catch (RentowneNotFoundException e) {
-            log.info("User with e-mail {} tried to recover the password, but the account with this e-mail does not exist", emailObject.getEmail());
+            log.info("User with e-mail {} tried to recover the password, but the account with this e-mail does not exist", lostPasswordRequest.getEmail());
             return;
         }
         String hash = generateHashForLostPassword(user);
         user.setHash(hash);
         user.setHashDate(LocalDateTime.now());
         emailClientService.getInstance()
-                .send(emailObject.getEmail(), "Zresetuj hasło", createMessage(createLink(hash)));
+                .send(lostPasswordRequest.getEmail(), "Zresetuj hasło", createMessage(createLink(hash, lostPasswordRequest.getIsTenant())));
     }
 
     private String createMessage(String hashLink) {
@@ -52,8 +52,12 @@ public class LostPasswordService {
                 "\n\nDziękujemy.";
     }
 
-    private String createLink(String hash) {
-        return serviceAddress + "/lost-password/" + hash;
+    private String createLink(String hash, boolean isTenant) {
+        if (isTenant) {
+            return serviceAddress + "/tenant-lost-password/" + hash;
+        } else {
+            return serviceAddress + "/lost-password/" + hash;
+        }
     }
 
     private String generateHashForLostPassword(User user) {

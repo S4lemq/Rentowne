@@ -5,12 +5,16 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import pl.rentowne.common.mail.EmailClientService;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.security.model.Token;
@@ -19,10 +23,12 @@ import pl.rentowne.security.model.dto.AuthenticationRequest;
 import pl.rentowne.security.model.dto.AuthenticationResponse;
 import pl.rentowne.security.model.dto.RegisterRequest;
 import pl.rentowne.security.repository.TokenRepository;
+import pl.rentowne.tenant.model.dto.TenantDto;
 import pl.rentowne.tfa.TwoFactorAuthenticationService;
 import pl.rentowne.user.model.Role;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.repository.UserRepository;
+import pl.rentowne.util.PasswordGenerator;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -37,7 +43,26 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final TwoFactorAuthenticationService tfaService;
+    private final EmailClientService emailClientService;
+    @Value("${application.serviceAddress}")
+    private String serviceAddress;
 
+    @Transactional
+    public void createTenantAccount(TenantDto tenantDto) {
+        User user = User.builder()
+                .firstname(tenantDto.getFirstname())
+                .lastname(tenantDto.getLastname())
+                .email(tenantDto.getEmail())
+                .password(passwordEncoder.encode(PasswordGenerator.generatePassword()))
+                .role(Role.USER)
+                .mfaEnabled(false)
+                .build();
+
+        User savedUser = userRepository.save(user);
+        this.sendCreatedAccount(savedUser);
+    }
+
+    @Transactional
     public AuthenticationResponse register(RegisterRequest request) throws RentowneBusinessException {
         boolean isUserExistsByEmail = userRepository.isUserExistsByEmail(request.getEmail());
         if (isUserExistsByEmail) {
@@ -78,6 +103,7 @@ public class AuthenticationService {
         }
     }
 
+    @Transactional
     public AuthenticationResponse authenticate(AuthenticationRequest request) throws RentowneBusinessException {
         try {
             authenticationManager.authenticate(
@@ -105,32 +131,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    private void saveUserToken(User user, String jwtToken) {
-        Token token = Token.builder()
-                .user(user)
-                .tokenValue(jwtToken)
-                .tokenType(TokenType.BEARER)
-                .revoked(false)
-                .expired(false)
-                .build();
-        token.setInsertDate(LocalDateTime.now());
-        token.setInsertOperator(user.getEmail());
-        tokenRepository.save(token);
-    }
-
-    private void revokeAllUserTokens(User user) {
-        List<Token> validUserTokens = tokenRepository.findAllValidTokensByUser(user.getId());
-        if (validUserTokens.isEmpty()) {
-            return;
-        }
-
-        validUserTokens.forEach(token -> {
-            token.setExpired(true);
-            token.setRevoked(true);
-        });
-        tokenRepository.saveAll(validUserTokens);
-    }
-
+    @Transactional
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
@@ -157,6 +158,7 @@ public class AuthenticationService {
         }
     }
 
+    @Transactional
     public AuthenticationResponse verifyCode(VerificationRequest verificationRequest) throws RentowneBusinessException {
         User user = userRepository
                 .findByEmail(verificationRequest.getEmail())
@@ -175,5 +177,58 @@ public class AuthenticationService {
                 .mfaEnabled(true)
                 .landlordAccess(true)
                 .build();
+    }
+
+    private void sendCreatedAccount(User user) {
+        String hash = generateHashForLostPassword(user);
+        user.setHash(hash);
+        user.setHashDate(LocalDateTime.now());
+        emailClientService.getInstance()
+                .send(user.getEmail(), "Witaj w aplikacji Rentowne", createWelcomeMessage(createLink(hash)));
+    }
+
+    private String createWelcomeMessage(String setPasswordLink) {
+        return "Witaj w Rentowne!" +
+                "\n\nTwoje konto w aplikacji Rentowne.pl zostało pomyślnie utworzone." +
+                "\nUżywając adresu email podanego w trakcie podpisywania umowy najmu, możesz teraz ustanowić swoje hasło." +
+                "\n\nProsimy, kliknij w poniższy link, aby ustawić hasło do aplikacji:" +
+                "\n" + setPasswordLink +
+                "\n\nDziękujemy za zaufanie i życzymy miłego użytkowania aplikacji." +
+                "\nZespół Rentowne";
+    }
+
+    private String createLink(String hash) {
+        return serviceAddress + "/tenant-password/" + hash;
+    }
+
+    private String generateHashForLostPassword(User user) {
+        String toHash = user.getId() + user.getUsername() + user.getPassword() + LocalDateTime.now();
+        return DigestUtils.sha256Hex(toHash);
+    }
+
+    private void saveUserToken(User user, String jwtToken) {
+        Token token = Token.builder()
+                .user(user)
+                .tokenValue(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .revoked(false)
+                .expired(false)
+                .build();
+        token.setInsertDate(LocalDateTime.now());
+        token.setInsertOperator(user.getEmail());
+        tokenRepository.save(token);
+    }
+
+    private void revokeAllUserTokens(User user) {
+        List<Token> validUserTokens = tokenRepository.findAllValidTokensByUser(user.getId());
+        if (validUserTokens.isEmpty()) {
+            return;
+        }
+
+        validUserTokens.forEach(token -> {
+            token.setExpired(true);
+            token.setRevoked(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.security.model.dto.ChangePassword;
-import pl.rentowne.security.model.dto.EmailObject;
+import pl.rentowne.security.model.dto.LostPasswordRequest;
 import pl.rentowne.security.service.LostPasswordService;
 
 @RestController
@@ -32,8 +32,8 @@ public class LostPasswordController {
             }
     )
     @PostMapping("/api/lost-password")
-    public ResponseEntity<Void> lostPassword(@RequestBody EmailObject emailObject) {
-        lostPasswordService.sendLostPasswordLink(emailObject);
+    public ResponseEntity<Void> lostPassword(@RequestBody LostPasswordRequest lostPasswordRequest) {
+        lostPasswordService.sendLostPasswordLink(lostPasswordRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -52,6 +52,5 @@ public class LostPasswordController {
         lostPasswordService.changePassword(changePassword);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 }

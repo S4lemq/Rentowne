@@ -7,6 +7,7 @@ import pl.rentowne.apartment.repository.ApartmentRepository;
 import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.rentedObject.repository.RentedObjectRepository;
+import pl.rentowne.security.service.AuthenticationService;
 import pl.rentowne.tenant.model.Tenant;
 import pl.rentowne.tenant.model.dto.TenantDto;
 import pl.rentowne.tenant.repository.TenantRepository;
@@ -22,12 +23,15 @@ public class TenantServiceImpl implements TenantService {
     private final ApartmentService apartmentService;
     private final RentedObjectRepository rentedObjectRepository;
     private final ApartmentRepository apartmentRepository;
+    private final AuthenticationService authenticationService;
 
     @Override
     @Transactional
     public Long addTenantAndLeaseAgreement(TenantDto tenantDto) {
         apartmentService.updateRentedFlagOnApartment(tenantDto.getRentedObjectDto().getId());
-        return tenantRepository.save(TenantDto.asEntity(tenantDto)).getId();
+        Long tenantId = tenantRepository.save(TenantDto.asEntity(tenantDto)).getId();
+        authenticationService.createTenantAccount(tenantDto);
+        return tenantId;
     }
 
     @Override
