@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="017-add_columns_to_meter">
+        <addColumn tableName="METER">
+            <column name="METER_NUMBER" type="varchar(20)"/>
+        </addColumn>
+        <addColumn tableName="METER">
+            <column name="INITIAL_METER_READING" type="numeric(11,5)"/>
+        </addColumn>
+        <addColumn tableName="METER">
+            <column name="INSTALLATION_DATE" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="017-add_comments">
+        <setColumnRemarks tableName="METER" columnName="METER_NUMBER" remarks="Numer licznika"/>
+        <setColumnRemarks tableName="METER" columnName="INITIAL_METER_READING" remarks="Odczyt początkowy"/>
+        <setColumnRemarks tableName="METER" columnName="INSTALLATION_DATE" remarks="Data montażu"/>
+    </changeSet>
+
+</databaseChangeLog>

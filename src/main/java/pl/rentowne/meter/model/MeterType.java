@@ -1,8 +1,9 @@
 package pl.rentowne.meter.model;
 
 public enum MeterType {
-    ELECTRIC,
-    WATER,
+    WATER_COLD,
+    WATER_WARM,
     GAS,
+    ELECTRIC,
     HEAT
 }

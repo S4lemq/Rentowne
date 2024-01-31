@@ -5,6 +5,8 @@ import lombok.*;
 import pl.rentowne.common.model.BaseEntity;
 import pl.rentowne.rentedObject.model.RentedObject;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -36,6 +38,15 @@ public class Meter extends BaseEntity {
     @Column(name = "TYPE", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private MeterType meterType;
+
+    @Column(name = "METER_NUMBER", length = 20)
+    private String meterNumber;
+
+    @Column(name = "INITIAL_METER_READING")
+    private BigDecimal initialMeterReading;
+
+    @Column(name = "INSTALLATION_DATE")
+    private LocalDateTime installationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RENTED_OBJECT_ID")

@@ -36,6 +36,9 @@ public class MeterServiceImpl implements MeterService {
                 .rentedObject(RentedObjectDto.builder()
                         .id(meterDto.getRentedObject().getId())
                         .build())
+                .meterNumber(meterDto.getMeterNumber())
+                .initialMeterReading(meterDto.getInitialMeterReading())
+                .installationDate(meterDto.getInstallationDate())
                 .build();
     }
 
@@ -49,6 +52,9 @@ public class MeterServiceImpl implements MeterService {
                 .rentedObject(RentedObject.builder()
                         .id(meter.getRentedObject().getId())
                         .build())
+                .meterNumber(meter.getMeterNumber())
+                .initialMeterReading(meter.getInitialMeterReading())
+                .installationDate(meter.getInstallationDate())
                 .build();
         meterRepository.save(meterEntity);
     }
@@ -58,6 +64,9 @@ public class MeterServiceImpl implements MeterService {
                 .name(dto.getName())
                 .meterType(dto.getMeterType())
                 .rentedObject(rentedObjectReference)
+                .meterNumber(dto.getMeterNumber())
+                .initialMeterReading(dto.getInitialMeterReading())
+                .installationDate(dto.getInstallationDate())
                 .build();
     }
 
@@ -66,6 +75,9 @@ public class MeterServiceImpl implements MeterService {
                 .id(entity.getId())
                 .name(entity.getName())
                 .meterType(entity.getMeterType())
+                .meterNumber(entity.getMeterNumber())
+                .initialMeterReading(entity.getInitialMeterReading())
+                .installationDate(entity.getInstallationDate())
                 .build();
     }
 }
