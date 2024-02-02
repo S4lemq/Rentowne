@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 
         if (loggedInUser == null || !(loggedInUser.getPrincipal() instanceof UserDetails)) {
-            throw new RentowneBusinessException(RentowneErrorCode.USER_IS_NOT_LOGGED, "");
+            throw new RentowneBusinessException(RentowneErrorCode.USER_IS_NOT_LOGGED);
         }
 
         UserDetails userDetails = (UserDetails) loggedInUser.getPrincipal();

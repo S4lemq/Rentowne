@@ -22,7 +22,7 @@ import java.util.Set;
         name = "APARTMENT",
         uniqueConstraints = {
                 @UniqueConstraint(name = "PK_APARTMENT", columnNames = "APARTMENT_ID"),
-                @UniqueConstraint(name = "UK_APARTMENT_2", columnNames = "ADDRESS_ID")
+                @UniqueConstraint(name = "UK_APARTMENT_1", columnNames = "ADDRESS_ID")
         },
         indexes = {
                 @Index(name = "PK_APARTMENT", columnList = "APARTMENT_ID", unique = true),

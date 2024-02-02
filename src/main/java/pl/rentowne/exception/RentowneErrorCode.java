@@ -20,7 +20,8 @@ public enum RentowneErrorCode implements Serializable {
     BAD_CREDENTIALS(),
     BAD_LINK(),
     LINK_EXPIRED(),
-
+    BAD_METER_READING_VALUES(),
+    BAD_METER_READING_DATE(),
     ;
 
     private Set<String> translateKeys;

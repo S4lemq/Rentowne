@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="018-add_meter_reading_sequence">
+        <createSequence sequenceName="METER_READING_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="018-create_meter_reading_table">
+        <createTable tableName="METER_READING">
+            <column name="METER_READING_ID" type="bigint" defaultValueSequenceNext="METER_READING_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_METER_READING"/>
+            </column>
+            <column name="CURRENT_READING" type="numeric(11,5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="READING_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CONSUMPTION" type="numeric(8,5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="METER_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_METER_READING_ON_METER"
+                             references="METER(METER_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="018-add_comments_to_meter_reading_table">
+        <setTableRemarks tableName="METER_READING" remarks="Tabela odczytów liczników" />
+        <setColumnRemarks tableName="METER_READING" columnName="METER_READING_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="METER_READING" columnName="CURRENT_READING" remarks="Bieżący odczyt w danym miesiącu" />
+        <setColumnRemarks tableName="METER_READING" columnName="READING_DATE" remarks="Data odczytu" />
+        <setColumnRemarks tableName="METER_READING" columnName="CONSUMPTION" remarks="Zużycie w danym miesiącu" />
+        <setColumnRemarks tableName="METER_READING" columnName="METER_ID" remarks="Referencja do tabeli liczników" />
+        <setColumnRemarks tableName="METER_READING" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="METER_READING" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="METER_READING" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="METER_READING" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+<!--    <changeSet author="plubowicz" id="018-rename_index">
+        <sql splitStatements="true" endDelimiter=";">
+            ALTER INDEX METER_READING_METER_ID_KEY RENAME TO UK_METER_READING_1;
+        </sql>
+    </changeSet>-->
+
+</databaseChangeLog>

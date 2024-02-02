@@ -3,11 +3,13 @@ package pl.rentowne.meter.model;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.rentowne.common.model.BaseEntity;
+import pl.rentowne.meterReading.model.MeterReading;
 import pl.rentowne.rentedObject.model.RentedObject;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -51,6 +53,9 @@ public class Meter extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RENTED_OBJECT_ID")
     private RentedObject rentedObject;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "meter")
+    private Set<MeterReading> meterReadings;
 
     @Override
     public boolean equals(Object o) {
