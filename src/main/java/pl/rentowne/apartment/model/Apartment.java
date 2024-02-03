@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.rentowne.address.model.Address;
 import pl.rentowne.common.model.BaseEntity;
-import pl.rentowne.rentedObject.model.RentedObject;
+import pl.rentowne.housing_service_provider.model.HousingServiceProvider;
+import pl.rentowne.rented_object.model.RentedObject;
 import pl.rentowne.user.model.User;
 
 import java.math.BigDecimal;
@@ -50,10 +51,6 @@ public class Apartment extends BaseEntity {
     @Column(name = "IS_RENTED", nullable = false)
     private boolean isRented;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ACCOUNT_ID")
-    private User user;
-
     @Column(name = "IMAGE", length = 128)
     private String image;
 
@@ -63,6 +60,13 @@ public class Apartment extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "apartment")
     private Set<RentedObject> rentedObjects;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "apartment")
+    private Set<HousingServiceProvider> housingServiceProviders;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ACCOUNT_ID")
+    private User user;
 
     public Apartment(Long id) {
         this.id = id;

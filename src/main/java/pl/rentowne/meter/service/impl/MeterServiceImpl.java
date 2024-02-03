@@ -7,8 +7,8 @@ import pl.rentowne.meter.model.Meter;
 import pl.rentowne.meter.model.dto.MeterDto;
 import pl.rentowne.meter.repository.MeterRepository;
 import pl.rentowne.meter.service.MeterService;
-import pl.rentowne.rentedObject.model.RentedObject;
-import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
+import pl.rentowne.rented_object.model.RentedObject;
+import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 
 @Service
 @RequiredArgsConstructor

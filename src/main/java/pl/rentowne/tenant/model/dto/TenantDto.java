@@ -3,9 +3,9 @@ package pl.rentowne.tenant.model.dto;
 import lombok.Builder;
 import lombok.Getter;
 import pl.rentowne.address.model.dto.AddressDto;
-import pl.rentowne.leaseAgreement.model.dto.LeaseAgreementDto;
-import pl.rentowne.rentedObject.model.RentedObject;
-import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
+import pl.rentowne.lease_agreement.model.dto.LeaseAgreementDto;
+import pl.rentowne.rented_object.model.RentedObject;
+import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 import pl.rentowne.tenant.model.Tenant;
 
 @Getter

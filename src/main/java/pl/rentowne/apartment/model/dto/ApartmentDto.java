@@ -7,12 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.rentowne.address.model.dto.AddressDto;
 import pl.rentowne.apartment.model.Apartment;
-import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
+import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="019-add_housing_service_provider_sequence">
+        <createSequence sequenceName="HOUSING_SERVICE_PROVIDER_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="019-create_housing_service_provider_table">
+        <createTable tableName="HOUSING_SERVICE_PROVIDER">
+            <column name="HOUSING_SERVICE_PROVIDER_ID" type="bigint" defaultValueSequenceNext="HOUSING_SERVICE_PROVIDER_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_HOUSING_SERVICE_PROVIDER"/>
+            </column>
+            <column name="TYPE" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="APARTMENT_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_HOUSING_SERVICE_PROVIDER_ON_APARTMENT"
+                             references="APARTMENT(APARTMENT_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="019-add_comments_to_housing_service_provider_table">
+        <setTableRemarks tableName="HOUSING_SERVICE_PROVIDER" remarks="Tabela dostawców świadczeń" />
+        <setColumnRemarks tableName="HOUSING_SERVICE_PROVIDER" columnName="HOUSING_SERVICE_PROVIDER_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="HOUSING_SERVICE_PROVIDER" columnName="TYPE" remarks="typ świadczenia" />
+        <setColumnRemarks tableName="HOUSING_SERVICE_PROVIDER" columnName="APARTMENT_ID" remarks="Referencja do tabeli mieszkań" />
+        <setColumnRemarks tableName="HOUSING_SERVICE_PROVIDER" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="HOUSING_SERVICE_PROVIDER" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="HOUSING_SERVICE_PROVIDER" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="HOUSING_SERVICE_PROVIDER" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+    <changeSet author="plubowicz" id="019-add_name_column">
+        <addColumn tableName="HOUSING_SERVICE_PROVIDER">
+            <column name="NAME" type="varchar(45)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <setColumnRemarks tableName="HOUSING_SERVICE_PROVIDER" columnName="NAME" remarks="Nazwa dostawcy" />
+    </changeSet>
+
+</databaseChangeLog>

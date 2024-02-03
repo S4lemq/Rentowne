@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.rentowne.apartment.repository.ApartmentRepository;
 import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.exception.RentowneNotFoundException;
-import pl.rentowne.rentedObject.repository.RentedObjectRepository;
+import pl.rentowne.rented_object.repository.RentedObjectRepository;
 import pl.rentowne.security.service.AuthenticationService;
 import pl.rentowne.tenant.model.Tenant;
 import pl.rentowne.tenant.model.dto.TenantDto;

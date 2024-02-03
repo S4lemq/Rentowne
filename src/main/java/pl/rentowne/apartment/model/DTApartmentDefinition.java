@@ -9,11 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.rentowne.address.model.QAddress;
 import pl.rentowne.apartment.model.dto.QApartmentRowDto;
-import pl.rentowne.dataTable.dtDefinition.DTColumnDefinition;
-import pl.rentowne.dataTable.dtDefinition.DTDefinition;
-import pl.rentowne.dataTable.enums.DTFilterType;
-import pl.rentowne.dataTable.filter.DTFilter;
-import pl.rentowne.dataTable.filter.DTFilterColumnDefinition;
+import pl.rentowne.data_table.dt_definition.DTColumnDefinition;
+import pl.rentowne.data_table.dt_definition.DTDefinition;
+import pl.rentowne.data_table.enums.DTFilterType;
+import pl.rentowne.data_table.filter.DTFilter;
+import pl.rentowne.data_table.filter.DTFilterColumnDefinition;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.user.service.UserService;
 

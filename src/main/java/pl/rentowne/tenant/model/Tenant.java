@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.rentowne.address.model.Address;
 import pl.rentowne.common.model.BaseEntity;
-import pl.rentowne.leaseAgreement.model.LeaseAgreement;
-import pl.rentowne.rentedObject.model.RentedObject;
+import pl.rentowne.lease_agreement.model.LeaseAgreement;
+import pl.rentowne.rented_object.model.RentedObject;
 
 @Getter
 @Setter

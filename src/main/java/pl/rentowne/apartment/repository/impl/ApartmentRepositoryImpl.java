@@ -9,7 +9,7 @@ import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.apartment.model.dto.QApartmentDto;
 import pl.rentowne.apartment.repository.custom.ApartmentRepositoryCustom;
 import pl.rentowne.common.repository.impl.BaseRepositoryImpl;
-import pl.rentowne.rentedObject.model.QRentedObject;
+import pl.rentowne.rented_object.model.QRentedObject;
 
 import java.util.List;
 import java.util.Optional;

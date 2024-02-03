@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="020-add_service_provider_field_sequence">
+        <createSequence sequenceName="SERVICE_PROVIDER_FIELD_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="020-create_service_provider_field_table">
+        <createTable tableName="SERVICE_PROVIDER_FIELD">
+            <column name="SERVICE_PROVIDER_FIELD_ID" type="bigint" defaultValueSequenceNext="SERVICE_PROVIDER_FIELD_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_SERVICE_PROVIDER_FIELD"/>
+            </column>
+            <column name="PRICE" type="numeric(10,5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BILLING_METHOD" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HOUSING_SERVICE_PROVIDER_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_SERVICE_PROVIDER_FIELD_ON_HOUSING_SERVICE_PROVIDER"
+                             references="HOUSING_SERVICE_PROVIDER(HOUSING_SERVICE_PROVIDER_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="020-add_comments_to_service_provider_field_table">
+        <setTableRemarks tableName="SERVICE_PROVIDER_FIELD" remarks="Tabela pól dostawców świadczeń" />
+        <setColumnRemarks tableName="SERVICE_PROVIDER_FIELD" columnName="SERVICE_PROVIDER_FIELD_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="SERVICE_PROVIDER_FIELD" columnName="PRICE" remarks="Kwota świadczenia" />
+        <setColumnRemarks tableName="SERVICE_PROVIDER_FIELD" columnName="BILLING_METHOD" remarks="Sposób naliczania kwoty" />
+        <setColumnRemarks tableName="SERVICE_PROVIDER_FIELD" columnName="HOUSING_SERVICE_PROVIDER_ID" remarks="Referencja do dostawców świadczeń" />
+        <setColumnRemarks tableName="SERVICE_PROVIDER_FIELD" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="SERVICE_PROVIDER_FIELD" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="SERVICE_PROVIDER_FIELD" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="SERVICE_PROVIDER_FIELD" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+    <changeSet author="plubowicz" id="020-add_tax_column">
+        <addColumn tableName="SERVICE_PROVIDER_FIELD">
+            <column name="TAX" type="numeric(4,2)"/>
+        </addColumn>
+        <setColumnRemarks tableName="SERVICE_PROVIDER_FIELD" columnName="TAX" remarks="Wartość podatku" />
+    </changeSet>
+
+    <changeSet author="plubowicz" id="020-add_name_column">
+        <addColumn tableName="SERVICE_PROVIDER_FIELD">
+            <column name="NAME" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <setColumnRemarks tableName="SERVICE_PROVIDER_FIELD" columnName="NAME" remarks="Nazwa pola" />
+    </changeSet>
+
+</databaseChangeLog>

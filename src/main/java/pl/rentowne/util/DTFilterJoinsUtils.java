@@ -1,8 +1,8 @@
 package pl.rentowne.util;
 
 import com.querydsl.jpa.impl.JPAQuery;
-import pl.rentowne.dataTable.dtDefinition.DTColumnDefinition;
-import pl.rentowne.dataTable.enums.DTJoinType;
+import pl.rentowne.data_table.dt_definition.DTColumnDefinition;
+import pl.rentowne.data_table.enums.DTJoinType;
 
 import java.util.List;
 

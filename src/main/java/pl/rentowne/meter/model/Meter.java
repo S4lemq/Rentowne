@@ -3,8 +3,8 @@ package pl.rentowne.meter.model;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.rentowne.common.model.BaseEntity;
-import pl.rentowne.meterReading.model.MeterReading;
-import pl.rentowne.rentedObject.model.RentedObject;
+import pl.rentowne.meter_reading.model.MeterReading;
+import pl.rentowne.rented_object.model.RentedObject;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

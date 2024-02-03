@@ -2,7 +2,7 @@ package pl.rentowne.apartment.model.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
-import pl.rentowne.dataTable.dtDefinition.DTRow;
+import pl.rentowne.data_table.dt_definition.DTRow;
 
 import java.math.BigInteger;
 

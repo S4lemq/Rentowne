@@ -18,8 +18,8 @@ import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.common.controler.AbstractController;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
-import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
-import pl.rentowne.rentedObject.service.RentedObjectService;
+import pl.rentowne.rented_object.model.dto.RentedObjectDto;
+import pl.rentowne.rented_object.service.RentedObjectService;
 import pl.rentowne.user.model.dto.UploadResponse;
 
 import java.io.IOException;

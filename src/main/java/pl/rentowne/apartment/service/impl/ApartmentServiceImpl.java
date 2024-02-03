@@ -11,10 +11,10 @@ import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.exception.RentowneNotFoundException;
-import pl.rentowne.rentedObject.model.RentedObject;
-import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
-import pl.rentowne.rentedObject.repository.RentedObjectRepository;
-import pl.rentowne.rentedObject.service.RentedObjectService;
+import pl.rentowne.rented_object.model.RentedObject;
+import pl.rentowne.rented_object.model.dto.RentedObjectDto;
+import pl.rentowne.rented_object.repository.RentedObjectRepository;
+import pl.rentowne.rented_object.service.RentedObjectService;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.service.UserService;
 

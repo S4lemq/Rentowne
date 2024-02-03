@@ -3,7 +3,7 @@ package pl.rentowne.meter.model.dto;
 import lombok.Builder;
 import lombok.Getter;
 import pl.rentowne.meter.model.MeterType;
-import pl.rentowne.rentedObject.model.dto.RentedObjectDto;
+import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
