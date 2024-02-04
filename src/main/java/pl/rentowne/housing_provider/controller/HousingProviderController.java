@@ -1,25 +1,21 @@
-package pl.rentowne.housing_service_provider.controller;
+package pl.rentowne.housing_provider.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.rentowne.exception.RentowneBusinessException;
-import pl.rentowne.housing_service_provider.model.dto.HousingServiceProviderDto;
-import pl.rentowne.housing_service_provider.service.HousingServiceProviderService;
-import pl.rentowne.meter.model.dto.MeterDto;
-import pl.rentowne.meter_reading.model.dto.MeterReadingDto;
+import pl.rentowne.housing_provider.model.dto.HousingProviderDto;
+import pl.rentowne.housing_provider.service.HousingProviderService;
 
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Dostawcy świadczeń")
-public class HousingServiceProviderController {
+public class HousingProviderController {
 
-    private final HousingServiceProviderService housingServiceProviderService;
+    private final HousingProviderService housingProviderService;
 
     @Operation(
             summary = "Zapisuje dostawcę świadczeń",
@@ -32,8 +28,8 @@ public class HousingServiceProviderController {
             }
     )
     @PostMapping("/api/housing-service-provider")
-    public ResponseEntity<Void> addHousingServiceProvider(@RequestBody HousingServiceProviderDto dto) {
-        housingServiceProviderService.addHousingServiceProvider(dto);
+    public ResponseEntity<Void> addHousingServiceProvider(@RequestBody HousingProviderDto dto) {
+        housingProviderService.addHousingServiceProvider(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -48,8 +44,8 @@ public class HousingServiceProviderController {
             }
     )
     @GetMapping("/api/housing-service-provider/{id}")
-    public ResponseEntity<HousingServiceProviderDto> getHousingServiceProvider(@PathVariable Long id) {
-        return new ResponseEntity<>(housingServiceProviderService.getHousingProviderById(id), HttpStatus.CREATED);
+    public ResponseEntity<HousingProviderDto> getHousingServiceProvider(@PathVariable Long id) {
+        return new ResponseEntity<>(housingProviderService.getHousingProviderById(id), HttpStatus.CREATED);
     }
 
 }

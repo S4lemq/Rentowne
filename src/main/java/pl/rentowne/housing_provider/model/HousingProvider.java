@@ -1,10 +1,10 @@
-package pl.rentowne.housing_service_provider.model;
+package pl.rentowne.housing_provider.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.common.model.BaseEntity;
-import pl.rentowne.service_provider_field.model.ServiceProviderField;
+import pl.rentowne.provider_field.model.ProviderField;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -25,7 +25,7 @@ import java.util.Set;
                 @Index(name = "PK_HOUSING_SERVICE_PROVIDER", columnList = "HOUSING_SERVICE_PROVIDER_ID", unique = true),
         }
 )
-public class HousingServiceProvider extends BaseEntity {
+public class HousingProvider extends BaseEntity {
 
     @Id
     @SequenceGenerator(name = "housing_service_provider_seq", sequenceName = "HOUSING_SERVICE_PROVIDER_SEQ", allocationSize = 1)
@@ -44,14 +44,14 @@ public class HousingServiceProvider extends BaseEntity {
     @JoinColumn(name = "APARTMENT_ID")
     private Apartment apartment;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "housingServiceProvider", cascade = CascadeType.ALL)
-    private Set<ServiceProviderField> serviceProviderFields = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "housingProvider", cascade = CascadeType.ALL)
+    private Set<ProviderField> providerFields = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HousingServiceProvider that = (HousingServiceProvider) o;
+        HousingProvider that = (HousingProvider) o;
         return Objects.equals(id, that.id);
     }
 

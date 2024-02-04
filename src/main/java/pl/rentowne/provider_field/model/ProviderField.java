@@ -1,9 +1,9 @@
-package pl.rentowne.service_provider_field.model;
+package pl.rentowne.provider_field.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 import pl.rentowne.common.model.BaseEntity;
-import pl.rentowne.housing_service_provider.model.HousingServiceProvider;
+import pl.rentowne.housing_provider.model.HousingProvider;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -23,7 +23,7 @@ import java.util.Objects;
                 @Index(name = "PK_SERVICE_PROVIDER_FIELD", columnList = "SERVICE_PROVIDER_FIELD_ID", unique = true),
         }
 )
-public class ServiceProviderField extends BaseEntity {
+public class ProviderField extends BaseEntity {
 
     @Id
     @SequenceGenerator(name = "service_provider_field_seq", sequenceName = "SERVICE_PROVIDER_FIELD_SEQ", allocationSize = 1)
@@ -46,13 +46,13 @@ public class ServiceProviderField extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "HOUSING_SERVICE_PROVIDER_ID")
-    private HousingServiceProvider housingServiceProvider;
+    private HousingProvider housingProvider;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ServiceProviderField that = (ServiceProviderField) o;
+        ProviderField that = (ProviderField) o;
         return Objects.equals(id, that.id);
     }
 

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.rentowne.address.model.Address;
 import pl.rentowne.common.model.BaseEntity;
-import pl.rentowne.housing_service_provider.model.HousingServiceProvider;
+import pl.rentowne.housing_provider.model.HousingProvider;
 import pl.rentowne.rented_object.model.RentedObject;
 import pl.rentowne.user.model.User;
 
@@ -62,7 +62,7 @@ public class Apartment extends BaseEntity {
     private Set<RentedObject> rentedObjects;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "apartment")
-    private Set<HousingServiceProvider> housingServiceProviders;
+    private Set<HousingProvider> housingProviders;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ACCOUNT_ID")
