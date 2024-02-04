@@ -92,6 +92,12 @@ public class ApartmentServiceImpl implements ApartmentService {
         }
     }
 
+    @Override
+    public List<ApartmentDto> getAllApartments() throws RentowneBusinessException {
+        Long id = userService.getLoggedUser().getId();
+        return apartmentRepository.getAllApartments(id);
+    }
+
     private Apartment mapApartment(ApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
         Long loggedUserId = userService.getLoggedUser().getId();
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="020-add_provider_field_sequence">
+        <createSequence sequenceName="PROVIDER_FIELD_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="020-create_provider_field_table">
+        <createTable tableName="PROVIDER_FIELD">
+            <column name="PROVIDER_FIELD_ID" type="bigint" defaultValueSequenceNext="PROVIDER_FIELD_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_PROVIDER_FIELD"/>
+            </column>
+            <column name="NAME" type="varchar(60)"/>
+            <column name="PRICE" type="numeric(10,5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BILLING_METHOD" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HOUSING_PROVIDER_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_PROVIDER_FIELD_ON_HOUSING_PROVIDER"
+                             references="HOUSING_PROVIDER(HOUSING_PROVIDER_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="020-add_comments_to_provider_field_table">
+        <setTableRemarks tableName="PROVIDER_FIELD" remarks="Tabela pól dostawców świadczeń" />
+        <setColumnRemarks tableName="PROVIDER_FIELD" columnName="PROVIDER_FIELD_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="PROVIDER_FIELD" columnName="NAME" remarks="Nazwa pola" />
+        <setColumnRemarks tableName="PROVIDER_FIELD" columnName="PRICE" remarks="Kwota świadczenia" />
+        <setColumnRemarks tableName="PROVIDER_FIELD" columnName="BILLING_METHOD" remarks="Sposób naliczania kwoty" />
+        <setColumnRemarks tableName="PROVIDER_FIELD" columnName="HOUSING_PROVIDER_ID" remarks="Referencja do dostawców świadczeń" />
+        <setColumnRemarks tableName="PROVIDER_FIELD" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="PROVIDER_FIELD" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="PROVIDER_FIELD" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="PROVIDER_FIELD" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+</databaseChangeLog>

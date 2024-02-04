@@ -62,4 +62,5 @@ public interface ApartmentService {
      */
     void updateRentedFlagOnApartment(Long rentedObjectId);
 
+    List<ApartmentDto> getAllApartments() throws RentowneBusinessException;
 }

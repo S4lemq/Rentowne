@@ -139,4 +139,19 @@ public class ApartmentController extends AbstractController {
         return ResponseEntity.ok(apartmentService.getAllApartmentsByLoggedUserAndApartment(apartmentId));
     }
 
+    @Operation(
+            summary = "Pobiera mieszkania użytkownika",
+            description = "Metoda zwracająca mieszkania użytkownika",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Sukces"),
+                    @ApiResponse(responseCode = "400", description = "Niepoprawne dane wejściowe"),
+                    @ApiResponse(responseCode = "404", description = "Nie znaleziono danych"),
+                    @ApiResponse(responseCode = "500", description = "Wewnętrzny błąd serwera")
+            }
+    )
+    @GetMapping(value = "/api/apartments/all")
+    public ResponseEntity<List<ApartmentDto>> getAllApartments() throws RentowneBusinessException {
+        return ResponseEntity.ok(apartmentService.getAllApartments());
+    }
+
 }

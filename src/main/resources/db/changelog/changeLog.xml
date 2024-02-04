@@ -22,7 +22,7 @@
     <include file="/db/changelog/ddl-scripts/016-add_fk_tenant_on_rented_object_and_drop_email_uk.xml"/>
     <include file="/db/changelog/ddl-scripts/017-add_collumns_to_meter.xml"/>
     <include file="/db/changelog/ddl-scripts/018-add_meter_reading_table.xml"/>
-    <include file="/db/changelog/ddl-scripts/019-add_housing_service_provider_table.xml"/>
-    <include file="/db/changelog/ddl-scripts/020-add_service_provider_field_table.xml"/>
+    <include file="/db/changelog/ddl-scripts/019-add_housing_provider_table.xml"/>
+    <include file="/db/changelog/ddl-scripts/020-add_provider_field_table.xml"/>
 
 </databaseChangeLog>

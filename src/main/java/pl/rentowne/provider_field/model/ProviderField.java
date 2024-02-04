@@ -15,23 +15,23 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(
-        name = "SERVICE_PROVIDER_FIELD",
+        name = "PROVIDER_FIELD",
         uniqueConstraints = {
-                @UniqueConstraint(name = "PK_SERVICE_PROVIDER_FIELD", columnNames = "SERVICE_PROVIDER_FIELD_ID"),
+                @UniqueConstraint(name = "PK_PROVIDER_FIELD", columnNames = "PROVIDER_FIELD_ID"),
         },
         indexes = {
-                @Index(name = "PK_SERVICE_PROVIDER_FIELD", columnList = "SERVICE_PROVIDER_FIELD_ID", unique = true),
+                @Index(name = "PK_PROVIDER_FIELD", columnList = "PROVIDER_FIELD_ID", unique = true),
         }
 )
 public class ProviderField extends BaseEntity {
 
     @Id
-    @SequenceGenerator(name = "service_provider_field_seq", sequenceName = "SERVICE_PROVIDER_FIELD_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "service_provider_field_seq")
-    @Column(name = "SERVICE_PROVIDER_FIELD_ID", nullable = false)
+    @SequenceGenerator(name = "provider_field_seq", sequenceName = "PROVIDER_FIELD_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "provider_field_seq")
+    @Column(name = "PROVIDER_FIELD_ID", nullable = false)
     private Long id;
 
-    @Column(name = "NAME", nullable = false, length = 60)
+    @Column(name = "NAME", length = 60)
     private String name;
 
     @Column(name = "PRICE", nullable = false)
@@ -41,23 +41,7 @@ public class ProviderField extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private BillingMethod billingMethod;
 
-    @Column(name = "TAX")
-    private BigDecimal tax;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "HOUSING_SERVICE_PROVIDER_ID")
+    @JoinColumn(name = "HOUSING_PROVIDER_ID")
     private HousingProvider housingProvider;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProviderField that = (ProviderField) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
