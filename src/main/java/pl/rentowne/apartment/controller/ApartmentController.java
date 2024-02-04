@@ -166,7 +166,8 @@ public class ApartmentController extends AbstractController {
             }
     )
     @PostMapping("/api/apartments/add-housing-provider")
-    public ResponseEntity<Void> addHousingProvider(@RequestBody ApartmentHousingProviderRequest dto) throws RentowneBusinessException {
+    public ResponseEntity<Void> addHousingProvider(@RequestBody ApartmentHousingProviderRequest dto) throws RentowneNotFoundException {
+        this.apartmentService.addHousingProvider(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
