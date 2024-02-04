@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="021-add_apartment_housing_provider_sequence">
+        <createSequence sequenceName="APARTMENT_HOUSING_PROVIDER_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="021-create_apartment_housing_provider_table">
+        <createTable tableName="APARTMENT_HOUSING_PROVIDER">
+            <column name="APARTMENT_HOUSING_PROVIDER_ID" type="bigint" defaultValueSequenceNext="APARTMENT_HOUSING_PROVIDER_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_APARTMENT_HOUSING_PROVIDER"/>
+            </column>
+            <column name="APARTMENT_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_APARTMENT_HOUSING_PROVIDER_ON_APARTMENT"
+                             references="APARTMENT(APARTMENT_ID)"/>
+            </column>
+            <column name="HOUSING_PROVIDER_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_APARTMENT_HOUSING_PROVIDER_ON_HOUSING_PROVIDER"
+                             references="HOUSING_PROVIDER(HOUSING_PROVIDER_ID)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="021-add_comments_to_apartment_housing_provider_table">
+        <setTableRemarks tableName="APARTMENT_HOUSING_PROVIDER" remarks="Tabela łącząca nieruchomość z dostawcami świadczeń" />
+        <setColumnRemarks tableName="APARTMENT_HOUSING_PROVIDER" columnName="APARTMENT_HOUSING_PROVIDER_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="APARTMENT_HOUSING_PROVIDER" columnName="HOUSING_PROVIDER_ID" remarks="Referencja do dostawców świadczeń" />
+        <setColumnRemarks tableName="APARTMENT_HOUSING_PROVIDER" columnName="APARTMENT_ID" remarks="Referencja do mieszkań" />
+    </changeSet>
+
+</databaseChangeLog>

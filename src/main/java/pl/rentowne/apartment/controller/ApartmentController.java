@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.rentowne.apartment.model.dto.ApartmentDto;
+import pl.rentowne.apartment.model.dto.ApartmentHousingProviderRequest;
 import pl.rentowne.apartment.service.ApartmentImageService;
 import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.common.controler.AbstractController;
@@ -152,6 +153,21 @@ public class ApartmentController extends AbstractController {
     @GetMapping(value = "/api/apartments/all")
     public ResponseEntity<List<ApartmentDto>> getAllApartments() throws RentowneBusinessException {
         return ResponseEntity.ok(apartmentService.getAllApartments());
+    }
+
+    @Operation(
+            summary = "Przypisuje dostawcę do mieszkania",
+            description = "Metoda służy do zapisu mieszkania",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Dostawcę przypisano pomyślnie"),
+                    @ApiResponse(responseCode = "400", description = "Niepoprawne dane wejściowe"),
+                    @ApiResponse(responseCode = "404", description = "Nie znaleziono danych"),
+                    @ApiResponse(responseCode = "500", description = "Wewnętrzny błąd serwera")
+            }
+    )
+    @PostMapping("/api/apartments/add-housing-provider")
+    public ResponseEntity<Void> addHousingProvider(@RequestBody ApartmentHousingProviderRequest dto) throws RentowneBusinessException {
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }

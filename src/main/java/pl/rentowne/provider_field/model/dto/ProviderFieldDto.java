@@ -15,5 +15,4 @@ public class ProviderFieldDto {
     private BigDecimal price;
     private BillingMethod billingMethod;
     private HousingProviderDto housingProviderDto;
-
 }

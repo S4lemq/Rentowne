@@ -10,8 +10,7 @@ import pl.rentowne.user.model.User;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -61,12 +60,12 @@ public class Apartment extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "apartment")
     private Set<RentedObject> rentedObjects;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "apartment")
-    private Set<HousingProvider> housingProviders;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ACCOUNT_ID")
     private User user;
+
+    @ManyToMany(mappedBy = "apartments")
+    private Set<HousingProvider> housingProviders = new HashSet<>();
 
     public Apartment(Long id) {
         this.id = id;

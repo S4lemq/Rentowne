@@ -1,6 +1,7 @@
 package pl.rentowne.apartment.service;
 
 import pl.rentowne.apartment.model.dto.ApartmentDto;
+import pl.rentowne.apartment.model.dto.ApartmentHousingProviderRequest;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
 
@@ -63,4 +64,11 @@ public interface ApartmentService {
     void updateRentedFlagOnApartment(Long rentedObjectId);
 
     List<ApartmentDto> getAllApartments() throws RentowneBusinessException;
+
+    /**
+     * Przypisuje dostawcę do mieszkania
+     * @param dto id mieszkania i dostawcy
+     * @throws RentowneNotFoundException nie znaleziono dostawcy/mieszkania
+     */
+    void addHousingProvider(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException;
 }

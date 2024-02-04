@@ -1,16 +1,19 @@
 package pl.rentowne.apartment.service.impl;
 
-import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.rentowne.address.model.Address;
 import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.apartment.model.dto.ApartmentDto;
+import pl.rentowne.apartment.model.dto.ApartmentHousingProviderRequest;
 import pl.rentowne.apartment.repository.ApartmentRepository;
 import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.exception.RentowneNotFoundException;
+import pl.rentowne.housing_provider.model.HousingProvider;
+import pl.rentowne.housing_provider.repository.HousingProviderRepository;
 import pl.rentowne.rented_object.model.RentedObject;
 import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 import pl.rentowne.rented_object.repository.RentedObjectRepository;
@@ -32,6 +35,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     private final UserService userService;
     private final RentedObjectService rentedObjectService;
     private final RentedObjectRepository rentedObjectRepository;
+    private final HousingProviderRepository housingProviderRepository;
 
     @Override
     public ApartmentDto getApartment(Long id) throws RentowneNotFoundException {
@@ -96,6 +100,14 @@ public class ApartmentServiceImpl implements ApartmentService {
     public List<ApartmentDto> getAllApartments() throws RentowneBusinessException {
         Long id = userService.getLoggedUser().getId();
         return apartmentRepository.getAllApartments(id);
+    }
+
+    @Override
+    @Transactional
+    public void addHousingProvider(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException {
+        Apartment apartment = apartmentRepository.findById(dto.getApartmentId()).orElseThrow(() -> new RentowneNotFoundException(dto.getApartmentId()));
+        HousingProvider housingProvider = housingProviderRepository.findById(dto.getHousingProviderId()).orElseThrow(() -> new RentowneNotFoundException(dto.getApartmentId()));
+        housingProvider.addApartment(apartment);
     }
 
     private Apartment mapApartment(ApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {

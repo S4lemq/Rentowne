@@ -21,11 +21,6 @@
             <column name="TYPE" type="varchar(30)">
                 <constraints nullable="false"/>
             </column>
-            <column name="APARTMENT_ID" type="bigint">
-                <constraints nullable="false"
-                             foreignKeyName="FK_HOUSING_PROVIDER_ON_APARTMENT"
-                             references="APARTMENT(APARTMENT_ID)"/>
-            </column>
             <column name="INSERT_DATE" type="timestamp">
                 <constraints nullable="false"/>
             </column>
@@ -43,7 +38,6 @@
         <setColumnRemarks tableName="HOUSING_PROVIDER" columnName="NAME" remarks="Nazwa dostawcy" />
         <setColumnRemarks tableName="HOUSING_PROVIDER" columnName="TAX" remarks="Wartość podatku" />
         <setColumnRemarks tableName="HOUSING_PROVIDER" columnName="TYPE" remarks="typ świadczenia" />
-        <setColumnRemarks tableName="HOUSING_PROVIDER" columnName="APARTMENT_ID" remarks="Referencja do tabeli mieszkań" />
         <setColumnRemarks tableName="HOUSING_PROVIDER" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
         <setColumnRemarks tableName="HOUSING_PROVIDER" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
         <setColumnRemarks tableName="HOUSING_PROVIDER" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />

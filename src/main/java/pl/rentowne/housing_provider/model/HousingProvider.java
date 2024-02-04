@@ -45,12 +45,22 @@ public class HousingProvider extends BaseEntity {
     @Column(name = "TAX")
     private BigDecimal tax;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "APARTMENT_ID")
-    private Apartment apartment;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "housingProvider", cascade = CascadeType.ALL)
     private List<ProviderField> providerFields;
+
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "APARTMENT_HOUSING_PROVIDER",
+            joinColumns = {@JoinColumn(name = "HOUSING_PROVIDER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "APARTMENT_ID")}
+    )
+    private Set<Apartment> apartments = new HashSet<>();
+
+
+    public void addApartment(Apartment apartment) {
+        apartments.add(apartment);
+        apartment.getHousingProviders().add(this);
+    }
 
     @Override
     public boolean equals(Object o) {
