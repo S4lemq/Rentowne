@@ -63,8 +63,6 @@ public interface ApartmentService {
      */
     void updateRentedFlagOnApartment(Long rentedObjectId);
 
-    List<ApartmentDto> getAllApartments() throws RentowneBusinessException;
-
     /**
      * Przypisuje dostawcę do mieszkania
      * @param dto id mieszkania i dostawcy

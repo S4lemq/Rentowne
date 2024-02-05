@@ -50,5 +50,4 @@ public interface ApartmentRepositoryCustom {
      */
     List<ApartmentDto> getAllApartmentsByLoggedUserAndApartment(Long loggedUser, Long apartmentId);
 
-    List<ApartmentDto> getAllApartments(Long id);
 }

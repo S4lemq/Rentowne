@@ -97,12 +97,6 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public List<ApartmentDto> getAllApartments() throws RentowneBusinessException {
-        Long id = userService.getLoggedUser().getId();
-        return apartmentRepository.getAllApartments(id);
-    }
-
-    @Override
     @Transactional
     public void addHousingProvider(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException {
         Apartment apartment = apartmentRepository.findById(dto.getApartmentId()).orElseThrow(() -> new RentowneNotFoundException(dto.getApartmentId()));

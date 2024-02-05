@@ -45,7 +45,23 @@ public class HousingProviderController {
     )
     @GetMapping("/api/housing-service-provider/{id}")
     public ResponseEntity<HousingProviderDto> getHousingServiceProvider(@PathVariable Long id) {
-        return new ResponseEntity<>(housingProviderService.getHousingProviderById(id), HttpStatus.CREATED);
+        return new ResponseEntity<>(housingProviderService.getHousingProviderById(id), HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Aktualizuje dane dostawcy",
+            description = "Metoda służy do aktualizowania danych dostawcy",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Dane dostawcy zaktualizowano pomyślnie"),
+                    @ApiResponse(responseCode = "400", description = "Niepoprawne dane wejściowe"),
+                    @ApiResponse(responseCode = "404", description = "Nie znaleziono danych"),
+                    @ApiResponse(responseCode = "500", description = "Wewnętrzny błąd serwera")
+            }
+    )
+    @PutMapping("/api/housing-service-provider")
+    public ResponseEntity<Void> updateHousingProvider(@RequestBody HousingProviderDto dto) {
+        housingProviderService.updateHousingProvider(dto);
+        return ResponseEntity.ok().build();
     }
 
 }

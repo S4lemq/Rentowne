@@ -15,4 +15,10 @@ public interface HousingProviderService {
      * @return dto dostawcy świadczeń wraz z jego polami
      */
     HousingProviderDto getHousingProviderById(Long id);
+
+    /**
+     * Aktualizuje dane dostawców
+     * @param dto dto dostawcy
+     */
+    void updateHousingProvider(HousingProviderDto dto);
 }

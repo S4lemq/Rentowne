@@ -87,11 +87,4 @@ public class ApartmentRepositoryImpl extends BaseRepositoryImpl<Apartment, Long>
         }
     }
 
-    @Override
-    public List<ApartmentDto> getAllApartments(Long id) {
-        return queryFactory.select(apartmentDto)
-                .from(apartment)
-                .where(apartment.user().id.eq(id))
-                .fetch();
-    }
 }
