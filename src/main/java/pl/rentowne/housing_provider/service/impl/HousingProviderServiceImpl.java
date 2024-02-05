@@ -25,8 +25,8 @@ public class HousingProviderServiceImpl implements HousingProviderService {
 
     @Override
     @Transactional
-    public void addHousingServiceProvider(HousingProviderDto dto) {
-        housingProviderRepository.save(this.asEntity(dto));
+    public Long addHousingServiceProvider(HousingProviderDto dto) {
+        return housingProviderRepository.save(this.asEntity(dto)).getId();
     }
 
     @Override

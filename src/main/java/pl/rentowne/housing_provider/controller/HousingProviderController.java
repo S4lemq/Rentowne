@@ -28,9 +28,8 @@ public class HousingProviderController {
             }
     )
     @PostMapping("/api/housing-service-provider")
-    public ResponseEntity<Void> addHousingServiceProvider(@RequestBody HousingProviderDto dto) {
-        housingProviderService.addHousingServiceProvider(dto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Long> addHousingServiceProvider(@RequestBody HousingProviderDto dto) {
+        return new ResponseEntity<>(housingProviderService.addHousingServiceProvider(dto), HttpStatus.CREATED);
     }
 
     @Operation(
