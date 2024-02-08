@@ -65,8 +65,14 @@ public interface ApartmentService {
 
     /**
      * Przypisuje dostawcę do mieszkania
-     * @param dto id mieszkania i dostawcy
+     * @param dto id mieszkania i list id dostawców
      * @throws RentowneNotFoundException nie znaleziono dostawcy/mieszkania
      */
-    void addHousingProvider(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException;
+
+    /**
+     * Przypisuje mieszkanie do dostawcy świadczeń
+     * @param dto {@link ApartmentHousingProviderRequest} dto mieszkania i idków dostawców
+     * @throws RentowneNotFoundException nie znaleziono mieszkania/dostawcy
+     */
+    void addHousingProviders(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException;
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.housing_provider.model.dto.HousingProviderDto;
 import pl.rentowne.housing_provider.service.HousingProviderService;
 
@@ -28,7 +29,7 @@ public class HousingProviderController {
             }
     )
     @PostMapping("/api/housing-service-provider")
-    public ResponseEntity<Long> addHousingServiceProvider(@RequestBody HousingProviderDto dto) {
+    public ResponseEntity<Long> addHousingServiceProvider(@RequestBody HousingProviderDto dto) throws RentowneBusinessException {
         return new ResponseEntity<>(housingProviderService.addHousingServiceProvider(dto), HttpStatus.CREATED);
     }
 

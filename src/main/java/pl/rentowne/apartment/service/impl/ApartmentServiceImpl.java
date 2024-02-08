@@ -98,10 +98,13 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     @Transactional
-    public void addHousingProvider(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException {
+    public void addHousingProviders(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException {
         Apartment apartment = apartmentRepository.findById(dto.getApartmentId()).orElseThrow(() -> new RentowneNotFoundException(dto.getApartmentId()));
-        HousingProvider housingProvider = housingProviderRepository.findById(dto.getHousingProviderId()).orElseThrow(() -> new RentowneNotFoundException(dto.getApartmentId()));
-        housingProvider.addApartment(apartment);
+        List<HousingProvider> housingProviders = housingProviderRepository.findAllById(dto.getHousingProviderIds());
+
+        for (HousingProvider housingProvider : housingProviders) {
+            housingProvider.addApartment(apartment);
+        }
     }
 
     private Apartment mapApartment(ApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {

@@ -3,6 +3,7 @@ package pl.rentowne.housing_provider.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.housing_provider.model.HousingProvider;
 import pl.rentowne.housing_provider.model.dto.HousingProviderDto;
 import pl.rentowne.housing_provider.repository.HousingProviderRepository;
@@ -10,6 +11,8 @@ import pl.rentowne.housing_provider.service.HousingProviderService;
 import pl.rentowne.provider_field.model.ProviderField;
 import pl.rentowne.provider_field.model.dto.ProviderFieldDto;
 import pl.rentowne.provider_field.repository.ProviderFieldRepository;
+import pl.rentowne.user.model.User;
+import pl.rentowne.user.service.UserService;
 
 import java.util.List;
 import java.util.Map;
@@ -22,10 +25,11 @@ public class HousingProviderServiceImpl implements HousingProviderService {
 
     private final HousingProviderRepository housingProviderRepository;
     private final ProviderFieldRepository providerFieldRepository;
+    private final UserService userService;
 
     @Override
     @Transactional
-    public Long addHousingServiceProvider(HousingProviderDto dto) {
+    public Long addHousingServiceProvider(HousingProviderDto dto) throws RentowneBusinessException {
         return housingProviderRepository.save(this.asEntity(dto)).getId();
     }
 
@@ -95,12 +99,15 @@ public class HousingProviderServiceImpl implements HousingProviderService {
 
     }
 
-    private HousingProvider asEntity(HousingProviderDto dto) {
+    private HousingProvider asEntity(HousingProviderDto dto) throws RentowneBusinessException {
+        Long loggedUserId = userService.getLoggedUser().getId();
+
         HousingProvider housingProvider = HousingProvider.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .type(dto.getType())
                 .tax(dto.getTax())
+                .user(new User(loggedUserId))
                 .build();
 
         List<ProviderField> fields = dto.getProviderFieldDtos().stream()

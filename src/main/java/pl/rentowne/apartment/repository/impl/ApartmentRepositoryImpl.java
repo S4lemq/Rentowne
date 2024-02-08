@@ -9,6 +9,7 @@ import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.apartment.model.dto.QApartmentDto;
 import pl.rentowne.apartment.repository.custom.ApartmentRepositoryCustom;
 import pl.rentowne.common.repository.impl.BaseRepositoryImpl;
+import pl.rentowne.housing_provider.model.QHousingProvider;
 import pl.rentowne.rented_object.model.QRentedObject;
 
 import java.util.List;
@@ -21,10 +22,21 @@ public class ApartmentRepositoryImpl extends BaseRepositoryImpl<Apartment, Long>
     private static final QAddress address = QAddress.address;
     private static final QRentedObject rentedObject = QRentedObject.rentedObject;
     private static final QApartmentDto apartmentDto = new QApartmentDto(apartment.id, apartment.apartmentName);
+    private static final QHousingProvider housingProvider = QHousingProvider.housingProvider;
+
 
     public ApartmentRepositoryImpl(EntityManager entityManager) {
         super(Apartment.class, entityManager);
     }
+
+    public List<Long> findHousingProvidersIdsByApartmentId(Long apartmentId) {
+        return queryFactory.select(housingProvider.id)
+                .from(housingProvider)
+                .join(housingProvider.apartments, apartment)
+                .where(apartment.id.eq(apartmentId))
+                .fetch();
+    }
+
 
     @Override
     public Optional<Apartment> findApartmentById(Long id) {

@@ -5,6 +5,7 @@ import lombok.*;
 import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.common.model.BaseEntity;
 import pl.rentowne.provider_field.model.ProviderField;
+import pl.rentowne.user.model.User;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -44,6 +45,10 @@ public class HousingProvider extends BaseEntity {
 
     @Column(name = "TAX")
     private BigDecimal tax;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ACCOUNT_ID")
+    private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "housingProvider", cascade = CascadeType.ALL)
     private List<ProviderField> providerFields;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet author="plubowicz" id="022-add_fk_housing_provider_on_user_account">
+        <addColumn tableName="HOUSING_PROVIDER">
+            <column name="USER_ACCOUNT_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_HOUSING_PROVIDER_ON_USER_ACCOUNT"
+                             references="USER_ACCOUNT(USER_ACCOUNT_ID)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="022-add_comment_to_new_column_user_account_id">
+        <setColumnRemarks tableName="HOUSING_PROVIDER" columnName="USER_ACCOUNT_ID" remarks="Referencja do konta użytkownika" />
+    </changeSet>
+
+</databaseChangeLog>

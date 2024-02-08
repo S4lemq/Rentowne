@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.common.model.BaseEntity;
+import pl.rentowne.housing_provider.model.HousingProvider;
 import pl.rentowne.security.model.Token;
 
 import java.time.LocalDateTime;
@@ -76,6 +77,9 @@ public class User extends BaseEntity implements UserDetails {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Apartment> apartments;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<HousingProvider> housingProviders;
 
     public User(Long id) {
         this.id = id;

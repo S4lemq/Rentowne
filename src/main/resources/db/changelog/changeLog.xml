@@ -25,5 +25,6 @@
     <include file="/db/changelog/ddl-scripts/019-add_housing_provider_table.xml"/>
     <include file="/db/changelog/ddl-scripts/020-add_provider_field_table.xml"/>
     <include file="/db/changelog/ddl-scripts/021-add_apartment_housing_provider_table.xml"/>
+    <include file="/db/changelog/ddl-scripts/022-add_fk_housing_provider_on_user_account.xml"/>
 
 </databaseChangeLog>
