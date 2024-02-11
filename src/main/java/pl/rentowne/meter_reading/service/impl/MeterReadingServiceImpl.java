@@ -9,9 +9,7 @@ import pl.rentowne.meter_reading.model.MeterReading;
 import pl.rentowne.meter_reading.model.dto.MeterReadingDto;
 import pl.rentowne.meter_reading.repository.MeterReadingRepository;
 import pl.rentowne.meter_reading.service.MeterReadingService;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import pl.rentowne.util.DateUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +24,7 @@ public class MeterReadingServiceImpl implements MeterReadingService {
             if (dto.getCurrentReading().compareTo(dto.getPreviousReading()) <= 0) {
                 throw new RentowneBusinessException(RentowneErrorCode.BAD_METER_READING_VALUES);
             }
-            this.compareDates(dto.getReadingDate(), dto.getPreviousReadingDate());
+            DateUtils.compareDates(dto.getReadingDate(), dto.getPreviousReadingDate(), false);
         }
 
         meterReadingRepository.save(MeterReadingDto.asEntity(dto));
@@ -59,21 +57,6 @@ public class MeterReadingServiceImpl implements MeterReadingService {
                 .build();
     }
 
-    public void compareDates(LocalDateTime readingDate, LocalDateTime previousReadingDate) throws RentowneBusinessException {
-        if (readingDate.isBefore(previousReadingDate) || readingDate.isEqual(previousReadingDate)) {
-            throw new RentowneBusinessException(RentowneErrorCode.BAD_METER_READING_DATE);
-        }
 
-        long monthsBetween = ChronoUnit.MONTHS.between(
-                previousReadingDate.withDayOfMonth(1),
-                readingDate.withDayOfMonth(1));
-        long yearsBetween = ChronoUnit.YEARS.between(
-                previousReadingDate.withDayOfMonth(1),
-                readingDate.withDayOfMonth(1));
-
-        if (monthsBetween != 1 || yearsBetween > 0) {
-            throw new RentowneBusinessException(RentowneErrorCode.BAD_METER_READING_DATE);
-        }
-    }
 
 }

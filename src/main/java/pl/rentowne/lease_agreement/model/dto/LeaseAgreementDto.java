@@ -1,7 +1,10 @@
 package pl.rentowne.lease_agreement.model.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pl.rentowne.lease_agreement.model.LeaseAgreement;
 
 import java.math.BigDecimal;
@@ -9,6 +12,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class LeaseAgreementDto {
     private Long id;
     private LocalDateTime startContractDate; //od kiedy najem
@@ -27,6 +32,15 @@ public class LeaseAgreementDto {
     private LocalDateTime depositReturnDate; //data zwrotu kaucji
     private BigDecimal returnedDepositAmount; //kwota zwróconej kaucji
     private boolean contractActive; //czy aktywna umowa
+
+    @QueryProjection
+    public LeaseAgreementDto(BigDecimal rentAmount, BigDecimal compensationAmount, BigDecimal internetFee, BigDecimal includedWaterMeters, BigDecimal gasDeposit) {
+        this.rentAmount = rentAmount;
+        this.compensationAmount = compensationAmount;
+        this.internetFee = internetFee;
+        this.includedWaterMeters = includedWaterMeters;
+        this.gasDeposit = gasDeposit;
+    }
 
     public static LeaseAgreement asEntity(LeaseAgreementDto dto) {
         return LeaseAgreement.builder()

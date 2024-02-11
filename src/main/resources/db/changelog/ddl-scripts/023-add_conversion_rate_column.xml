@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet author="plubowicz" id="023-add_conversion_rate_column">
+        <addColumn tableName="HOUSING_PROVIDER">
+            <column name="CONVERSION_RATE" type="numeric(8,5)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="023-add_comments">
+        <setColumnRemarks tableName="HOUSING_PROVIDER" columnName="CONVERSION_RATE" remarks="Współczynnik konwersji"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="023-add_settled_column">
+        <addColumn tableName="METER_READING">
+            <column name="SETTLED" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="023-add_comments_to_settled">
+        <setColumnRemarks tableName="METER_READING" columnName="SETTLED" remarks="Czy rozliczono"/>
+    </changeSet>
+</databaseChangeLog>

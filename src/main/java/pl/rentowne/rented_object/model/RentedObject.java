@@ -5,7 +5,9 @@ import lombok.*;
 import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.common.model.BaseEntity;
 import pl.rentowne.meter.model.Meter;
+import pl.rentowne.settlement.model.Settlement;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -44,6 +46,9 @@ public class RentedObject extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "rentedObject")
     private Set<Meter> meters;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rentedObject", cascade = CascadeType.PERSIST)
+    private List<Settlement> settlements;
 
     public RentedObject(Long id) {
         this.id = id;

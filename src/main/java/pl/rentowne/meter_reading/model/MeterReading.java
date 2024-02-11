@@ -41,6 +41,9 @@ public class MeterReading extends BaseEntity {
     @Column(name = "CONSUMPTION", nullable = false)
     private BigDecimal consumption; //zużycie w danym miesiącu
 
+    @Column(name = "SETTLED", nullable = false)
+    private boolean settled;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "METER_ID")
     private Meter meter;

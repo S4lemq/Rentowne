@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Klasa wyjątku biznesowego
  */
 @ResponseStatus(code = HttpStatus.BAD_REQUEST, value = HttpStatus.BAD_REQUEST)
-public class RentowneBusinessException extends Exception {
+public class RentowneBusinessException extends RuntimeException {
     private static final long serialVersionUID = 4135296191052175725L;
 
     //for business information. Will be presented into application (popup - exception-handler)

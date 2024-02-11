@@ -1,5 +1,6 @@
 package pl.rentowne.meter_reading.model.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,18 @@ public class MeterReadingDto {
     private BigDecimal previousReading;
     private LocalDateTime previousReadingDate;
 
+    @QueryProjection
+    public MeterReadingDto(Long id, BigDecimal consumption) {
+        this.id = id;
+        this.consumption = consumption;
+    }
+
+    @QueryProjection
+    public MeterReadingDto(BigDecimal currentReading, MeterDto meterDto, LocalDateTime readingDate) {
+        this.currentReading = currentReading;
+        this.meterDto = meterDto;
+        this.readingDate = readingDate;
+    }
 
     public static MeterReading asEntity(MeterReadingDto dto) {
         return MeterReading.builder()

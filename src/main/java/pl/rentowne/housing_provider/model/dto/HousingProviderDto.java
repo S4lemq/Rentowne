@@ -15,6 +15,7 @@ public class HousingProviderDto {
     private String name;
     private ProviderType type;
     private BigDecimal tax;
+    private BigDecimal conversionRate;
     private List<ProviderFieldDto> providerFieldDtos;
 }
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="024-add_settlement_sequence">
+        <createSequence sequenceName="SETTLEMENT_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="024-create_settlement_table">
+        <createTable tableName="SETTLEMENT">
+            <column name="SETTLEMENT_ID" type="bigint" defaultValueSequenceNext="SETTLEMENT_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_SETTLEMENT"/>
+            </column>
+            <column name="ELECTRICITY_AMOUNT" type="numeric(7,2)"/>
+            <column name="WATER_AMOUNT" type="numeric(7,2)"/>
+            <column name="GAS_AMOUNT" type="numeric(7,2)"/>
+            <column name="TOTAL_AMOUNT" type="numeric(8,2)"/>
+            <column name="RENTED_OBJECT_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_SETTLEMENT_ON_RENTED_OBJECT"
+                             references="RENTED_OBJECT(RENTED_OBJECT_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="024-add_comments_to_settlement_table">
+        <setTableRemarks tableName="SETTLEMENT" remarks="Tabela finansów obiektów do wynajęcia" />
+        <setColumnRemarks tableName="SETTLEMENT" columnName="SETTLEMENT_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="SETTLEMENT" columnName="ELECTRICITY_AMOUNT" remarks="Kwota za prąd" />
+        <setColumnRemarks tableName="SETTLEMENT" columnName="WATER_AMOUNT" remarks="Kwota za wodę" />
+        <setColumnRemarks tableName="SETTLEMENT" columnName="GAS_AMOUNT" remarks="Kwota za gaz" />
+        <setColumnRemarks tableName="SETTLEMENT" columnName="TOTAL_AMOUNT" remarks="Kwota odstępnego" />
+        <setColumnRemarks tableName="SETTLEMENT" columnName="RENTED_OBJECT_ID" remarks="Referencja do obiektów do wynajęcia" />
+        <setColumnRemarks tableName="SETTLEMENT" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="SETTLEMENT" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="SETTLEMENT" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="SETTLEMENT" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+</databaseChangeLog>

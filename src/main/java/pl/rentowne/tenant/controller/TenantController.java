@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.rentowne.common.controler.AbstractController;
+import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.tenant.model.dto.TenantDto;
 import pl.rentowne.tenant.service.TenantService;
@@ -31,7 +32,7 @@ public class TenantController extends AbstractController {
             }
     )
     @PostMapping("/api/tenants")
-    public ResponseEntity<TenantDto> addTenantAndLeaseAgreement(@RequestBody TenantDto tenantDto) throws RentowneNotFoundException {
+    public ResponseEntity<TenantDto> addTenantAndLeaseAgreement(@RequestBody TenantDto tenantDto) throws RentowneBusinessException {
         Long tenantId = tenantService.addTenantAndLeaseAgreement(tenantDto);
         return new ResponseEntity<>(tenantService.getTenantAndLeaseAgreement(tenantId), HttpStatus.CREATED);
     }

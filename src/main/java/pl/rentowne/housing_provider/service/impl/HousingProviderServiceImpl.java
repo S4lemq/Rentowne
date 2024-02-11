@@ -48,6 +48,7 @@ public class HousingProviderServiceImpl implements HousingProviderService {
         entity.setName(dto.getName());
         entity.setType(dto.getType());
         entity.setTax(dto.getTax());
+        entity.setConversionRate(dto.getConversionRate());
 
         // Aktualizacja pól ProviderField, jeśli są dostępne
         if (dto.getProviderFieldDtos() != null) {
@@ -107,6 +108,7 @@ public class HousingProviderServiceImpl implements HousingProviderService {
                 .name(dto.getName())
                 .type(dto.getType())
                 .tax(dto.getTax())
+                .conversionRate(dto.getConversionRate())
                 .user(new User(loggedUserId))
                 .build();
 
@@ -130,6 +132,7 @@ public class HousingProviderServiceImpl implements HousingProviderService {
                 .name(entity.getName())
                 .type(entity.getType())
                 .tax(entity.getTax())
+                .conversionRate(entity.getConversionRate())
                 .providerFieldDtos(
                         entity.getProviderFields().stream().map(
                                 field -> ProviderFieldDto.builder()

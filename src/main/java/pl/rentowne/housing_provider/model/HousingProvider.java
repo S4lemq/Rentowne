@@ -46,6 +46,9 @@ public class HousingProvider extends BaseEntity {
     @Column(name = "TAX")
     private BigDecimal tax;
 
+    @Column(name = "CONVERSION_RATE")
+    private BigDecimal conversionRate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ACCOUNT_ID")
     private User user;
@@ -60,7 +63,6 @@ public class HousingProvider extends BaseEntity {
             inverseJoinColumns = {@JoinColumn(name = "APARTMENT_ID")}
     )
     private Set<Apartment> apartments = new HashSet<>();
-
 
     public void addApartment(Apartment apartment) {
         apartments.add(apartment);

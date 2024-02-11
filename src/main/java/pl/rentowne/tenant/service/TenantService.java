@@ -1,5 +1,6 @@
 package pl.rentowne.tenant.service;
 
+import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.tenant.model.dto.TenantDto;
 
@@ -12,7 +13,7 @@ public interface TenantService {
      * @param tenantDto dto najemcy {@link TenantDto}
      * @return id dodanego najemcy
      */
-    Long addTenantAndLeaseAgreement(TenantDto tenantDto) throws RentowneNotFoundException;
+    Long addTenantAndLeaseAgreement(TenantDto tenantDto) throws RentowneBusinessException;
 
     /**
      * Pobiera najemcę wraz z umową
