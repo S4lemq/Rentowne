@@ -11,6 +11,8 @@ import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 import pl.rentowne.rented_object.repository.custom.RentedObjectRepositoryCustom;
 import pl.rentowne.user.model.QUser;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -80,4 +82,14 @@ public class RentedObjectRepositoryImpl extends BaseRepositoryImpl<RentedObject,
                         .and(rentedObject.isRented.eq(Boolean.FALSE))).fetch();
         }
     }
+
+    @Override
+    public void updateSettlement(Long rentedObjectId, BigDecimal totalSum) {
+        queryFactory.update(rentedObject)
+                .set(rentedObject.lastSettlementDate, LocalDateTime.now())
+                .set(rentedObject.lastSettlementTotalAmount, totalSum)
+                .where(rentedObject.id.eq(rentedObjectId))
+                .execute();
+    }
+
 }

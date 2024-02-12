@@ -28,5 +28,6 @@
     <include file="/db/changelog/ddl-scripts/022-add_fk_housing_provider_on_user_account.xml"/>
     <include file="/db/changelog/ddl-scripts/023-add_conversion_rate_column.xml"/>
     <include file="/db/changelog/ddl-scripts/024-add_settlement_table.xml"/>
+    <include file="/db/changelog/ddl-scripts/025-add_columns_to_rented_object.xml"/>
 
 </databaseChangeLog>

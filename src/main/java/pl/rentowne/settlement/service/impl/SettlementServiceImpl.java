@@ -16,6 +16,7 @@ import pl.rentowne.meter_reading.repository.MeterReadingRepository;
 import pl.rentowne.provider_field.model.BillingMethod;
 import pl.rentowne.provider_field.model.ProviderField;
 import pl.rentowne.rented_object.model.RentedObject;
+import pl.rentowne.rented_object.repository.RentedObjectRepository;
 import pl.rentowne.settlement.model.Settlement;
 import pl.rentowne.settlement.repository.SettlementRepository;
 import pl.rentowne.settlement.service.SettlementService;
@@ -35,6 +36,7 @@ public class SettlementServiceImpl implements SettlementService {
     private final MeterRepository meterRepository;
     private final MeterReadingRepository meterReadingRepository;
     private final LeaseAgreementRepository leaseAgreementRepository;
+    private final RentedObjectRepository rentedObjectRepository;
 
     @Transactional
     @Override
@@ -83,6 +85,7 @@ public class SettlementServiceImpl implements SettlementService {
                 .build();
 
         settlementRepository.save(settlement);
+        rentedObjectRepository.updateSettlement(rentedObjectId, totalSum);
     }
 
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="025-add_columns_to_rented_object">
+        <addColumn tableName="RENTED_OBJECT">
+            <column name="LAST_SETTLEMENT_DATE" type="timestamp"/>
+        </addColumn>
+        <addColumn tableName="RENTED_OBJECT">
+            <column name="LAST_SETTLEMENT_TOTAL_AMOUNT" type="numeric(8,2)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="025-add_comments">
+        <setColumnRemarks tableName="RENTED_OBJECT" columnName="LAST_SETTLEMENT_DATE" remarks="Data ostatniego rozliczenia"/>
+        <setColumnRemarks tableName="RENTED_OBJECT" columnName="LAST_SETTLEMENT_TOTAL_AMOUNT" remarks="Kwota całkowita ostatniego rozliczenia"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -7,6 +7,8 @@ import pl.rentowne.common.model.BaseEntity;
 import pl.rentowne.meter.model.Meter;
 import pl.rentowne.settlement.model.Settlement;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -39,6 +41,12 @@ public class RentedObject extends BaseEntity {
 
     @Column(name = "IS_RENTED", nullable = false)
     private boolean isRented;
+
+    @Column(name = "LAST_SETTLEMENT_DATE")
+    private LocalDateTime lastSettlementDate;
+
+    @Column(name = "LAST_SETTLEMENT_TOTAL_AMOUNT")
+    private BigDecimal lastSettlementTotalAmount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "APARTMENT_ID")

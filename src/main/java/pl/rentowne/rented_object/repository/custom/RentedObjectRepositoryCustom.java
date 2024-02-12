@@ -3,6 +3,7 @@ package pl.rentowne.rented_object.repository.custom;
 import pl.rentowne.rented_object.model.RentedObject;
 import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -45,4 +46,10 @@ public interface RentedObjectRepositoryCustom {
      */
     List<RentedObjectDto> getAllByApartmentAndOptionalRentedObject(Long apartmentId, Long rentedObjectId);
 
+    /**
+     * Aktualizuje w obiekcie ostatnią datę rozliczenia oraz kwotę całkowitą do zapłaty przez najemcę
+     * @param rentedObjectId id obiektu do wynajęcia
+     * @param totalSum kwota całkowita do zapłaty przez najemcę
+     */
+    void updateSettlement(Long rentedObjectId, BigDecimal totalSum);
 }
