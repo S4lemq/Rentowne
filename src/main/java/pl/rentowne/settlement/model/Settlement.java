@@ -6,6 +6,7 @@ import pl.rentowne.common.model.BaseEntity;
 import pl.rentowne.rented_object.model.RentedObject;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -40,6 +41,9 @@ public class Settlement extends BaseEntity {
 
     @Column(name = "TOTAL_AMOUNT")
     private BigDecimal totalAmount;
+
+    @Column(name = "SETTLEMENT_DATE")
+    private LocalDateTime settlementDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RENTED_OBJECT_ID")

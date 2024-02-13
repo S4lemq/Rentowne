@@ -1,6 +1,7 @@
 package pl.rentowne.settlement;
 
 import com.querydsl.core.types.ConstructorExpression;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.EntityPathBase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,7 @@ public class DTSettlement implements DTDefinition {
     @Override
     public ConstructorExpression getSelect() {
         return new QSettlementRowDto(
-                settlement.insertDate,
+                settlement.settlementDate,
                 leaseAgreement.compensationAmount,
                 leaseAgreement.rentAmount,
                 leaseAgreement.internetFee,
@@ -49,7 +50,7 @@ public class DTSettlement implements DTDefinition {
     @Override
     public List<DTColumnDefinition> getColumnDefinitions() {
         return Arrays.asList(
-                new DTColumnDefinition("date", settlement.insertDate),
+                new DTColumnDefinition("date", settlement.settlementDate),
                 new DTColumnDefinition("compensationAmount",
                         leaseAgreement.compensationAmount,
                         jpaQuery -> jpaQuery
@@ -73,5 +74,10 @@ public class DTSettlement implements DTDefinition {
                         settlement.rentedObject().id
                 )
         );
+    }
+
+    @Override
+    public OrderSpecifier[] addBaseOrderBy() {
+        return new OrderSpecifier[]{settlement.settlementDate.desc()};
     }
 }

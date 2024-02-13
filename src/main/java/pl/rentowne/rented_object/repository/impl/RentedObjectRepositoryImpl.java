@@ -84,9 +84,9 @@ public class RentedObjectRepositoryImpl extends BaseRepositoryImpl<RentedObject,
     }
 
     @Override
-    public void updateSettlement(Long rentedObjectId, BigDecimal totalSum) {
+    public void updateSettlement(Long rentedObjectId, BigDecimal totalSum, LocalDateTime settlementDate) {
         queryFactory.update(rentedObject)
-                .set(rentedObject.lastSettlementDate, LocalDateTime.now())
+                .set(rentedObject.lastSettlementDate, settlementDate)
                 .set(rentedObject.lastSettlementTotalAmount, totalSum)
                 .where(rentedObject.id.eq(rentedObjectId))
                 .execute();

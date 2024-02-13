@@ -17,6 +17,7 @@ import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 import pl.rentowne.rented_object.service.RentedObjectService;
 import pl.rentowne.settlement.service.SettlementService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -53,8 +54,9 @@ public class RentedObjectController extends AbstractController {
     public ResponseEntity<Void> calculate(
             @PathVariable Long id,
             @RequestParam(name = "waterIncluded") boolean waterIncluded,
-            @RequestParam(name = "electricityIncluded") boolean electricityIncluded) {
-        settlementService.calculate(id, waterIncluded, electricityIncluded);
+            @RequestParam(name = "electricityIncluded") boolean electricityIncluded,
+            @RequestParam(name = "settlementDate") LocalDateTime settlementDate) {
+        settlementService.calculate(id, waterIncluded, electricityIncluded, settlementDate);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

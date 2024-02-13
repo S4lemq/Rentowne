@@ -23,6 +23,7 @@ import pl.rentowne.settlement.service.SettlementService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Transactional
     @Override
-    public void calculate(Long rentedObjectId, boolean waterIncluded, boolean electricityIncluded) {
+    public void calculate(Long rentedObjectId, boolean waterIncluded, boolean electricityIncluded, LocalDateTime settlementDate) {
         List<HousingProvider> providerWithProviderFields = housingProviderRepository.findHousingProviderWithProviderFieldsByRentedObjectId(rentedObjectId);
         LeaseAgreementDto leaseAgreement = leaseAgreementRepository.getData(rentedObjectId);
         List<Long> allMeterReadingIds = new ArrayList<>();
@@ -81,11 +82,12 @@ public class SettlementServiceImpl implements SettlementService {
                 .waterAmount(waterResult)
                 .gasAmount(gasResult)
                 .totalAmount(totalSum)
+                .settlementDate(settlementDate)
                 .rentedObject(RentedObject.builder().id(rentedObjectId).build())
                 .build();
 
         settlementRepository.save(settlement);
-        rentedObjectRepository.updateSettlement(rentedObjectId, totalSum);
+        rentedObjectRepository.updateSettlement(rentedObjectId, totalSum, settlementDate);
     }
 
 

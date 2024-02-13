@@ -29,5 +29,6 @@
     <include file="/db/changelog/ddl-scripts/023-add_conversion_rate_column.xml"/>
     <include file="/db/changelog/ddl-scripts/024-add_settlement_table.xml"/>
     <include file="/db/changelog/ddl-scripts/025-add_columns_to_rented_object.xml"/>
+    <include file="/db/changelog/ddl-scripts/026-add_column_to_settlement.xml"/>
 
 </databaseChangeLog>
