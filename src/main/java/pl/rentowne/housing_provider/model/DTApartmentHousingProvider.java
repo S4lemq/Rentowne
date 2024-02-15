@@ -49,10 +49,10 @@ public class DTApartmentHousingProvider implements DTDefinition {
     @Override
     public List<DTColumnDefinition> getColumnDefinitions() {
         return Arrays.asList(
-                new DTColumnDefinition("id", housingProvider.id, jpaQuery -> jpaQuery.join(user.housingProviders, housingProvider)),
+                new DTColumnDefinition("id", housingProvider.id, jpaQuery -> jpaQuery.join(user.housingProviders, housingProvider), true),
                 new DTColumnDefinition("name", housingProvider.name),
                 new DTColumnDefinition("type", housingProvider.type),
-                new DTColumnDefinition("tax", housingProvider.tax)
+                new DTColumnDefinition("tax", housingProvider.tax, true)
         );
     }
 
