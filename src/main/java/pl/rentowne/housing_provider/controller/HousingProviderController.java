@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.rentowne.common.controler.AbstractController;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.housing_provider.model.dto.HousingProviderDto;
 import pl.rentowne.housing_provider.service.HousingProviderService;
@@ -14,7 +15,7 @@ import pl.rentowne.housing_provider.service.HousingProviderService;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Dostawcy świadczeń")
-public class HousingProviderController {
+public class HousingProviderController extends AbstractController {
 
     private final HousingProviderService housingProviderService;
 

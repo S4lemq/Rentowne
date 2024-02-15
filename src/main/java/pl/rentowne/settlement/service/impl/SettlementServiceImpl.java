@@ -16,6 +16,7 @@ import pl.rentowne.meter_reading.repository.MeterReadingRepository;
 import pl.rentowne.provider_field.model.BillingMethod;
 import pl.rentowne.provider_field.model.ProviderField;
 import pl.rentowne.rented_object.model.RentedObject;
+import pl.rentowne.rented_object.model.dto.CalculateRequestDto;
 import pl.rentowne.rented_object.repository.RentedObjectRepository;
 import pl.rentowne.settlement.model.Settlement;
 import pl.rentowne.settlement.repository.SettlementRepository;
@@ -41,7 +42,7 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Transactional
     @Override
-    public void calculate(Long rentedObjectId, boolean waterIncluded, boolean electricityIncluded, LocalDateTime settlementDate) {
+    public void calculate(Long rentedObjectId, CalculateRequestDto dto) {
         List<HousingProvider> providerWithProviderFields = housingProviderRepository.findHousingProviderWithProviderFieldsByRentedObjectId(rentedObjectId);
         LeaseAgreementDto leaseAgreement = leaseAgreementRepository.getData(rentedObjectId);
         List<Long> allMeterReadingIds = new ArrayList<>();
@@ -50,10 +51,10 @@ public class SettlementServiceImpl implements SettlementService {
         BigDecimal waterResult = BigDecimal.ZERO;
 
 
-        if (electricityIncluded) {
+        if (dto.isElectricityIncluded()) {
             electricResult = this.calculateElectricityCost(providerWithProviderFields, rentedObjectId, electricResult, allMeterReadingIds);
         }
-        if (waterIncluded) {
+        if (dto.isWaterIncluded()) {
             waterResult = this.calculateWaterCost(providerWithProviderFields, rentedObjectId, waterResult, allMeterReadingIds, leaseAgreement);
         }
         gasResult = leaseAgreement.getGasDeposit() != null ? leaseAgreement.getGasDeposit() : BigDecimal.ZERO;
@@ -67,7 +68,7 @@ public class SettlementServiceImpl implements SettlementService {
         BigDecimal totalSum = electricResult.add(waterResult).add(gasResult).add(leaseAgreement.getCompensationAmount()).add(leaseAgreement.getInternetFee()).add(leaseAgreement.getRentAmount());
 
         log.info("Rozliczenie obiektu o id: {}", rentedObjectId);
-        log.info("Rozliczano: wodę-{}, prąd-{}", waterIncluded, electricityIncluded);
+        log.info("Rozliczano: wodę-{}, prąd-{}", dto.isWaterIncluded(), dto.isElectricityIncluded());
         log.info("Kwota za prąd: {}", electricResult);
         log.info("Kwota za wodę: {}", waterResult);
         log.info("Kwota za gaz: {}", gasResult);
@@ -82,12 +83,12 @@ public class SettlementServiceImpl implements SettlementService {
                 .waterAmount(waterResult)
                 .gasAmount(gasResult)
                 .totalAmount(totalSum)
-                .settlementDate(settlementDate)
+                .settlementDate(dto.getSettlementDate())
                 .rentedObject(RentedObject.builder().id(rentedObjectId).build())
                 .build();
 
         settlementRepository.save(settlement);
-        rentedObjectRepository.updateSettlement(rentedObjectId, totalSum, settlementDate);
+        rentedObjectRepository.updateSettlement(rentedObjectId, totalSum, dto.getSettlementDate());
     }
 
 

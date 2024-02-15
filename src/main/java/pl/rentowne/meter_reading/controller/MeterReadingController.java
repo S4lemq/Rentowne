@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.rentowne.common.controler.AbstractController;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.meter_reading.model.dto.MeterReadingDto;
 import pl.rentowne.meter_reading.service.MeterReadingService;
@@ -15,7 +16,7 @@ import pl.rentowne.meter_reading.service.MeterReadingService;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Odczyty liczników")
-public class MeterReadingController {
+public class MeterReadingController extends AbstractController {
 
     private final MeterReadingService meterReadingService;
 

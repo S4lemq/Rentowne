@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.rentowne.common.controler.AbstractController;
 import pl.rentowne.rented_object.service.RentedObjectSettlementExportService;
 import pl.rentowne.settlement.model.dto.SettlementExportDto;
 
@@ -30,7 +31,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Eksport rozliczeń obiektu do wynajęcia")
-public class RentedObjectSettlementExportController {
+public class RentedObjectSettlementExportController extends AbstractController {
 
     private static final CSVFormat FORMAT = CSVFormat.Builder
             .create(CSVFormat.DEFAULT)

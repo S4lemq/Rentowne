@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import pl.rentowne.common.controler.AbstractController;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.security.model.dto.ChangePassword;
 import pl.rentowne.security.model.dto.LostPasswordRequest;
@@ -17,7 +18,7 @@ import pl.rentowne.security.service.LostPasswordService;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Odzyskiwanie hasła")
-public class LostPasswordController {
+public class LostPasswordController extends AbstractController {
 
     private final LostPasswordService lostPasswordService;
 
