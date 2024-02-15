@@ -31,6 +31,7 @@ public class LeaseAgreementDto {
     private BigDecimal initialGasMeterReading; //początkowy odczyt gazu
     private LocalDateTime depositReturnDate; //data zwrotu kaucji
     private BigDecimal returnedDepositAmount; //kwota zwróconej kaucji
+    private LocalDateTime contractSigningDate; //Data podpisania umowy
     private boolean contractActive; //czy aktywna umowa
 
     @QueryProjection
@@ -61,6 +62,7 @@ public class LeaseAgreementDto {
                 .depositReturnDate(dto.depositReturnDate)
                 .returnedDepositAmount(dto.returnedDepositAmount)
                 .isContractActive(dto.contractActive)
+                .contractSigningDate(dto.contractSigningDate)
                 .build();
     }
 
@@ -83,6 +85,7 @@ public class LeaseAgreementDto {
                 .depositReturnDate(entity.getDepositReturnDate())
                 .returnedDepositAmount(entity.getReturnedDepositAmount())
                 .contractActive(entity.isContractActive())
+                .contractSigningDate(entity.getContractSigningDate())
                 .build();
     }
 

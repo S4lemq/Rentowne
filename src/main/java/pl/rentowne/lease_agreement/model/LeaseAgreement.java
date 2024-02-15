@@ -80,6 +80,9 @@ public class LeaseAgreement extends BaseEntity {
     @Column(name = "IS_CONTRACT_ACTIVE", nullable = false)
     private boolean isContractActive; //czy aktywna umowa
 
+    @Column(name = "CONTRACT_SIGNING_DATE", nullable = false)
+    private LocalDateTime contractSigningDate; //data podpisania umowy
+
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "leaseAgreement")
     private Tenant tenant;
 

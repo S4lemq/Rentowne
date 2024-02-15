@@ -30,5 +30,6 @@
     <include file="/db/changelog/ddl-scripts/024-add_settlement_table.xml"/>
     <include file="/db/changelog/ddl-scripts/025-add_columns_to_rented_object.xml"/>
     <include file="/db/changelog/ddl-scripts/026-add_column_to_settlement.xml"/>
+    <include file="/db/changelog/ddl-scripts/027-add_contract_signing_date_to_lease_agreement.xml"/>
 
 </databaseChangeLog>

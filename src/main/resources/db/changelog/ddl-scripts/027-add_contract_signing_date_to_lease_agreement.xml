@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="027-add_contract_signing_date">
+        <addColumn tableName="LEASE_AGREEMENT">
+            <column name="CONTRACT_SIGNING_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="027-add_comment">
+        <setColumnRemarks tableName="LEASE_AGREEMENT" columnName="CONTRACT_SIGNING_DATE" remarks="Data podpisania umowy"/>
+    </changeSet>
+
+</databaseChangeLog>
