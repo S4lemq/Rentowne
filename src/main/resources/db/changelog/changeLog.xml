@@ -31,5 +31,6 @@
     <include file="/db/changelog/ddl-scripts/025-add_columns_to_rented_object.xml"/>
     <include file="/db/changelog/ddl-scripts/026-add_column_to_settlement.xml"/>
     <include file="/db/changelog/ddl-scripts/027-add_contract_signing_date_to_lease_agreement.xml"/>
+    <include file="/db/changelog/ddl-scripts/028-refactor_name_surname_and_secret_length.xml"/>
 
 </databaseChangeLog>

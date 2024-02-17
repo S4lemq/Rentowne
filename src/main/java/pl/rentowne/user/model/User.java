@@ -44,10 +44,10 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "USER_ACCOUNT_ID", nullable = false)
     private Long id;
 
-    @Column(name = "FIRST_NAME", nullable = false)
+    @Column(name = "FIRST_NAME", nullable = false, length = 50)
     private String firstname;
 
-    @Column(name = "LAST_NAME", nullable = false)
+    @Column(name = "LAST_NAME", nullable = false, length = 50)
     private String lastname;
 
     @Column(name = "EMAIL", nullable = false, unique = true, length = 60)
@@ -63,10 +63,10 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "MFA_ENABLED", nullable = false)
     private boolean mfaEnabled;
 
-    @Column(name = "SECRET")
+    @Column(name = "SECRET", length = 64)
     private String secret;
 
-    @Column(name = "HASH")
+    @Column(name = "HASH", length = 120)
     private String hash;
 
     @Column(name = "HASH_DATE")
