@@ -64,4 +64,20 @@ public class MeterController extends AbstractController {
     public ResponseEntity<MeterDto> getMeter(@Parameter(description = "id licznika", required = true) @PathVariable Long id) {
         return new ResponseEntity<>(meterService.getMeterById(id), HttpStatus.CREATED);
     }
+
+    @Operation(
+            summary = "Pobiera liczbę liczników danego obiektu",
+            description = "Metoda służy do pobrania liczby liczników po id obiektu",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Dane pobrano pomyślnie"),
+                    @ApiResponse(responseCode = "400", description = "Niepoprawne dane wejściowe"),
+                    @ApiResponse(responseCode = "404", description = "Nie znaleziono danych"),
+                    @ApiResponse(responseCode = "500", description = "Wewnętrzny błąd serwera")
+            }
+    )
+    @GetMapping("/api/rented-object/{id}/meter-count")
+    public ResponseEntity<Void> getMeterCountByRentedObject(@PathVariable Long id) {
+        meterService.getMeterCountByRentedObject(id);
+        return ResponseEntity.ok().build();
+    }
 }

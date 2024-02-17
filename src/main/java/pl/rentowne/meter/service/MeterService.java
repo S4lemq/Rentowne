@@ -25,4 +25,11 @@ public interface MeterService {
      * @param meter dto licznika
      */
     void updateMeter(MeterDto meter);
+
+    /**
+     *
+     * Pobiera ilość wymaganych liczników dla danego obiektu
+     * @param id obiektu
+     */
+    void getMeterCountByRentedObject(Long id);
 }

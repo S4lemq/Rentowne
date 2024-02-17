@@ -17,4 +17,11 @@ public interface MeterRepositoryCustom {
      * @return ostatni stan i id licznika
      */
     List<MeterReadingDto> getConsumptionAndIdByRentedObjectAndMeterType(Long rentedObjectId, MeterType meterType);
+
+    /**
+     * Pobiera id liczników danego obiektu do wynajęcia
+     * @param id obiektu do wynajęcia
+     * @return lista id liczników
+     */
+    List<Long> findMeterCountByRentedObject(Long id);
 }

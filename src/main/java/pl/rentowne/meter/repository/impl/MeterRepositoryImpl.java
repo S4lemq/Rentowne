@@ -36,4 +36,12 @@ public class MeterRepositoryImpl extends BaseRepositoryImpl<Meter, Long> impleme
                 .fetch();
     }
 
+    @Override
+    public List<Long> findMeterCountByRentedObject(Long id) {
+        return queryFactory.select(meter.id)
+                .from(meter)
+                .where(meter.rentedObject().id.eq(id))
+                .fetch();
+    }
+
 }

@@ -1,14 +1,18 @@
 package pl.rentowne.meter.service.impl;
 
-import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import pl.rentowne.exception.RentowneBusinessException;
+import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.meter.model.Meter;
 import pl.rentowne.meter.model.dto.MeterDto;
 import pl.rentowne.meter.repository.MeterRepository;
 import pl.rentowne.meter.service.MeterService;
 import pl.rentowne.rented_object.model.RentedObject;
 import pl.rentowne.rented_object.model.dto.RentedObjectDto;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -57,6 +61,15 @@ public class MeterServiceImpl implements MeterService {
                 .installationDate(meter.getInstallationDate())
                 .build();
         meterRepository.save(meterEntity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void getMeterCountByRentedObject(Long id) {
+        List<Long> ids = meterRepository.findMeterCountByRentedObject(id);
+        if (ids.isEmpty()) {
+            throw new RentowneBusinessException(RentowneErrorCode.RENTED_OBJECT_DOES_NOT_HAVE_METERS);
+        }
     }
 
     private Meter convertToEntity(MeterDto dto, RentedObject rentedObjectReference) {
