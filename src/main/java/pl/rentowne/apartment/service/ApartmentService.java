@@ -75,4 +75,6 @@ public interface ApartmentService {
      * @throws RentowneNotFoundException nie znaleziono mieszkania/dostawcy
      */
     void addHousingProviders(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException;
+
+    int getCountOfRentedObjectsInApartment(long rentedObjectId);
 }

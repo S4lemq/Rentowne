@@ -29,7 +29,8 @@ public class DTMeterReadingDefinition implements DTDefinition {
                 meterReading.id,
                 meterReading.currentReading,
                 meterReading.readingDate,
-                meterReading.consumption
+                meterReading.consumption,
+                meterReading.settled
         );
     }
 
@@ -44,7 +45,8 @@ public class DTMeterReadingDefinition implements DTDefinition {
                 new DTColumnDefinition("id", meterReading.id),
                 new DTColumnDefinition("currentReading", meterReading.currentReading),
                 new DTColumnDefinition("readingDate", meterReading.readingDate),
-                new DTColumnDefinition("consumption", meterReading.consumption)
+                new DTColumnDefinition("consumption", meterReading.consumption),
+                new DTColumnDefinition("settled", meterReading.settled)
         );
     }
 

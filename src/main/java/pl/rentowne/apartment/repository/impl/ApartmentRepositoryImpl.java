@@ -99,4 +99,17 @@ public class ApartmentRepositoryImpl extends BaseRepositoryImpl<Apartment, Long>
         }
     }
 
+    @Override
+    public List<Long> getRentedObjectsCountByRentedObjectId(long rentedObjectId) {
+        long apartmentId = queryFactory.select(apartment.id)
+                        .from(apartment)
+                                .join(rentedObject).on(apartment.id.eq(rentedObject.apartment().id))
+                        .where(rentedObject.id.eq(rentedObjectId))
+                        .fetchOne();
+
+        return queryFactory.select(rentedObject.id)
+                .from(rentedObject)
+                .where(rentedObject.apartment().id.eq(apartmentId))
+                .fetch();
+    }
 }

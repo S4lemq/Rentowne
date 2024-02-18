@@ -13,12 +13,14 @@ public class MeterReadingRowDto implements DTRow {
     private BigDecimal currentReading;
     private LocalDateTime readingDate;
     private BigDecimal consumption;
+    private boolean settled;
 
     @QueryProjection
-    public MeterReadingRowDto(Long id, BigDecimal currentReading, LocalDateTime readingDate, BigDecimal consumption) {
+    public MeterReadingRowDto(Long id, BigDecimal currentReading, LocalDateTime readingDate, BigDecimal consumption, boolean settled) {
         this.id = id;
         this.currentReading = currentReading;
         this.readingDate = readingDate;
         this.consumption = consumption;
+        this.settled = settled;
     }
 }

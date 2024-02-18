@@ -107,6 +107,12 @@ public class ApartmentServiceImpl implements ApartmentService {
         }
     }
 
+    @Override
+    public int getCountOfRentedObjectsInApartment(long rentedObjectId) {
+        List<Long> counter = apartmentRepository.getRentedObjectsCountByRentedObjectId(rentedObjectId);
+        return counter.size();
+    }
+
     private Apartment mapApartment(ApartmentDto apartmentDto, Long apartmentId) throws RentowneBusinessException {
         Long loggedUserId = userService.getLoggedUser().getId();
 

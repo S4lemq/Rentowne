@@ -50,4 +50,11 @@ public interface ApartmentRepositoryCustom {
      */
     List<ApartmentDto> getAllApartmentsByLoggedUserAndApartment(Long loggedUser, Long apartmentId);
 
+    /**
+     * Pobiera liczbę obiektów mieszkania po id obiektu
+     * @param rentedObjectId id obiektu
+     * @return liczba obiektów
+     */
+    List<Long> getRentedObjectsCountByRentedObjectId(long rentedObjectId);
+
 }

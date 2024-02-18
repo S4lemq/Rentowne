@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.housing_provider.model.HousingProvider;
 import pl.rentowne.housing_provider.model.ProviderType;
 import pl.rentowne.housing_provider.repository.HousingProviderRepository;
@@ -24,7 +25,6 @@ import pl.rentowne.settlement.service.SettlementService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,12 +39,14 @@ public class SettlementServiceImpl implements SettlementService {
     private final MeterReadingRepository meterReadingRepository;
     private final LeaseAgreementRepository leaseAgreementRepository;
     private final RentedObjectRepository rentedObjectRepository;
+    private final ApartmentService apartmentService;
 
     @Transactional
     @Override
     public void calculate(Long rentedObjectId, CalculateRequestDto dto) {
         List<HousingProvider> providerWithProviderFields = housingProviderRepository.findHousingProviderWithProviderFieldsByRentedObjectId(rentedObjectId);
         LeaseAgreementDto leaseAgreement = leaseAgreementRepository.getData(rentedObjectId);
+        int rentedObjectsInApartment = apartmentService.getCountOfRentedObjectsInApartment(rentedObjectId);
         List<Long> allMeterReadingIds = new ArrayList<>();
         BigDecimal electricResult = BigDecimal.ZERO;
         BigDecimal gasResult = BigDecimal.ZERO;
@@ -52,7 +54,7 @@ public class SettlementServiceImpl implements SettlementService {
 
 
         if (dto.isElectricityIncluded()) {
-            electricResult = this.calculateElectricityCost(providerWithProviderFields, rentedObjectId, electricResult, allMeterReadingIds);
+            electricResult = this.calculateElectricityCost(providerWithProviderFields, rentedObjectId, electricResult, allMeterReadingIds, rentedObjectsInApartment);
         }
         if (dto.isWaterIncluded()) {
             waterResult = this.calculateWaterCost(providerWithProviderFields, rentedObjectId, waterResult, allMeterReadingIds, leaseAgreement);
@@ -99,17 +101,17 @@ public class SettlementServiceImpl implements SettlementService {
                 .findFirst();
     }
 
-    private BigDecimal calculateForProviderField(ProviderField field, BigDecimal consumption) {
+    private BigDecimal calculateForProviderField(ProviderField field, BigDecimal consumption, final int rentedObjectsCount) {
         BigDecimal result = BigDecimal.ZERO;
         if (BillingMethod.MONTHLY.equals(field.getBillingMethod())) {
-            result = result.add(this.calculateByMonth(field.getPrice()));
+            result = result.add(this.calculateByMonth(field.getPrice(), rentedObjectsCount));
         } else if (BillingMethod.ACCORDING_TO_CONSUMPTION.equals(field.getBillingMethod())) {
             result = result.add(this.calculateByConsumption(field.getPrice(), consumption));
         }
         return result;
     }
 
-    public BigDecimal calculateElectricityCost(List<HousingProvider> providerWithProviderFields, Long rentedObjectId,  BigDecimal electricResult, List<Long> allMeterReadingIds) {
+    public BigDecimal calculateElectricityCost(List<HousingProvider> providerWithProviderFields, Long rentedObjectId,  BigDecimal electricResult, List<Long> allMeterReadingIds, final int rentedObjectsCount) {
         Optional<HousingProvider> electricProviderOptional = findProvider(providerWithProviderFields, ProviderType.ELECTRICITY);
 
         if (electricProviderOptional.isPresent()) {
@@ -118,6 +120,7 @@ public class SettlementServiceImpl implements SettlementService {
             BigDecimal consumption = meterReadingDtos.stream()
                     .map(MeterReadingDto::getConsumption)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
+            log.info("zużycie: {}", consumption);
             List<Long> meterReadingIds = meterReadingDtos.stream()
                     .map(MeterReadingDto::getId)
                     .toList();
@@ -125,7 +128,7 @@ public class SettlementServiceImpl implements SettlementService {
 
             // Używamy strumienia do przetworzenia providerFields, obliczania i sumowania wyników
             BigDecimal totalElectricResult = electricProvider.getProviderFields().stream()
-                    .map(field -> calculateForProviderField(field, consumption))
+                    .map(field -> calculateForProviderField(field, consumption, rentedObjectsCount))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
             electricResult = electricResult.add(totalElectricResult);
@@ -138,7 +141,7 @@ public class SettlementServiceImpl implements SettlementService {
         return BigDecimal.ZERO;
     }
 
-    public BigDecimal calculateGasCost(List<HousingProvider> providerWithProviderFields, Long rentedObjectId, BigDecimal gasResult, List<Long> allMeterReadingIds) {
+    public BigDecimal calculateGasCost(List<HousingProvider> providerWithProviderFields, Long rentedObjectId, BigDecimal gasResult, List<Long> allMeterReadingIds, final int rentedObjectsCount) {
         Optional<HousingProvider> gasProviderOptional = findProvider(providerWithProviderFields, ProviderType.GAS);
 
         if (gasProviderOptional.isPresent()) {
@@ -155,7 +158,7 @@ public class SettlementServiceImpl implements SettlementService {
             allMeterReadingIds.addAll(meterReadingIds);
             // Używamy strumienia do przetworzenia providerFields, obliczania i sumowania wyników
             BigDecimal totalGasResult = gasProvider.getProviderFields().stream()
-                    .map(field -> calculateForGasProviderField(field, consumption, conversionRate))
+                    .map(field -> calculateForGasProviderField(field, consumption, conversionRate, rentedObjectsCount))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
             gasResult = gasResult.add(totalGasResult);
@@ -168,10 +171,10 @@ public class SettlementServiceImpl implements SettlementService {
         return BigDecimal.ZERO;
     }
 
-    private BigDecimal calculateForGasProviderField(ProviderField field, BigDecimal consumption, BigDecimal conversionRate) {
+    private BigDecimal calculateForGasProviderField(ProviderField field, BigDecimal consumption, BigDecimal conversionRate, final int rentedObjectsCount) {
         BigDecimal result = BigDecimal.ZERO;
         if (BillingMethod.MONTHLY.equals(field.getBillingMethod())) {
-            result = result.add(this.calculateByMonth(field.getPrice()));
+            result = result.add(this.calculateByMonth(field.getPrice(), rentedObjectsCount));
         } else if (BillingMethod.ACCORDING_TO_CONSUMPTION.equals(field.getBillingMethod())) {
             BigDecimal resultWithDecimals = consumption.multiply(conversionRate).setScale(2, RoundingMode.HALF_UP);
             BigDecimal integerResult = new BigDecimal(resultWithDecimals.toBigInteger());
@@ -224,8 +227,8 @@ public class SettlementServiceImpl implements SettlementService {
                 .orElse(BigDecimal.ZERO);
     }
 
-    private BigDecimal calculateByMonth(final BigDecimal entityField) {
-        return BigDecimal.ONE.multiply(entityField).setScale(2, RoundingMode.HALF_UP);
+    private BigDecimal calculateByMonth(final BigDecimal entityField, final int rentedObjectsCount) {
+        return (BigDecimal.ONE.multiply(entityField).setScale(2, RoundingMode.HALF_UP)).divide(BigDecimal.valueOf(rentedObjectsCount), 2, RoundingMode.HALF_UP);
     }
 
     private BigDecimal calculateByConsumption(final BigDecimal entityField, BigDecimal consumptionAfterConversion) {
