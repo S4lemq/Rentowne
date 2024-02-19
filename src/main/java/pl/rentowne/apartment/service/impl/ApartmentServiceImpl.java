@@ -108,6 +108,12 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
+    @Transactional
+    public void pinApartment(boolean isPinned, long id) {
+        apartmentRepository.pinApartment(isPinned, id);
+    }
+
+    @Override
     public int getCountOfRentedObjectsInApartment(long rentedObjectId) {
         List<Long> counter = apartmentRepository.getRentedObjectsCountByRentedObjectId(rentedObjectId);
         return counter.size();

@@ -21,6 +21,7 @@ import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 import pl.rentowne.rented_object.service.RentedObjectService;
+import pl.rentowne.security.model.dto.LostPasswordRequest;
 import pl.rentowne.user.model.dto.UploadResponse;
 
 import java.io.IOException;
@@ -154,6 +155,22 @@ public class ApartmentController extends AbstractController {
     public ResponseEntity<Void> addHousingProvider(@RequestBody ApartmentHousingProviderRequest dto) throws RentowneNotFoundException {
         this.apartmentService.addHousingProviders(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Operation(
+            summary = "Służy do przypinania nieruchomości",
+            description = "Metoda służy do przypinania nieruchomości",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Mieszkanie przypięto pomyślnie"),
+                    @ApiResponse(responseCode = "400", description = "Niepoprawne dane wejściowe"),
+                    @ApiResponse(responseCode = "404", description = "Nie znaleziono danych"),
+                    @ApiResponse(responseCode = "500", description = "Wewnętrzny błąd serwera")
+            }
+    )
+    @PostMapping("/api/apartments/{id}/pin")
+    public ResponseEntity<Void> pinApartment(@RequestParam boolean isPinned, @PathVariable long id) {
+        apartmentService.pinApartment(isPinned, id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

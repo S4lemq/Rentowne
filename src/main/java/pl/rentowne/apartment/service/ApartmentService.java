@@ -76,5 +76,17 @@ public interface ApartmentService {
      */
     void addHousingProviders(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException;
 
+    /**
+     * zlicza ilość obiektów w mieszkaniu po id obiektu
+     * @param rentedObjectId id obiektu
+     * @return ilość obiektów w mieszkaniu
+     */
     int getCountOfRentedObjectsInApartment(long rentedObjectId);
+
+    /**
+     * Służy do przypinania nieruchomości
+     * @param isPinned czy przypięto
+     * @param id id mieszkania
+     */
+    void pinApartment(boolean isPinned, long id);
 }

@@ -112,4 +112,12 @@ public class ApartmentRepositoryImpl extends BaseRepositoryImpl<Apartment, Long>
                 .where(rentedObject.apartment().id.eq(apartmentId))
                 .fetch();
     }
+
+    @Override
+    public void pinApartment(boolean isPinned, long id) {
+        queryFactory.update(apartment)
+                .set(apartment.pinned, isPinned)
+                .where(apartment.id.eq(id))
+                .execute();
+    }
 }

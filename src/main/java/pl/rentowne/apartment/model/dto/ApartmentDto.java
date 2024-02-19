@@ -24,6 +24,7 @@ public class ApartmentDto {
     private boolean isRented;
     private BigDecimal area;
     private String image;
+    private boolean pinned;
     private AddressDto addressDto;
     private List<RentedObjectDto> rentedObjectDtos;
 
@@ -34,6 +35,7 @@ public class ApartmentDto {
                 .leasesNumber(apartment.getLeasesNumber())
                 .isRented(apartment.isRented())
                 .area(apartment.getArea())
+                .pinned(apartment.isPinned())
                 .image(apartment.getImage())
                 .addressDto(AddressDto.asDto(apartment.getAddress()))
                 .rentedObjectDtos(

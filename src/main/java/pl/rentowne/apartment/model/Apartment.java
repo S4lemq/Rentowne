@@ -53,6 +53,9 @@ public class Apartment extends BaseEntity {
     @Column(name = "IMAGE", length = 128)
     private String image;
 
+    @Column(name = "PINNED", nullable = false)
+    private boolean pinned;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ADDRESS_ID", unique = true)
     private Address address;

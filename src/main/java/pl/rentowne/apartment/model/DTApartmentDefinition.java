@@ -40,7 +40,8 @@ public class DTApartmentDefinition implements DTDefinition {
                 address.streetName,
                 address.buildingNumber,
                 address.apartmentNumber,
-                apartment.image
+                apartment.image,
+                apartment.pinned
         );
     }
 
@@ -59,17 +60,10 @@ public class DTApartmentDefinition implements DTDefinition {
                 new DTColumnDefinition("cityName", address.cityName,
                         jpaQuery -> jpaQuery
                                 .join(address).on(apartment.address.id.eq(address.id))),
-                new DTColumnDefinition("streetName", address.streetName,
-                        jpaQuery -> jpaQuery
-                            .join(address).on(apartment.address.id.eq(address.id))),
-                new DTColumnDefinition("buildingNumber", address.buildingNumber,
-                        jpaQuery -> jpaQuery
-                                .join(address).on(apartment.address.id.eq(address.id)),
-                        true),
-                new DTColumnDefinition("apartmentNumber", address.apartmentNumber,
-                        jpaQuery -> jpaQuery
-                                .join(address).on(apartment.address.id.eq(address.id)),
-                        true)
+                new DTColumnDefinition("streetName", address.streetName),
+                new DTColumnDefinition("buildingNumber", address.buildingNumber,true),
+                new DTColumnDefinition("apartmentNumber", address.apartmentNumber, true),
+                new DTColumnDefinition("pinned", apartment.pinned, true)
         );
     }
 
@@ -95,6 +89,6 @@ public class DTApartmentDefinition implements DTDefinition {
 
     @Override
     public OrderSpecifier[] addBaseOrderBy() {
-        return new OrderSpecifier[]{apartment.id.asc()};
+        return new OrderSpecifier[]{apartment.pinned.desc(), apartment.id.asc()};
     }
 }

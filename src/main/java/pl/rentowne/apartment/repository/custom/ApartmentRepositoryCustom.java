@@ -57,4 +57,10 @@ public interface ApartmentRepositoryCustom {
      */
     List<Long> getRentedObjectsCountByRentedObjectId(long rentedObjectId);
 
+    /**
+     * Służy do przypinania nieruchomości
+     * @param isPinned czy przypięto
+     * @param id id mieszkania
+     */
+    void pinApartment(boolean isPinned, long id);
 }
