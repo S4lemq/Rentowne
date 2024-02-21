@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: jdbc:postgresql://${DATABASE_URL:localhost}:5432/${DATABASE_NAME:rentowne}?useUnicode=true&serverTimezone=UTC
+        url: jdbc:${DATABASE_URL}?useUnicode=true&serverTimezone=UTC
         username: ${DATABASE_USERNAME:root}
         password: ${DATABASE_PASSWORD:test}
         driver-class-name: org.postgresql.Driver
