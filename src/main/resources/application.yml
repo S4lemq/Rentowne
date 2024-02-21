@@ -50,3 +50,7 @@ application:
             expression: "0 0 3 * * *"
 
 
+logging:
+    level:
+        org.springframework: DEBUG
+        org.hibernate: DEBUG
