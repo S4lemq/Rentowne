@@ -1,8 +1,8 @@
 spring:
     datasource:
-        url: jdbc:${DATABASE_URL}?useUnicode=true&serverTimezone=UTC
-        username: ${DATABASE_USERNAME:root}
-        password: ${DATABASE_PASSWORD:test}
+        url: jdbc:postgresql://${DATABASE_URL}:${DATABASE_PORT}/${DATABASE_NAME}
+        username: ${DATABASE_USERNAME}
+        password: ${DATABASE_PASSWORD}
         driver-class-name: org.postgresql.Driver
     liquibase:
         change-log: classpath:db/changelog/changeLog.xml
@@ -49,8 +49,3 @@ application:
         cleanup:
             expression: "0 0 3 * * *"
 
-
-logging:
-    level:
-        org.springframework: DEBUG
-        org.hibernate: DEBUG
