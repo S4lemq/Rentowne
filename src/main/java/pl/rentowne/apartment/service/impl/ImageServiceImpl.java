@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import pl.rentowne.apartment.service.ApartmentImageService;
+import pl.rentowne.common.service.ImageService;
 import pl.rentowne.util.ExistingFileRenameUtils;
 import pl.rentowne.util.UploadedFilesNameUtils;
 
@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
-public class ApartmentImageServiceImpl implements ApartmentImageService {
+public class ImageServiceImpl implements ImageService {
 
     @Value("${application.uploadDir}")
     private String uploadDir;

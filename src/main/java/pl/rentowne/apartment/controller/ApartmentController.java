@@ -6,28 +6,18 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.apartment.model.dto.ApartmentHousingProviderRequest;
-import pl.rentowne.apartment.service.ApartmentImageService;
 import pl.rentowne.apartment.service.ApartmentService;
 import pl.rentowne.common.controler.AbstractController;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 import pl.rentowne.rented_object.service.RentedObjectService;
-import pl.rentowne.security.model.dto.LostPasswordRequest;
-import pl.rentowne.user.model.dto.UploadResponse;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -36,7 +26,6 @@ import java.util.List;
 public class ApartmentController extends AbstractController {
 
     private final ApartmentService apartmentService;
-    private final ApartmentImageService apartmentImageService;
     private final RentedObjectService rentedObjectService;
 
     @Operation(
@@ -99,24 +88,6 @@ public class ApartmentController extends AbstractController {
     public ResponseEntity<Void> deleteApartment(@PathVariable Long id) {
         apartmentService.deleteApartment(id);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping("/api/apartments/upload-image")
-    public UploadResponse uploadImage(@RequestParam("file") MultipartFile multipartFile) {
-        try(InputStream inputStream = multipartFile.getInputStream()) {
-            String savedFileName = apartmentImageService.uploadImage(multipartFile.getOriginalFilename(), inputStream);
-            return new UploadResponse(savedFileName);
-        } catch (IOException e) {
-            throw new RuntimeException("Coś poszło źle podczas wgrywania pliku", e);
-        }
-    }
-
-    @GetMapping("/api/data/apartmentImage/{filename}")
-    public ResponseEntity<Resource> serveFiles(@PathVariable String filename) throws IOException {
-        Resource file = apartmentImageService.serveFiles(filename);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
-                .body(file);
     }
 
     @Operation(

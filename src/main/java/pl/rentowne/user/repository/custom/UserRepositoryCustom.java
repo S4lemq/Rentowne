@@ -2,6 +2,7 @@ package pl.rentowne.user.repository.custom;
 
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.model.dto.UserBasicDto;
+import pl.rentowne.user.model.dto.UserDto;
 
 import java.util.Optional;
 
@@ -38,4 +39,18 @@ public interface UserRepositoryCustom {
      * @return dane użytkownika
      */
     Optional<User> findByHash(String hash);
+
+    /**
+     * Pobiera dane użytkownika po adresie email
+     * @param email adres email
+     * @return dane użytkownika
+     */
+    UserDto getUserDtoByEmail(String email);
+
+    /**
+     * Pobiera nazwę pliku graficznego profilu użytkownika
+     * @param loggedUserEmail email zalogowanego użytkownika
+     * @return nazwa pliku
+     */
+    String getUserProfileImage(String loggedUserEmail);
 }

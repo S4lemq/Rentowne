@@ -4,6 +4,7 @@ import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.model.dto.UserBasicDto;
+import pl.rentowne.user.model.dto.UserDto;
 
 import java.util.Optional;
 
@@ -32,4 +33,22 @@ public interface UserService {
      * @return dane użytkownika
      */
     Optional<User> findByHash(String hash);
+
+    /**
+     * Pobiera dane zalogowanego użytkownika
+     * @return dane użytkownika
+     */
+    UserDto getUser();
+
+    /**
+     * Aktualizuje dane użytkownika
+     * @param userDto dto użytkownika do aktualizacji
+     */
+    void updateUser(UserDto userDto);
+
+    /**
+     * Pobiera nazwę pliku graficznego profilu użytkownika
+     * @return nazwa pliku
+     */
+    String getUserProfileImage();
 }

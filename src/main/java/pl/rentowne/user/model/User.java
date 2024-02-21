@@ -72,6 +72,9 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "HASH_DATE")
     private LocalDateTime hashDate;
 
+    @Column(name = "IMAGE", length = 128)
+    private String image;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Token> tokens;
 
