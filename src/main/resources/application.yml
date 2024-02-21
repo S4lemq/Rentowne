@@ -18,9 +18,6 @@ spring:
         database: postgresql
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         open-in-view: false
-    threads:
-        virtual:
-            enabled: true
     servlet:
         multipart:
             max-file-size: 10MB
