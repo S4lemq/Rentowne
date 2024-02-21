@@ -49,3 +49,9 @@ application:
         cleanup:
             expression: "0 0 3 * * *"
 
+logging:
+    level:
+        org.hibernate.SQL: ERROR
+        org.hibernate.type.descriptor.sql.BasicBinder: ERROR
+
+

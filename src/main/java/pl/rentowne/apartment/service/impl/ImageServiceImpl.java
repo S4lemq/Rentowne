@@ -23,6 +23,16 @@ public class ImageServiceImpl implements ImageService {
 
     public String uploadImage(String filename, InputStream inputStream) {
         String newFileName = UploadedFilesNameUtils.slugifyFileName(filename);
+
+        if (!Files.exists(Path.of(uploadDir))) {
+            try {
+                Files.createDirectory(Path.of(uploadDir));
+            } catch (Exception e) {
+                throw new RuntimeException("Nie mogę zapisać katalogu", e);
+            }
+        }
+
+
         newFileName = ExistingFileRenameUtils.renameIfExists(Path.of(uploadDir), newFileName);
         Path filePath = Paths.get(uploadDir).resolve(newFileName);
 
