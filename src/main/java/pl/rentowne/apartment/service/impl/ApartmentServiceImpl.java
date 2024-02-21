@@ -101,8 +101,15 @@ public class ApartmentServiceImpl implements ApartmentService {
     public void addHousingProviders(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException {
         Apartment apartment = apartmentRepository.getApartmentWithHousingProviders(dto.getApartmentId());
         List<HousingProvider> newHousingProviders = housingProviderRepository.findAllById(dto.getHousingProviderIds());
-
         Set<HousingProvider> currentHousingProviders = apartment.getHousingProviders();
+
+        for (HousingProvider newProvider : newHousingProviders) {
+            for (HousingProvider currentProvider : currentHousingProviders) {
+                if (newProvider.getType().equals(currentProvider.getType())) {
+                    throw new RentowneBusinessException(RentowneErrorCode.PROVIDER_TYPE_ALREADY_EXISTS, currentProvider.getType().toString());
+                }
+            }
+        }
 
         // Znajdź dostawców, którzy mają być usunięci (są w DB, ale nie w danych z frontu)
         Set<HousingProvider> providersToRemove = currentHousingProviders.stream()

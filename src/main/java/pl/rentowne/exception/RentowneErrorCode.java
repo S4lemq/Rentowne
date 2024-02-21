@@ -24,7 +24,8 @@ public enum RentowneErrorCode implements Serializable {
     BAD_METER_READING_DATE(),
     BAD_METER_READING_VALUES_TENANT(),
     BAD_METER_READING_DATE_TENANT(),
-    RENTED_OBJECT_DOES_NOT_HAVE_METERS()
+    RENTED_OBJECT_DOES_NOT_HAVE_METERS(),
+    PROVIDER_TYPE_ALREADY_EXISTS("type")
     ;
 
     private Set<String> translateKeys;
