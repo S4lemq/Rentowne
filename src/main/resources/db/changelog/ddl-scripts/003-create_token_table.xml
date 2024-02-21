@@ -52,18 +52,6 @@
         </sql>
     </changeSet>
 
-    <changeSet author="plubowicz" id="003-create_token_check_constraint">
-        <sql splitStatements="true" endDelimiter=";">
-            SELECT p_add_check_constraint('TOKEN', 'ID');
-            SELECT p_add_check_constraint('TOKEN', 'TOKEN_VALUE');
-            SELECT p_add_check_constraint('TOKEN', 'TOKEN_TYPE');
-            SELECT p_add_check_constraint('TOKEN', 'EXPIRED');
-            SELECT p_add_check_constraint('TOKEN', 'REVOKED');
-            SELECT p_add_check_constraint('TOKEN', 'INSERT_DATE');
-            SELECT p_add_check_constraint('TOKEN', 'INSERT_OPERATOR');
-        </sql>
-    </changeSet>
-
     <changeSet author="plubowicz" id="003-add_comments_to_token_table">
         <setTableRemarks tableName="TOKEN" remarks="Tabela tokenów" />
         <setColumnRemarks tableName="TOKEN" columnName="ID" remarks="Klucz główny" />

@@ -52,18 +52,6 @@
         </sql>
     </changeSet>
 
-    <changeSet author="plubowicz" id="002-create_user_check_constraint">
-        <sql splitStatements="true" endDelimiter=";">
-            SELECT p_add_check_constraint('USER_ACCOUNT', 'ID');
-            SELECT p_add_check_constraint('USER_ACCOUNT', 'FIRST_NAME');
-            SELECT p_add_check_constraint('USER_ACCOUNT', 'EMAIL');
-            SELECT p_add_check_constraint('USER_ACCOUNT', 'PASSWORD');
-            SELECT p_add_check_constraint('USER_ACCOUNT', 'ROLE');
-            SELECT p_add_check_constraint('USER_ACCOUNT', 'INSERT_DATE');
-            SELECT p_add_check_constraint('USER_ACCOUNT', 'INSERT_OPERATOR');
-        </sql>
-    </changeSet>
-
     <changeSet author="plubowicz" id="002-add_comments_to_user_table">
         <setTableRemarks tableName="USER_ACCOUNT" remarks="Tabela użytkowników" />
         <setColumnRemarks tableName="USER_ACCOUNT" columnName="ID" remarks="Klucz główny" />

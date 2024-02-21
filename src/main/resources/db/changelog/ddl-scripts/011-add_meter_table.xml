@@ -36,15 +36,6 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="plubowicz" id="011-create_meter_check_constraint">
-        <sql splitStatements="true" endDelimiter=";">
-            SELECT p_add_check_constraint('METER', 'METER_ID');
-            SELECT p_add_check_constraint('METER', 'NAME');
-            SELECT p_add_check_constraint('METER', 'TYPE');
-            SELECT p_add_check_constraint('METER', 'RENTED_OBJECT_ID');
-        </sql>
-    </changeSet>
-
     <changeSet author="plubowicz" id="011-add_comments_to_meter_table">
         <setTableRemarks tableName="METER" remarks="Tabela liczników" />
         <setColumnRemarks tableName="METER" columnName="METER_ID" remarks="Klucz główny" />

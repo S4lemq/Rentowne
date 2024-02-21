@@ -46,17 +46,6 @@
         </createIndex>
     </changeSet>
 
-    <changeSet author="plubowicz" id="006-create_apartment_check_constraint">
-        <sql splitStatements="true" endDelimiter=";">
-            SELECT p_add_check_constraint('APARTMENT', 'APARTMENT_ID');
-            SELECT p_add_check_constraint('APARTMENT', 'APARTMENT_NAME');
-            SELECT p_add_check_constraint('APARTMENT', 'LEASES_NUMBER');
-            SELECT p_add_check_constraint('APARTMENT', 'IS_RENTED');
-            SELECT p_add_check_constraint('APARTMENT', 'INSERT_DATE');
-            SELECT p_add_check_constraint('APARTMENT', 'INSERT_OPERATOR');
-        </sql>
-    </changeSet>
-
     <changeSet author="plubowicz" id="006-add_comments_to_appartment_table">
         <setTableRemarks tableName="APARTMENT" remarks="Tabela nieruchomości" />
         <setColumnRemarks tableName="APARTMENT" columnName="APARTMENT_ID" remarks="Klucz główny" />

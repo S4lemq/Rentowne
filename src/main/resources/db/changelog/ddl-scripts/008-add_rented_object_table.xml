@@ -36,14 +36,6 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="plubowicz" id="008-create_rented_object_check_constraint">
-        <sql splitStatements="true" endDelimiter=";">
-            SELECT p_add_check_constraint('RENTED_OBJECT', 'RENTED_OBJECT_ID');
-            SELECT p_add_check_constraint('RENTED_OBJECT', 'RENTED_OBJECT_NAME');
-            SELECT p_add_check_constraint('RENTED_OBJECT', 'IS_RENTED');
-        </sql>
-    </changeSet>
-
     <changeSet author="plubowicz" id="008-add_comments_to_rented_object_table">
         <setTableRemarks tableName="RENTED_OBJECT" remarks="Tabela obiektów do wynajęcia" />
         <setColumnRemarks tableName="RENTED_OBJECT" columnName="RENTED_OBJECT_ID" remarks="Klucz główny" />

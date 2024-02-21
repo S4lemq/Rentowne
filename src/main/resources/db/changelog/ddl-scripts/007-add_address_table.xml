@@ -39,18 +39,6 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="plubowicz" id="007-create_address_check_constraint">
-        <sql splitStatements="true" endDelimiter=";">
-            SELECT p_add_check_constraint('ADDRESS', 'ADDRESS_ID');
-            SELECT p_add_check_constraint('ADDRESS', 'BUILDING_NUMBER');
-            SELECT p_add_check_constraint('ADDRESS', 'ZIP_CODE');
-            SELECT p_add_check_constraint('ADDRESS', 'CITY_NAME');
-            SELECT p_add_check_constraint('ADDRESS', 'VOIVODE_SHIP');
-            SELECT p_add_check_constraint('ADDRESS', 'INSERT_DATE');
-            SELECT p_add_check_constraint('ADDRESS', 'INSERT_OPERATOR');
-        </sql>
-    </changeSet>
-
     <changeSet author="plubowicz" id="007-add_comments_to_address_table">
         <setTableRemarks tableName="ADDRESS" remarks="Tabela adresów" />
         <setColumnRemarks tableName="ADDRESS" columnName="ADDRESS_ID" remarks="Klucz główny" />
