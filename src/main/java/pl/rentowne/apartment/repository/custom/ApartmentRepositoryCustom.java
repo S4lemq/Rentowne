@@ -63,4 +63,11 @@ public interface ApartmentRepositoryCustom {
      * @param id id mieszkania
      */
     void pinApartment(boolean isPinned, long id);
+
+    /**
+     * Pobiera mieszkanie wraz z jego dostawcami
+     * @param apartmentId id mieszkania
+     * @return {@link Apartment}
+     */
+    Apartment getApartmentWithHousingProviders(Long apartmentId);
 }

@@ -99,11 +99,28 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     @Transactional
     public void addHousingProviders(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException {
-        Apartment apartment = apartmentRepository.findById(dto.getApartmentId()).orElseThrow(() -> new RentowneNotFoundException(dto.getApartmentId()));
-        List<HousingProvider> housingProviders = housingProviderRepository.findAllById(dto.getHousingProviderIds());
+        Apartment apartment = apartmentRepository.getApartmentWithHousingProviders(dto.getApartmentId());
+        List<HousingProvider> newHousingProviders = housingProviderRepository.findAllById(dto.getHousingProviderIds());
 
-        for (HousingProvider housingProvider : housingProviders) {
-            housingProvider.addApartment(apartment);
+        Set<HousingProvider> currentHousingProviders = apartment.getHousingProviders();
+
+        // Znajdź dostawców, którzy mają być usunięci (są w DB, ale nie w danych z frontu)
+        Set<HousingProvider> providersToRemove = currentHousingProviders.stream()
+                .filter(provider -> !newHousingProviders.contains(provider))
+                .collect(Collectors.toSet());
+
+        // Usuń nieaktualne powiązania
+        for (HousingProvider providerToRemove : providersToRemove) {
+            providerToRemove.getApartments().remove(apartment); // Usuń apartament z dostawcy
+            apartment.getHousingProviders().remove(providerToRemove); // Usuń dostawcę z apartamentu
+        }
+
+        // Dodaj nowe lub zaktualizuj istniejące powiązania
+        for (HousingProvider newProvider : newHousingProviders) {
+            if (!currentHousingProviders.contains(newProvider)) {
+                newProvider.addApartment(apartment); // Ta metoda aktualizuje obie strony relacji
+            }
+            // Jeśli dostawca już istnieje, nie trzeba nic robić, ponieważ relacja już istnieje
         }
     }
 

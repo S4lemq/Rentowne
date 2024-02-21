@@ -120,4 +120,13 @@ public class ApartmentRepositoryImpl extends BaseRepositoryImpl<Apartment, Long>
                 .where(apartment.id.eq(id))
                 .execute();
     }
+
+    @Override
+    public Apartment getApartmentWithHousingProviders(Long apartmentId) {
+        return queryFactory.select(apartment)
+                .from(apartment)
+                .leftJoin(apartment.housingProviders, housingProvider).fetchJoin()
+                .where(apartment.id.eq(apartmentId))
+                .fetchOne();
+    }
 }
