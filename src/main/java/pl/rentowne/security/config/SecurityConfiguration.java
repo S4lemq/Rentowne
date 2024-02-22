@@ -18,7 +18,7 @@ import static pl.rentowne.user.model.Role.ADMIN;
 import static pl.rentowne.user.model.Role.USER;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfiguration {

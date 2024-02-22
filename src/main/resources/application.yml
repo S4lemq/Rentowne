@@ -14,8 +14,8 @@ spring:
         generate-ddl: false
         properties:
             hibernate:
-                format_sql: true
-#                show_sql: false
+#                format_sql: true
+                show_sql: false
         database: postgresql
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         open-in-view: false
@@ -38,7 +38,7 @@ spring:
 application:
     security:
         jwt:
-            secret-key: EB94B46AD4579952BED4190786541928999DEB7E5DA34A91175BFA30BEDCD92B
+            secret-key: secret-key
             expiration: 86400000 # a day
             refresh-token:
                 expiration: 604800000 # 7 days
@@ -49,10 +49,26 @@ application:
     token:
         cleanup:
             expression: "0 0 3 * * *"
+    payments:
+        p24:
+            testMode: true
+            url: https://secure.przelewy24.pl
+            apiUrl: https://secure.przelewy24.pl/api/v1
+            merchantId: 0
+            posId: 0
+            urlReturn: https://rentownefront-production.up.railway.app
+            crc: crc
+            secretKey: secretKey
 
-logging:
-    level:
-        org.springframework.security: DEBUG
-        org.springframework.web: DEBUG
+            testUrl: https://sandbox.przelewy24.pl
+            testApiUrl: https://sandbox.przelewy24.pl/api/v1
+            testUrlReturn: https://rentownefront-production.up.railway.app
+            testCrc: de89c8bcb3a2783c
+            testSecretKey: 5203bae4813b4c4301f333f0097b165a
+
+#logging:
+#    level:
+#        org.springframework.security: DEBUG
+#        org.springframework.web: DEBUG
 
 

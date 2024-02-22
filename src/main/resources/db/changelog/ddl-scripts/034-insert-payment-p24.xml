@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="033-add-p24-payment">
+        <sql>
+            update payment set default_payment = false where payment_id = 1;
+
+            insert into payment(payment_id, name, type, default_payment, note, insert_date, insert_operator)
+            values(2, 'Płatność online Przelewy 24', 'P24_ONLINE', true, '', now(), 'admin');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

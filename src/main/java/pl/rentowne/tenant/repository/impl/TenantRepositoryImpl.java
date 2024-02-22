@@ -48,9 +48,8 @@ public class TenantRepositoryImpl extends BaseRepositoryImpl<Tenant, Long> imple
     }
 
     @Override
-    public Long getTenantIdByEmail(String loggedEmail) {
-        return queryFactory.select(tenant.id)
-                .from(tenant)
+    public Tenant getTenantByEmail(String loggedEmail) {
+        return queryFactory.selectFrom(tenant)
                 .where(tenant.email.eq(loggedEmail))
                 .fetchOne();
     }

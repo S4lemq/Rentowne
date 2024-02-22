@@ -24,9 +24,9 @@ public interface TenantRepositoryCustom {
     Long getRentedObjectId(Long id);
 
     /**
-     * Pobiera id najemcy
-     * @param loggedEmail email
-     * @return id {@link Tenant}
+     * Pobiera najemcę
+     * @param loggedEmail email najemcy
+     * @return {@link Tenant}
      */
-    Long getTenantIdByEmail(String loggedEmail);
+    Tenant getTenantByEmail(String loggedEmail);
 }
