@@ -22,21 +22,13 @@ public class ImageServiceImpl implements ImageService {
     private String uploadDir;
 
     public String uploadImage(String filename, InputStream inputStream) {
+        createDirectoryIfNotExists(uploadDir);
+
         String newFileName = UploadedFilesNameUtils.slugifyFileName(filename);
-
-        if (!Files.exists(Path.of(uploadDir))) {
-            try {
-                Files.createDirectory(Path.of(uploadDir));
-            } catch (Exception e) {
-                throw new RuntimeException("Nie mogę zapisać katalogu", e);
-            }
-        }
-
-
         newFileName = ExistingFileRenameUtils.renameIfExists(Path.of(uploadDir), newFileName);
         Path filePath = Paths.get(uploadDir).resolve(newFileName);
 
-        try(OutputStream outputStream = Files.newOutputStream(filePath)) {
+        try (OutputStream outputStream = Files.newOutputStream(filePath)) {
             inputStream.transferTo(outputStream);
         } catch (IOException e) {
             throw new RuntimeException("Nie mogę zapisać pliku", e);
@@ -48,4 +40,16 @@ public class ImageServiceImpl implements ImageService {
         FileSystemResourceLoader fileSystemResourceLoader = new FileSystemResourceLoader();
         return fileSystemResourceLoader.getResource(uploadDir + filename);
     }
+
+    private void createDirectoryIfNotExists(String directoryPath) {
+        Path path = Paths.get(directoryPath);
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectories(path);
+            } catch (IOException e) {
+                throw new RuntimeException("Nie udało się stworzyć katalogu: " + directoryPath, e);
+            }
+        }
+    }
+
 }

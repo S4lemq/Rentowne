@@ -1,8 +1,8 @@
 spring:
     datasource:
-        url: jdbc:postgresql://${DATABASE_URL}:${DATABASE_PORT}/${DATABASE_NAME}
-        username: ${DATABASE_USERNAME}
-        password: ${DATABASE_PASSWORD}
+        url: jdbc:postgresql://${DATABASE_URL:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:rentowne}
+        username: ${DATABASE_USERNAME:postgres}
+        password: ${DATABASE_PASSWORD:postgres}
         driver-class-name: org.postgresql.Driver
     liquibase:
         change-log: classpath:db/changelog/changeLog.xml
@@ -14,7 +14,8 @@ spring:
         generate-ddl: false
         properties:
             hibernate:
-                format_sql: true
+#                format_sql: true
+                show_sql: false
         database: postgresql
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         open-in-view: false
@@ -44,14 +45,14 @@ application:
     uploadDir: "./data/apartmentImages/"
     email:
         sender: pusty
-    serviceAddress: http://localhost:4200
+    serviceAddress: ${BACKEND_URL:http://localhost:4200}
     token:
         cleanup:
             expression: "0 0 3 * * *"
 
-logging:
-    level:
-        org.hibernate.SQL: ERROR
-        org.hibernate.type.descriptor.sql.BasicBinder: ERROR
+#logging:
+#    level:
+#        org.springframework.security: DEBUG
+#        org.springframework.web: DEBUG
 
 
