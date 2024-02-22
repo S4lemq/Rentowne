@@ -45,7 +45,7 @@ application:
     uploadDir: "./data/apartmentImages/"
     email:
         sender: pusty
-    serviceAddress: ${BACKEND_URL:http://localhost:4200}
+    serviceAddress: ${SERVICE_ADDRESS:http://localhost:4200}
     token:
         cleanup:
             expression: "0 0 3 * * *"

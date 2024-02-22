@@ -31,7 +31,6 @@ public class LostPasswordService {
 
     @Transactional
     public void sendLostPasswordLink(LostPasswordRequest lostPasswordRequest) {
-        log.info("lost password by email: {}", lostPasswordRequest.getEmail());
         User user;
         try {
             user = userService.getByEmail(lostPasswordRequest.getEmail());
@@ -42,7 +41,7 @@ public class LostPasswordService {
         String hash = generateHashForLostPassword(user);
         user.setHash(hash);
         user.setHashDate(LocalDateTime.now());
-        log.info("all required fields was declared, trying execute send mail method");
+        log.info("User with email: {} tried recover the password : {}", lostPasswordRequest.getEmail());
         emailClientService.getInstance()
                 .send(lostPasswordRequest.getEmail(), "Zresetuj hasło", createMessage(createLink(hash, lostPasswordRequest.getIsTenant())));
     }

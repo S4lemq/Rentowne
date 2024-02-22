@@ -23,9 +23,8 @@ public class EmailSimpleService implements EmailSender {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(msg);
-        log.info("trying email send to: {}", to);
         mailSender.send(message);
-        log.info("email was sent to: {}", to);
+        log.info("Email was sent to: {}", to);
     }
 
 }
