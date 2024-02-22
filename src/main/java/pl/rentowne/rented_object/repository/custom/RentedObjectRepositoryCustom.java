@@ -1,6 +1,7 @@
 package pl.rentowne.rented_object.repository.custom;
 
 import pl.rentowne.rented_object.model.RentedObject;
+import pl.rentowne.rented_object.model.dto.BasicSettlementDto;
 import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 
 import java.math.BigDecimal;
@@ -55,4 +56,11 @@ public interface RentedObjectRepositoryCustom {
      * @param settlementDate data rozliczenia
      */
     void updateSettlement(Long rentedObjectId, BigDecimal totalSum, LocalDateTime settlementDate);
+
+    /**
+     * Pobiera kwotę ostatniego rozliczenia oraz datę danego obiektu, do którego jest przypisany najemca.
+     * @param loggedEmail email najemcy
+     * @return {@link BasicSettlementDto}
+     */
+    BasicSettlementDto getBasicSettlementDataByTenant(String loggedEmail);
 }

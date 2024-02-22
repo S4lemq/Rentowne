@@ -6,9 +6,12 @@ import pl.rentowne.apartment.model.QApartment;
 import pl.rentowne.common.repository.impl.BaseRepositoryImpl;
 import pl.rentowne.rented_object.model.QRentedObject;
 import pl.rentowne.rented_object.model.RentedObject;
+import pl.rentowne.rented_object.model.dto.BasicSettlementDto;
+import pl.rentowne.rented_object.model.dto.QBasicSettlementDto;
 import pl.rentowne.rented_object.model.dto.QRentedObjectDto;
 import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 import pl.rentowne.rented_object.repository.custom.RentedObjectRepositoryCustom;
+import pl.rentowne.tenant.model.QTenant;
 import pl.rentowne.user.model.QUser;
 
 import java.math.BigDecimal;
@@ -22,6 +25,8 @@ public class RentedObjectRepositoryImpl extends BaseRepositoryImpl<RentedObject,
     private static final QRentedObjectDto rentedObjectDto = new QRentedObjectDto(rentedObject.id, rentedObject.rentedObjectName);
     private static final QApartment apartment = QApartment.apartment;
     private static final QUser user = QUser.user;
+    private static final QBasicSettlementDto basicSettlementDto = new QBasicSettlementDto(rentedObject.lastSettlementTotalAmount, rentedObject.lastSettlementDate);
+    private static final QTenant tenant = QTenant.tenant;
 
 
     public RentedObjectRepositoryImpl(EntityManager entityManager) {
@@ -90,6 +95,15 @@ public class RentedObjectRepositoryImpl extends BaseRepositoryImpl<RentedObject,
                 .set(rentedObject.lastSettlementTotalAmount, totalSum)
                 .where(rentedObject.id.eq(rentedObjectId))
                 .execute();
+    }
+
+    @Override
+    public BasicSettlementDto getBasicSettlementDataByTenant(String loggedEmail) {
+        return queryFactory.select(basicSettlementDto)
+                .from(rentedObject)
+                .join(tenant).on(rentedObject.id.eq(tenant.rentedObject().id))
+                .where(tenant.email.eq(loggedEmail))
+                .fetchOne();
     }
 
 }

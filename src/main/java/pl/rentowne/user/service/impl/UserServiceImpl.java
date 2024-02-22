@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserBasicDto getLoggedUser() throws RentowneBusinessException {
         return userRepository.getByEmail(getLoggedUserEmail());
     }

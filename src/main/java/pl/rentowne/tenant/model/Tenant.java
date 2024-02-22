@@ -6,6 +6,9 @@ import pl.rentowne.address.model.Address;
 import pl.rentowne.common.model.BaseEntity;
 import pl.rentowne.lease_agreement.model.LeaseAgreement;
 import pl.rentowne.rented_object.model.RentedObject;
+import pl.rentowne.tenant_settlement.model.TenantSettlement;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -65,4 +68,7 @@ public class Tenant extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RENTED_OBJECT_ID", unique = true)
     private RentedObject rentedObject;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tenant")
+    private List<TenantSettlement> tenantSettlements;
 }

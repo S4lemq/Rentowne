@@ -2,6 +2,7 @@ package pl.rentowne.rented_object.service;
 
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.rented_object.model.RentedObject;
+import pl.rentowne.rented_object.model.dto.BasicSettlementDto;
 import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 
 import java.util.List;
@@ -55,4 +56,10 @@ public interface RentedObjectService {
      * @return lista obiektów do wynajęcia
      */
     List<RentedObjectDto> getAllByApartmentAndOptionalRentedObject(Long apartmentId, Long rentedObjectId) throws RentowneBusinessException;
+
+    /**
+     * Pobiera kwotę ostatniego rozliczenia oraz datę danego obiektu, do którego jest przypisany najemca. Dane są pobierane dla zalogowanego użytkownika.
+     * @return {@link BasicSettlementDto}
+     */
+    BasicSettlementDto getBasicSettlementData();
 }

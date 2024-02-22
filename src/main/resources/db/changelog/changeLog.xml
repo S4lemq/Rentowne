@@ -32,5 +32,8 @@
     <include file="/db/changelog/ddl-scripts/028-refactor_name_surname_and_secret_length.xml"/>
     <include file="/db/changelog/ddl-scripts/029-add_pinned_column_to_apartment.xml"/>
     <include file="/db/changelog/ddl-scripts/030-add_imag_column_to_user.xml"/>
+    <include file="/db/changelog/ddl-scripts/031-add_tenant_settlement_table.xml"/>
+    <include file="/db/changelog/ddl-scripts/032-add_payment_table.xml"/>
+    <include file="/db/changelog/ddl-scripts/033-add_payment_fk_to_tenant_settlement.xml"/>
 
 </databaseChangeLog>

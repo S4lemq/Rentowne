@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="032-add_payment_sequence">
+        <createSequence sequenceName="PAYMENT_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="032-create_payment_table">
+        <createTable tableName="PAYMENT">
+            <column name="PAYMENT_ID" type="bigint" defaultValueSequenceNext="PAYMENT_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_PAYMENT"/>
+            </column>
+            <column name="NAME" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DEFAULT_PAYMENT" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NOTE" type="text"/>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="032-add_comments_to_payment_table">
+        <setTableRemarks tableName="PAYMENT" remarks="Tabela typów płatności" />
+        <setColumnRemarks tableName="PAYMENT" columnName="PAYMENT_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="PAYMENT" columnName="NAME" remarks="Nazwa" />
+        <setColumnRemarks tableName="PAYMENT" columnName="TYPE" remarks="Rodzaj płatności" />
+        <setColumnRemarks tableName="PAYMENT" columnName="DEFAULT_PAYMENT" remarks="Czy standardowa płatność" />
+        <setColumnRemarks tableName="PAYMENT" columnName="NOTE" remarks="Notatka" />
+        <setColumnRemarks tableName="PAYMENT" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="PAYMENT" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="PAYMENT" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="PAYMENT" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+    <changeSet author="plubowicz" id="032-add-payment">
+        <sql>
+            insert into payment(payment_id, name, type, default_payment, note, insert_date, insert_operator)
+            values(1, 'Przelew bankowy', 'BANK_TRANSFER', true, 'Prosimy o dokonanie przelewu na konto: \n05 1540 7667 4152 2647 5621 0016\n w tytule proszę podać nr zamówienia', now(), 'admin');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

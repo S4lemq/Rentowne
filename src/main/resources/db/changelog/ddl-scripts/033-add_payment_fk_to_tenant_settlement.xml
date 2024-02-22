@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="033-add_fk_to_tenant_settlement">
+        <addColumn tableName="TENANT_SETTLEMENT">
+            <column name="PAYMENT_ID" type="bigint">
+                <constraints nullable="false" unique="true"
+                             foreignKeyName="FK_TENANT_SETTLEMENT_ON_PAYMENT"
+                             references="PAYMENT(PAYMENT_ID)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="033-add_comment">
+        <setColumnRemarks tableName="TENANT_SETTLEMENT" columnName="PAYMENT_ID" remarks="Referencja do typu płatności" />
+    </changeSet>
+
+</databaseChangeLog>
