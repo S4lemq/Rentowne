@@ -36,5 +36,7 @@
     <include file="/db/changelog/ddl-scripts/032-add_payment_table.xml"/>
     <include file="/db/changelog/ddl-scripts/033-add_payment_fk_to_tenant_settlement.xml"/>
     <include file="/db/changelog/ddl-scripts/034-insert-payment-p24.xml"/>
+    <include file="/db/changelog/ddl-scripts/035-add_order_hash_column_to_tenant_settlement.xml"/>
+    <include file="/db/changelog/ddl-scripts/036-add_tenant_settlement_log_table.xml"/>
 
 </databaseChangeLog>

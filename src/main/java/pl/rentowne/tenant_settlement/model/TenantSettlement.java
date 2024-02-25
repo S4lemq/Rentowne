@@ -37,6 +37,9 @@ public class TenantSettlement extends BaseEntity {
     @Column(name = "GROSS_VALUE", nullable = false)
     private BigDecimal grossValue;
 
+    @Column(name = "ORDER_HASH", length = 12)
+    private String orderHash;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TENANT_ID")
     private Tenant tenant;

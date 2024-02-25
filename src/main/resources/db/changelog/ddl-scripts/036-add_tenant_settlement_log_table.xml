@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="036-add_tenant_settlement_log_sequence">
+        <createSequence sequenceName="TENANT_SETTLEMENT_LOG_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="032-create_tenant_settlement_log_table">
+        <createTable tableName="TENANT_SETTLEMENT_LOG">
+            <column name="TENANT_SETTLEMENT_LOG_ID" type="bigint" defaultValueSequenceNext="TENANT_SETTLEMENT_LOG_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_TENANT_SETTLEMENT_LOG"/>
+            </column>
+            <column name="NOTE" type="text"/>
+            <column name="TENANT_SETTLEMENT_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_TENANT_SETTLEMENT_LOG_ON_TENANT_SETTLEMENT"
+                             references="TENANT_SETTLEMENT(TENANT_SETTLEMENT_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="036-add_comments_to_tenant_settlement_log_table">
+        <setTableRemarks tableName="TENANT_SETTLEMENT_LOG" remarks="Tabela logów statusów płatności" />
+        <setColumnRemarks tableName="TENANT_SETTLEMENT_LOG" columnName="TENANT_SETTLEMENT_LOG_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="TENANT_SETTLEMENT_LOG" columnName="NOTE" remarks="Notatka" />
+        <setColumnRemarks tableName="TENANT_SETTLEMENT_LOG" columnName="TENANT_SETTLEMENT_ID" remarks="Referencja do tabeli rozliczeń najemcy" />
+        <setColumnRemarks tableName="TENANT_SETTLEMENT_LOG" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="TENANT_SETTLEMENT_LOG" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="TENANT_SETTLEMENT_LOG" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="TENANT_SETTLEMENT_LOG" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+</databaseChangeLog>

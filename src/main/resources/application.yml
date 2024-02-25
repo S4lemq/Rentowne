@@ -57,12 +57,14 @@ application:
             merchantId: 0
             posId: 0
             urlReturn: frontendAddress
+            urlStatus: backendAddress
             crc: crc
             secretKey: secretKey
 
             testUrl: https://sandbox.przelewy24.pl
             testApiUrl: https://sandbox.przelewy24.pl/api/v1
             testUrlReturn: frontendAddress
+            testUrlStatus: backendAddress
             testCrc: de89c8bcb3a2783c
             testSecretKey: 5203bae4813b4c4301f333f0097b165a
 
