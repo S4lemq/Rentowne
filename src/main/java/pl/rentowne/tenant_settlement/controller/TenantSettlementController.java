@@ -2,6 +2,7 @@ package pl.rentowne.tenant_settlement.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,7 @@ import pl.rentowne.tenant_settlement.service.TenantSettlementService;
 @RequiredArgsConstructor
 @Tag(name = "Rozliczenia najemców")
 @Validated
+@Slf4j
 public class TenantSettlementController extends AbstractController {
 
     private final RentedObjectService rentedObjectService;
@@ -47,9 +49,10 @@ public class TenantSettlementController extends AbstractController {
         return new NotificationDto(tenantSettlement.getTenantSettlementStatus() == TenantSettlementStatus.PAID);
     }
 
-    @PostMapping("/api/tenant/notification/{orderHash}") // odbiera z P24 notyfikacje
+    @PostMapping("/tenant/notification/{orderHash}") // odbiera z P24 notyfikacje
     public void notificationReceive(@PathVariable @Length(max = 12) String orderHash,
                                     @RequestBody NotificationReceiveDto receiveDto) {
+        log.info("try receive notification");
         tenantSettlementService.receiveNotification(orderHash, receiveDto);
     }
 
