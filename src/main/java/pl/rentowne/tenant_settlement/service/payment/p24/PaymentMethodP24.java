@@ -62,7 +62,7 @@ public class PaymentMethodP24 {
 
     private String generateStatusUrl(String orderHash) {
         String baseUrl = config.isTestMode() ? config.getTestUrlStatus() : config.getUrlStatus();
-        return baseUrl + "/tenant/profile/" + orderHash;
+        return baseUrl + "/tenant/notification/" + orderHash;
     }
 
     private String generateReturnUrl(String orderHash) {
