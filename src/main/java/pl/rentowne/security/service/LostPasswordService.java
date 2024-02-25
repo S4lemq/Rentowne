@@ -47,11 +47,17 @@ public class LostPasswordService {
     }
 
     private String createMessage(String hashLink) {
-        return "Wygenerowaliśmy dla Ciebie link do zmiany hasła" +
-                "\n\nKliknij link, żeby zresetować hasło: " +
-                "\n" + hashLink +
-                "\n\nDziękujemy.";
+        return new StringBuilder()
+                .append("Szanowny Użytkowniku,")
+                .append("\n\nOtrzymaliśmy prośbę o zresetowanie hasła do Twojego konta.")
+                .append("\nAby ustawić nowe hasło, kliknij poniższy link:")
+                .append("\n").append(hashLink)
+                .append("\n\nLink do zmiany hasła będzie aktywny przez 1 godzinę. Jeśli nie żądałeś zmiany hasła, zignoruj tę wiadomość.")
+                .append("\n\nZ poważaniem,")
+                .append("\nZespół Rentowne")
+                .toString();
     }
+
 
     private String createLink(String hash, boolean isTenant) {
         if (isTenant) {
@@ -71,7 +77,7 @@ public class LostPasswordService {
         User user = userService.findByHash(changePassword.getHash())
                 .orElseThrow(() -> new RentowneBusinessException(RentowneErrorCode.BAD_LINK));
 
-        if(user.getHashDate().plusMinutes(1).isAfter(LocalDateTime.now())){
+        if(user.getHashDate().plusMinutes(60).isAfter(LocalDateTime.now())){
             user.setPassword(passwordEncoder.encode(changePassword.getPassword()));
             user.setHash(null);
             user.setHashDate(null);

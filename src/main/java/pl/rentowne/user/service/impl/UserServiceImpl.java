@@ -60,6 +60,12 @@ public class UserServiceImpl implements UserService {
 
         boolean passwordToChange = userDto.getPassword() != null && userDto.getPassword().equals(userDto.getRepeatPassword());
         if (passwordToChange) {
+            if (userDto.getOldPassword() == null) {
+                throw new RentowneBusinessException(RentowneErrorCode.BAD_OLD_PASSWORD);
+            }
+            if (!passwordEncoder.matches(userDto.getOldPassword(), user.getPassword())) {
+                throw new RentowneBusinessException(RentowneErrorCode.BAD_OLD_PASSWORD);
+            }
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
 
