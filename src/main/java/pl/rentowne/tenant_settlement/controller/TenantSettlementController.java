@@ -49,7 +49,7 @@ public class TenantSettlementController extends AbstractController {
         return new NotificationDto(tenantSettlement.getTenantSettlementStatus() == TenantSettlementStatus.PAID);
     }
 
-    @PostMapping("/tenant/notification/{orderHash}") // odbiera z P24 notyfikacje
+    @PostMapping("/api/tenant/notification/{orderHash}") // odbiera z P24 notyfikacje
     public void notificationReceive(@PathVariable @Length(max = 12) String orderHash,
                                     @RequestBody NotificationReceiveDto receiveDto) {
         log.info("try receive notification");
