@@ -69,7 +69,7 @@ public class PaymentMethodP24 {
 
     private String generateReturnUrl(String orderHash) {
         String baseUrl = config.isTestMode() ? config.getTestUrlReturn() : config.getUrlReturn();
-        String url = baseUrl + "/api/tenant/notification/" + orderHash;
+        String url = baseUrl + "/tenant/notification/" + orderHash;
         log.info("generated return url: {}", url);
         return url;
     }
