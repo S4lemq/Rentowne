@@ -68,9 +68,12 @@ application:
             testCrc: de89c8bcb3a2783c
             testSecretKey: 5203bae4813b4c4301f333f0097b165a
 
-#logging:
-#    level:
-#        org.springframework.security: DEBUG
-#        org.springframework.web: DEBUG
+logging:
+    level:
+        org.springframework.web: DEBUG
+        org.springframework.web.servlet.DispatcherServlet: TRACE
+        org.springframework.web.client.RestTemplate: DEBUG
+        org.springframework.http.converter.json: DEBUG
+        org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 
 
