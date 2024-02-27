@@ -16,7 +16,7 @@ public class NotificationReceiveDto {
     private Integer amount;
     private Integer originAmount;
     private String currency;
-    private Integer orderId;
+    private Long orderId;
     private Integer methodId;
     private String statement;
     private String sign;

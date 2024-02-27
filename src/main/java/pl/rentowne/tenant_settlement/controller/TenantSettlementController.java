@@ -23,7 +23,7 @@ import pl.rentowne.tenant_settlement.service.TenantSettlementService;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Rozliczenia najemców")
-
+@Validated
 @Slf4j
 public class TenantSettlementController extends AbstractController {
 
@@ -49,10 +49,11 @@ public class TenantSettlementController extends AbstractController {
         return new NotificationDto(tenantSettlement.getTenantSettlementStatus() == TenantSettlementStatus.PAID);
     }
 
-    @PostMapping("/api/tenant/notifications") // odbiera z P24 notyfikacje
-    public void notificationReceive(@RequestBody NotificationReceiveDto receiveDto) {
+    @PostMapping("/api/tenant/notification/{orderHash}") // odbiera z P24 notyfikacje
+    public void notificationReceive(@PathVariable @Length(max = 12) String orderHash,
+                                    @RequestBody NotificationReceiveDto receiveDto) {
         log.info("try receive notification");
-        tenantSettlementService.receiveNotification("orderHash", receiveDto);
+        tenantSettlementService.receiveNotification(orderHash, receiveDto);
     }
 
 }

@@ -11,6 +11,6 @@ public class TransactionVerifyRequest {
     private String sessionId;
     private Integer amount;
     private String currency;
-    private Integer orderId;
+    private Long orderId;
     private String sign;
 }

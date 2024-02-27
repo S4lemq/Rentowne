@@ -62,7 +62,7 @@ public class PaymentMethodP24 {
 
     private String generateStatusUrl(String orderHash) {
         String baseUrl = config.isTestMode() ? config.getTestUrlStatus() : config.getUrlStatus();
-        String url = "https://rentowne-production.up.railway.app/api/tenant/notifications";
+        String url = baseUrl + "/api/tenant/notification/" + orderHash;
         log.info("generated status url: {}", url);
         return url;
     }
