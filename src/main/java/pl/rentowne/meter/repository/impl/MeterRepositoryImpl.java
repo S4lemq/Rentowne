@@ -40,7 +40,8 @@ public class MeterRepositoryImpl extends BaseRepositoryImpl<Meter, Long> impleme
     public List<Long> findMeterCountByRentedObject(Long id) {
         return queryFactory.select(meter.id)
                 .from(meter)
-                .where(meter.rentedObject().id.eq(id))
+                .where(meter.rentedObject().id.eq(id)
+                        .and((meter.meterType.eq(MeterType.ELECTRIC).or(meter.meterType.eq(MeterType.WATER_COLD)))))
                 .fetch();
     }
 

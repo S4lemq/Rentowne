@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet id="038-remove_account_number_uk" author="plubowicz">
+        <dropUniqueConstraint constraintName="UK_TENANT_1" tableName="TENANT" schemaName="public"/>
+    </changeSet>
+
+    <changeSet id="038-remove_phone_number_uk" author="plubowicz">
+        <dropUniqueConstraint constraintName="UK_TENANT_2" tableName="TENANT" schemaName="public"/>
+    </changeSet>
+
+
+    <changeSet author="plubowicz" id="038-rename_indexes_and_uk">
+        <sql splitStatements="true" endDelimiter=";">
+            ALTER INDEX UK_TENANT_3 RENAME TO UK_TENANT_1;
+            ALTER INDEX UK_TENANT_4 RENAME TO UK_TENANT_2;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
