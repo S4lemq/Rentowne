@@ -101,7 +101,7 @@ public class PaymentMethodP24 {
                 .baseUrl(config.isTestMode() ? config.getTestApiUrl() : config.getApiUrl())
                 .build();
 
-        ResponseEntity<TransactionVerifyResponse> result = webClient.put().uri("transaction/verify")
+        ResponseEntity<TransactionVerifyResponse> result = webClient.put().uri("/transaction/verify")
                 .bodyValue(TransactionVerifyRequest.builder()
                         .merchantId(config.getMerchantId())
                         .posId(config.getPosId())
