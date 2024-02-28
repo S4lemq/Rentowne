@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.rentowne.common.model.BaseEntity;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -19,7 +21,7 @@ import pl.rentowne.common.model.BaseEntity;
                 @Index(name = "PK_TENANT_SETTLEMENT_LOG", columnList = "TENANT_SETTLEMENT_LOG_ID", unique = true)
         }
 )
-public class TenantSettlementLog extends BaseEntity {
+public class TenantSettlementLog {
     @Id
     @SequenceGenerator(name = "tenant_settlement_log_seq", sequenceName = "TENANT_SETTLEMENT_LOG_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tenant_settlement_log_seq")
@@ -32,4 +34,6 @@ public class TenantSettlementLog extends BaseEntity {
     @Column(name = "NOTE")
     private String note;
 
+    @Column(name = "CREATED")
+    private LocalDateTime created;
 }

@@ -19,6 +19,8 @@ import pl.rentowne.tenant_settlement.service.TenantSettlementService;
 import pl.rentowne.tenant_settlement.service.payment.p24.PaymentMethodP24;
 import pl.rentowne.user.service.UserService;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -67,6 +69,7 @@ public class TenantSettlementServiceImpl implements TenantSettlementService {
             TenantSettlementStatus oldStatus = tenantSettlement.getTenantSettlementStatus();
             tenantSettlement.setTenantSettlementStatus(TenantSettlementStatus.PAID);
             tenantSettlementLogRepository.save(TenantSettlementLog.builder()
+                            .created(LocalDateTime.now())
                             .tenantSettlementId(tenantSettlement.getId())
                             .note("Opłacono płatność wynajmu przez Przelewy24, id płatności: " + receiveDto.getStatement() +
                                     ", zmieniono status z" + oldStatus + " na " + tenantSettlement.getTenantSettlementStatus().getValue())

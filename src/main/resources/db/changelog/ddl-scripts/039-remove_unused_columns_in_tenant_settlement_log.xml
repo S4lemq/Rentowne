@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet id="039-remove_unused_columns_in_tenant_settlement_log" author="plubowicz">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="TENANT_SETTLEMENT_LOG" columnName="INSERT_DATE"/>
+            <columnExists tableName="TENANT_SETTLEMENT_LOG" columnName="UPDATE_DATE"/>
+            <columnExists tableName="TENANT_SETTLEMENT_LOG" columnName="INSERT_OPERATOR"/>
+            <columnExists tableName="TENANT_SETTLEMENT_LOG" columnName="UPDATE_OPERATOR"/>
+        </preConditions>
+        <dropColumn columnName="INSERT_DATE" tableName="TENANT_SETTLEMENT_LOG"/>
+        <dropColumn columnName="UPDATE_DATE" tableName="TENANT_SETTLEMENT_LOG"/>
+        <dropColumn columnName="INSERT_OPERATOR" tableName="TENANT_SETTLEMENT_LOG"/>
+        <dropColumn columnName="UPDATE_OPERATOR" tableName="TENANT_SETTLEMENT_LOG"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="039-add_created_column_in_tenant_settlement_log">
+        <addColumn tableName="TENANT_SETTLEMENT_LOG">
+            <column name="CREATED" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+
+
+
+</databaseChangeLog>

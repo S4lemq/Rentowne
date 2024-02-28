@@ -40,5 +40,6 @@
     <include file="/db/changelog/ddl-scripts/036-add_tenant_settlement_log_table.xml"/>
     <include file="/db/changelog/ddl-scripts/037-alter_tenant_settlement_sequence_start_value.xml"/>
     <include file="/db/changelog/ddl-scripts/038-remove_unique_constraints_in_tenant_table.xml"/>
+    <include file="/db/changelog/ddl-scripts/039-remove_unused_columns_in_tenant_settlement_log.xml"/>
 
 </databaseChangeLog>
