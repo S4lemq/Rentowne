@@ -3,6 +3,7 @@ package pl.rentowne.tenant_settlement.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +20,8 @@ import pl.rentowne.tenant_settlement.model.dto.TenantSettlementDto;
 import pl.rentowne.tenant_settlement.model.dto.TenantSettlementSummary;
 import pl.rentowne.tenant_settlement.service.PaymentService;
 import pl.rentowne.tenant_settlement.service.TenantSettlementService;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,7 +55,12 @@ public class TenantSettlementController extends AbstractController {
     public void notificationReceive(@PathVariable @Length(max = 12) String orderHash,
                                     @RequestBody NotificationReceiveDto receiveDto,
                                     HttpServletRequest request) {
-        tenantSettlementService.receiveNotification(orderHash, receiveDto, request.getRemoteAddr());
+        String forwardedAddress = request.getHeader("x-forwarded-for");
+        tenantSettlementService.receiveNotification(
+                orderHash,
+                receiveDto,
+                isNotEmpty(forwardedAddress) ? forwardedAddress : request.getRemoteAddr()
+        );
     }
 
 }
