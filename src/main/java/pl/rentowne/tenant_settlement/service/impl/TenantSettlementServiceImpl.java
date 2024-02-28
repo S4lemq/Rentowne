@@ -62,9 +62,9 @@ public class TenantSettlementServiceImpl implements TenantSettlementService {
 
     @Override
     @Transactional
-    public void receiveNotification(String orderHash, NotificationReceiveDto receiveDto) {
+    public void receiveNotification(String orderHash, NotificationReceiveDto receiveDto, String remoteAddr) {
         TenantSettlement tenantSettlement = getTenantSettlementByOrderHash(orderHash);
-        String status = paymentMethodP24.receiveNotification(tenantSettlement, receiveDto);
+        String status = paymentMethodP24.receiveNotification(tenantSettlement, receiveDto, remoteAddr);
         if (status.equals("success")) {
             TenantSettlementStatus oldStatus = tenantSettlement.getTenantSettlementStatus();
             tenantSettlement.setTenantSettlementStatus(TenantSettlementStatus.PAID);
@@ -72,7 +72,7 @@ public class TenantSettlementServiceImpl implements TenantSettlementService {
                             .created(LocalDateTime.now())
                             .tenantSettlementId(tenantSettlement.getId())
                             .note("Opłacono płatność wynajmu przez Przelewy24, id płatności: " + receiveDto.getStatement() +
-                                    ", zmieniono status z" + oldStatus + " na " + tenantSettlement.getTenantSettlementStatus().getValue())
+                                    ", zmieniono status z " + oldStatus.getValue() + " na " + tenantSettlement.getTenantSettlementStatus().getValue())
                     .build());
         }
     }

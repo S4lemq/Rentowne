@@ -22,8 +22,10 @@ public interface TenantSettlementService {
 
     /**
      * Pobiera potwierdzenie transakcji
-     * @param orderHash hash transakcji
+     *
+     * @param orderHash  hash transakcji
      * @param receiveDto {@link NotificationReceiveDto}
+     * @param remoteAddr adres serwera, z którego przychodzi zapytanie
      */
-    void receiveNotification(String orderHash, NotificationReceiveDto receiveDto);
+    void receiveNotification(String orderHash, NotificationReceiveDto receiveDto, String remoteAddr);
 }

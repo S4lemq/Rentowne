@@ -88,10 +88,17 @@ public class PaymentMethodP24 {
         return "tenant_settlement_id_" + tenantSettlement.getId().toString();
     }
 
-    public String receiveNotification(TenantSettlement tenantSettlement, NotificationReceiveDto receiveDto) {
+    public String receiveNotification(TenantSettlement tenantSettlement, NotificationReceiveDto receiveDto, String remoteAddr) {
         log.info(receiveDto.toString());
+        this.validateIpAddress(remoteAddr);
         this.validate(receiveDto, tenantSettlement);
         return this.verifyPayment(receiveDto, tenantSettlement);
+    }
+
+    private void validateIpAddress(String remoteAddr) {
+        if (!config.getServers().contains(remoteAddr)) {
+            throw new RuntimeException("Niepoprawny adres IP dla potwierdzenia płatności: " + remoteAddr);
+        }
     }
 
     private String verifyPayment(NotificationReceiveDto receiveDto, TenantSettlement tenantSettlement) {
