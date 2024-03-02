@@ -20,6 +20,7 @@ import pl.rentowne.rented_object.model.RentedObject;
 import pl.rentowne.rented_object.model.dto.CalculateRequestDto;
 import pl.rentowne.rented_object.repository.RentedObjectRepository;
 import pl.rentowne.settlement.model.Settlement;
+import pl.rentowne.settlement.model.SettlementStatus;
 import pl.rentowne.settlement.repository.SettlementRepository;
 import pl.rentowne.settlement.service.SettlementService;
 
@@ -87,6 +88,7 @@ public class SettlementServiceImpl implements SettlementService {
                 .totalAmount(totalSum)
                 .settlementDate(dto.getSettlementDate())
                 .rentedObject(RentedObject.builder().id(rentedObjectId).build())
+                .settlementStatus(SettlementStatus.TO_PAY)
                 .build();
 
         settlementRepository.save(settlement);

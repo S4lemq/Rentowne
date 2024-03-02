@@ -53,4 +53,12 @@ public class TenantRepositoryImpl extends BaseRepositoryImpl<Tenant, Long> imple
                 .where(tenant.email.eq(loggedEmail))
                 .fetchOne();
     }
+
+    @Override
+    public Long getRentedObjectIdByTenantEmail(String email) {
+        return queryFactory.select(tenant.rentedObject().id)
+                .from(tenant)
+                .where(tenant.email.eq(email))
+                .fetchOne();
+    }
 }

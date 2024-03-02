@@ -11,6 +11,7 @@ import pl.rentowne.common.mail.EmailClientService;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.exception.RentowneNotFoundException;
+import pl.rentowne.tenant.repository.TenantRepository;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.model.dto.UserBasicDto;
 import pl.rentowne.user.model.dto.UserDto;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailClientService emailService;
+    private final TenantRepository tenantRepository;
 
     @Override
     public User getByEmail(String email) throws RentowneNotFoundException {
@@ -39,6 +41,13 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserBasicDto getLoggedUser() throws RentowneBusinessException {
         return userRepository.getByEmail(getLoggedUserEmail());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long getRentedObjectByLoggedTenant() throws RentowneBusinessException {
+        String email = getLoggedUserEmail();
+        return tenantRepository.getRentedObjectIdByTenantEmail(email);
     }
 
     @Override

@@ -100,20 +100,26 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Transactional
     public void addHousingProviders(ApartmentHousingProviderRequest dto) throws RentowneNotFoundException {
         Apartment apartment = apartmentRepository.getApartmentWithHousingProviders(dto.getApartmentId());
-        List<HousingProvider> newHousingProviders = housingProviderRepository.findAllById(dto.getHousingProviderIds());
+        List<HousingProvider> housingProvidersFromRequest = housingProviderRepository.findAllById(dto.getHousingProviderIds());
         Set<HousingProvider> currentHousingProviders = apartment.getHousingProviders();
 
-        for (HousingProvider newProvider : newHousingProviders) {
-            for (HousingProvider currentProvider : currentHousingProviders) {
-                if (newProvider.getType().equals(currentProvider.getType())) {
-                    throw new RentowneBusinessException(RentowneErrorCode.PROVIDER_TYPE_ALREADY_EXISTS, currentProvider.getType().toString());
-                }
+        List<HousingProvider> newProviders = housingProvidersFromRequest.stream()
+                .filter(providerFromRequest -> currentHousingProviders.stream()
+                        .noneMatch(currentProvider -> currentProvider.getId().equals(providerFromRequest.getId())))
+                .toList();
+
+        for (HousingProvider newProvider : newProviders) {
+            boolean existsWithType = currentHousingProviders.stream()
+                    .anyMatch(currentProvider -> currentProvider.getType().equals(newProvider.getType()));
+
+            if (existsWithType) {
+                throw new RentowneBusinessException(RentowneErrorCode.PROVIDER_TYPE_ALREADY_EXISTS, newProvider.getType().toString());
             }
         }
 
         // Znajdź dostawców, którzy mają być usunięci (są w DB, ale nie w danych z frontu)
         Set<HousingProvider> providersToRemove = currentHousingProviders.stream()
-                .filter(provider -> !newHousingProviders.contains(provider))
+                .filter(provider -> !housingProvidersFromRequest.contains(provider))
                 .collect(Collectors.toSet());
 
         // Usuń nieaktualne powiązania
@@ -123,7 +129,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         }
 
         // Dodaj nowe lub zaktualizuj istniejące powiązania
-        for (HousingProvider newProvider : newHousingProviders) {
+        for (HousingProvider newProvider : housingProvidersFromRequest) {
             if (!currentHousingProviders.contains(newProvider)) {
                 newProvider.addApartment(apartment); // Ta metoda aktualizuje obie strony relacji
             }

@@ -51,4 +51,10 @@ public interface UserService {
      * @return nazwa pliku
      */
     String getUserProfileImage();
+
+    /**
+     * Zwraca id obiektu zalogowanego najemcy
+     * @return id obiektu
+     */
+    Long getRentedObjectByLoggedTenant();
 }

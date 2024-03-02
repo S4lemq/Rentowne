@@ -2,12 +2,7 @@ package pl.rentowne.tenant_settlement.model;
 
 public enum TenantSettlementStatus {
     NEW("Nowe"),
-    PAID("Opłacone"),
-    PROCESSING("Przetwarzane"),
-    WAITING_FOR_DELIVERY("Czeka na dostawę"),
-    COMPLETED("Zrealizowane"),
-    CANCELED("Anulowane"),
-    REFUND("Zwrócone");
+    PAID("Opłacone");
 
     private String value;
 

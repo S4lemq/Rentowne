@@ -20,7 +20,9 @@ import java.time.LocalDateTime;
                 @UniqueConstraint(name = "PK_SETTLEMENT", columnNames = "SETTLEMENT_ID")
         },
         indexes = {
-                @Index(name = "PK_SETTLEMENT", columnList = "SETTLEMENT_ID", unique = true)
+                @Index(name = "PK_SETTLEMENT", columnList = "SETTLEMENT_ID", unique = true),
+                @Index(name = "UK_SETTLEMENT_1", columnList = "HASH", unique = true),
+
         }
 )
 public class Settlement extends BaseEntity {
@@ -45,8 +47,15 @@ public class Settlement extends BaseEntity {
     @Column(name = "SETTLEMENT_DATE")
     private LocalDateTime settlementDate;
 
+    @Column(name = "HASH", length = 12, unique = true)
+    private String hash;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RENTED_OBJECT_ID")
     private RentedObject rentedObject;
+
+    @Column(name = "STATUS", nullable = false, length = 32)
+    @Enumerated(EnumType.STRING)
+    private SettlementStatus settlementStatus;
 
 }

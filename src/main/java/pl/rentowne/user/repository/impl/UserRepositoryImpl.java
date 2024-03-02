@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public class UserRepositoryImpl extends BaseRepositoryImpl<User, Long> implements UserRepositoryCustom {
     private static final QUser user = QUser.user;
-    private final QUserBasicDto userBasicDto = new QUserBasicDto(user.id, user.email);
+    private final QUserBasicDto userBasicDto = new QUserBasicDto(user.id, user.email, user.role);
     private final QUserDto userDto = new QUserDto(user.id, user.firstname, user.lastname, user.email, user.image);
 
     public UserRepositoryImpl(EntityManager entityManager) {

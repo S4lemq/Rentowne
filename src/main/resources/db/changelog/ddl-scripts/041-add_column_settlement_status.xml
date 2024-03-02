@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="041-add_column_settlement_status">
+        <addColumn tableName="SETTLEMENT">
+            <column name="STATUS" type="varchar(32)"/>
+        </addColumn>
+
+        <update tableName="SETTLEMENT">
+            <column name="STATUS" value="PAID"/>
+        </update>
+
+        <sql>ALTER TABLE SETTLEMENT ALTER COLUMN STATUS SET NOT NULL</sql>
+    </changeSet>
+
+
+    <changeSet author="plubowicz" id="041-add_comment_to_settlement">
+        <setColumnRemarks tableName="SETTLEMENT" columnName="STATUS" remarks="Status rozliczenia" />
+    </changeSet>
+
+    <changeSet author="plubowicz" id="041-add_hash_column_to_settlement">
+        <addColumn tableName="SETTLEMENT">
+            <column name="HASH" type="varchar(12)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="041-add_comment">
+        <setColumnRemarks tableName="SETTLEMENT" columnName="HASH" remarks="Unikalny hash rozliczenia"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="041-add_unique_constraint_to_hash_column">
+        <addUniqueConstraint columnNames="HASH"
+                             constraintName="UK_SETTLEMENT_1"
+                             tableName="SETTLEMENT"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="041-add_unique_constraint_to_order_hash_column">
+        <addUniqueConstraint columnNames="ORDER_HASH"
+                             constraintName="UK_TENANT_SETTLEMENT_1"
+                             tableName="TENANT_SETTLEMENT"/>
+    </changeSet>
+
+</databaseChangeLog>

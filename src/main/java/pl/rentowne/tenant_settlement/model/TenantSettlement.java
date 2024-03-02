@@ -19,7 +19,8 @@ import java.math.BigDecimal;
                 @UniqueConstraint(name = "PK_TENANT_SETTLEMENT", columnNames = "TENANT_SETTLEMENT_ID")
         },
         indexes = {
-                @Index(name = "PK_TENANT_SETTLEMENT", columnList = "TENANT_SETTLEMENT_ID", unique = true)
+                @Index(name = "PK_TENANT_SETTLEMENT", columnList = "TENANT_SETTLEMENT_ID", unique = true),
+                @Index(name = "UK_TENANT_SETTLEMENT_1", columnList = "ORDER_HASH", unique = true)
         }
 )
 public class TenantSettlement extends BaseEntity {
@@ -37,7 +38,7 @@ public class TenantSettlement extends BaseEntity {
     @Column(name = "GROSS_VALUE", nullable = false)
     private BigDecimal grossValue;
 
-    @Column(name = "ORDER_HASH", length = 12)
+    @Column(name = "ORDER_HASH", length = 12, unique = true)
     private String orderHash;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,6 +46,6 @@ public class TenantSettlement extends BaseEntity {
     private Tenant tenant;
 
     @OneToOne
-    @JoinColumn(name = "PAYMENT_ID", unique = true)
+    @JoinColumn(name = "PAYMENT_ID")
     private Payment payment;
 }

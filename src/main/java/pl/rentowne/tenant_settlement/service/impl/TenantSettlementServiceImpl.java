@@ -6,6 +6,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.rentowne.exception.RentowneNotFoundException;
+import pl.rentowne.settlement.model.SettlementStatus;
+import pl.rentowne.settlement.repository.SettlementRepository;
 import pl.rentowne.tenant.model.Tenant;
 import pl.rentowne.tenant.repository.TenantRepository;
 import pl.rentowne.tenant_settlement.model.*;
@@ -32,6 +34,7 @@ public class TenantSettlementServiceImpl implements TenantSettlementService {
     private final PaymentRepository paymentRepository;
     private final PaymentMethodP24 paymentMethodP24;
     private final TenantSettlementLogRepository tenantSettlementLogRepository;
+    private final SettlementRepository settlementRepository;
 
     @Override
     @Transactional
@@ -40,15 +43,18 @@ public class TenantSettlementServiceImpl implements TenantSettlementService {
         Tenant tenant = tenantRepository.getTenantByEmail(loggedEmail);
         Payment payment = paymentRepository.findById(dto.getPaymentId()).orElseThrow(() -> new RentowneNotFoundException(dto.getPaymentId()));
 
+        String orderHash = RandomStringUtils.randomAlphanumeric(12);
         TenantSettlement toSave = TenantSettlement.builder()
                 .tenantSettlementStatus(TenantSettlementStatus.NEW)
                 .grossValue(dto.getTotalAmount())
                 .tenant(Tenant.builder().id(tenant.getId()).build())
                 .payment(payment)
-                .orderHash(RandomStringUtils.randomAlphanumeric(12))
+                .orderHash(orderHash)
                 .build();
 
         TenantSettlement savedSettlement = tenantSettlementRepository.save(toSave);
+        Long settlementId = settlementRepository.getLastSettlementByTenantId(tenant.getId());
+        settlementRepository.updateStatusAndHash(settlementId, SettlementStatus.PROCESSING, orderHash);
         savedSettlement.setTenant(tenant);
         String redirectUrl = initPaymentIfNeeded(savedSettlement);
 
@@ -68,6 +74,7 @@ public class TenantSettlementServiceImpl implements TenantSettlementService {
         if (status.equals("success")) {
             TenantSettlementStatus oldStatus = tenantSettlement.getTenantSettlementStatus();
             tenantSettlement.setTenantSettlementStatus(TenantSettlementStatus.PAID);
+            settlementRepository.updateStatus(orderHash, SettlementStatus.PAID);
             tenantSettlementLogRepository.save(TenantSettlementLog.builder()
                             .created(LocalDateTime.now())
                             .tenantSettlementId(tenantSettlement.getId())

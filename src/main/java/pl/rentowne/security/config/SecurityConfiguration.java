@@ -53,6 +53,7 @@ public class SecurityConfiguration {
                     req.requestMatchers(WHITE_LIST_URL)
                             .permitAll()
                             .requestMatchers("/api/tenant/**").hasRole(USER.name())
+                            .requestMatchers("/api/access/files/**").hasAnyRole(USER.name(), ADMIN.name())
                             .requestMatchers("/api/**").hasRole(ADMIN.name())
                             .anyRequest()
                             .authenticated()
@@ -64,8 +65,7 @@ public class SecurityConfiguration {
                     logout.logoutUrl("/api/auth/logout")
                             .addLogoutHandler(logoutHandler)
                             .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-            )
-        ;
+            );
 
         return http.build();
     }

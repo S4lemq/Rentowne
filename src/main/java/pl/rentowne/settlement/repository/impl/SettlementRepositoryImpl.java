@@ -8,6 +8,7 @@ import pl.rentowne.lease_agreement.model.QLeaseAgreement;
 import pl.rentowne.rented_object.model.QRentedObject;
 import pl.rentowne.settlement.model.QSettlement;
 import pl.rentowne.settlement.model.Settlement;
+import pl.rentowne.settlement.model.SettlementStatus;
 import pl.rentowne.settlement.model.dto.QSettlementDateAmountDto;
 import pl.rentowne.settlement.model.dto.QSettlementExportDto;
 import pl.rentowne.settlement.model.dto.SettlementDateAmountDto;
@@ -57,5 +58,34 @@ public class SettlementRepositoryImpl extends BaseRepositoryImpl<Settlement, Lon
                 .join(apartment).on(rentedObject.apartment().id.eq(apartment.id))
                 .where(apartment.user().id.eq(id))
                 .fetch();
+    }
+
+    @Override
+    public Long getLastSettlementByTenantId(Long id) {
+        return queryFactory.select(settlement.id)
+                .from(settlement)
+                .join(rentedObject).on(settlement.rentedObject().id.eq(rentedObject.id))
+                .join(tenant).on(rentedObject.id.eq(tenant.rentedObject().id))
+                .where(tenant.id.eq(id))
+                .orderBy(settlement.id.desc())
+                .limit(1)
+                .fetchOne();
+    }
+
+    @Override
+    public void updateStatusAndHash(Long settlementId, SettlementStatus settlementStatus, String orderHash) {
+        queryFactory.update(settlement)
+                .set(settlement.settlementStatus, settlementStatus)
+                .set(settlement.hash, orderHash)
+                .where(settlement.id.eq(settlementId))
+                .execute();
+    }
+
+    @Override
+    public void updateStatus(String orderHash, SettlementStatus settlementStatus) {
+        queryFactory.update(settlement)
+                .set(settlement.settlementStatus, settlementStatus)
+                .where(settlement.hash.eq(orderHash))
+                .execute();
     }
 }

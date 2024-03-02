@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet author="plubowicz" id="040-remove_unique_from_payment_id">
+        <sql>
+            ALTER TABLE TENANT_SETTLEMENT DROP CONSTRAINT IF EXISTS FK_TENANT_SETTLEMENT_ON_PAYMENT;
+            ALTER TABLE TENANT_SETTLEMENT ADD CONSTRAINT FK_TENANT_SETTLEMENT_ON_PAYMENT FOREIGN KEY (PAYMENT_ID) REFERENCES PAYMENT(PAYMENT_ID);
+        </sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="040-remove_unique_constraint_payment_id">
+        <sql>
+            ALTER TABLE TENANT_SETTLEMENT DROP CONSTRAINT tenant_settlement_payment_id_key;
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>
