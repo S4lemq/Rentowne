@@ -3,15 +3,13 @@ package pl.rentowne.tenant_settlement.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.rentowne.common.controler.AbstractController;
 import pl.rentowne.exception.RentowneBusinessException;
-import pl.rentowne.rented_object.model.dto.BasicSettlementDto;
-import pl.rentowne.rented_object.service.RentedObjectService;
+import pl.rentowne.tenant_settlement.model.Payment;
 import pl.rentowne.tenant_settlement.model.TenantSettlement;
 import pl.rentowne.tenant_settlement.model.TenantSettlementStatus;
 import pl.rentowne.tenant_settlement.model.dto.NotificationDto;
@@ -21,6 +19,8 @@ import pl.rentowne.tenant_settlement.model.dto.TenantSettlementSummary;
 import pl.rentowne.tenant_settlement.service.PaymentService;
 import pl.rentowne.tenant_settlement.service.TenantSettlementService;
 
+import java.util.List;
+
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @RestController
@@ -29,15 +29,12 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @Validated
 public class TenantSettlementController extends AbstractController {
 
-    private final RentedObjectService rentedObjectService;
     private final TenantSettlementService tenantSettlementService;
     private final PaymentService paymentService;
 
-    @GetMapping(value = "/api/tenant/get-financial-data")
-    public ResponseEntity<BasicSettlementDto> getBasicSettlementData() throws RentowneBusinessException {
-        BasicSettlementDto basicSettlementData = rentedObjectService.getBasicSettlementData();
-        basicSettlementData.setPayment(paymentService.getPayments());
-        return ResponseEntity.ok(basicSettlementData);
+    @GetMapping(value = "/api/tenant/get-payments-method")
+    public ResponseEntity<List<Payment>> getPaymentMethods() throws RentowneBusinessException {
+        return ResponseEntity.ok(paymentService.getPayments());
     }
 
     @PostMapping(value = "/api/tenant/tenant-settlement")

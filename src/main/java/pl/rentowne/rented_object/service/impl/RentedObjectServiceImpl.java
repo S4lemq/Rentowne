@@ -2,11 +2,9 @@ package pl.rentowne.rented_object.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.meter.model.dto.MeterDto;
 import pl.rentowne.rented_object.model.RentedObject;
-import pl.rentowne.rented_object.model.dto.BasicSettlementDto;
 import pl.rentowne.rented_object.model.dto.RentedObjectDto;
 import pl.rentowne.rented_object.repository.RentedObjectRepository;
 import pl.rentowne.rented_object.service.RentedObjectService;
@@ -58,13 +56,6 @@ public class RentedObjectServiceImpl implements RentedObjectService {
     @Override
     public List<RentedObjectDto> getAllByApartmentAndOptionalRentedObject(Long apartmentId, Long rentedObjectId) throws RentowneBusinessException {
         return rentedObjectRepository.getAllByApartmentAndOptionalRentedObject(apartmentId, rentedObjectId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public BasicSettlementDto getBasicSettlementData() {
-        String loggedEmail = userService.getLoggedUser().getEmail();
-        return rentedObjectRepository.getBasicSettlementDataByTenant(loggedEmail);
     }
 
     private List<RentedObjectDto> mapToDtos(List<RentedObject> rentedObjects) {

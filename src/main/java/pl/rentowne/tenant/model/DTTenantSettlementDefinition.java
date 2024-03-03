@@ -31,7 +31,8 @@ public class DTTenantSettlementDefinition implements DTDefinition {
         return new QTenantSettlementRowDto(
                 settlement.id,
                 settlement.settlementDate,
-                settlement.totalAmount
+                settlement.totalAmount,
+                settlement.settlementStatus
         );
     }
 
@@ -45,7 +46,8 @@ public class DTTenantSettlementDefinition implements DTDefinition {
         return Arrays.asList(
                 new DTColumnDefinition("id", settlement.id, true),
                 new DTColumnDefinition("settlementDate", settlement.settlementDate, true),
-                new DTColumnDefinition("totalAmount", settlement.totalAmount, true)
+                new DTColumnDefinition("totalAmount", settlement.totalAmount, true),
+                new DTColumnDefinition("settlementStatus", settlement.settlementStatus, true)
         );
     }
 

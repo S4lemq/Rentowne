@@ -77,10 +77,10 @@ application:
                 - 5.252.202.255
                 - 5.252.202.254
 
-logging:
-    level:
-        org.springframework.web: DEBUG
-        org.springframework.security: DEBUG
+#logging:
+#    level:
+#        org.springframework.web: DEBUG
+#        org.springframework.security: DEBUG
 #        org.springframework.web.servlet.DispatcherServlet: TRACE
 #        org.springframework.web.client.RestTemplate: DEBUG
 #        org.springframework.http.converter.json: DEBUG
