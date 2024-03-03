@@ -44,6 +44,13 @@ public class ApartmentDto {
                 .build();
     }
 
+    public static ApartmentDto asBasicDto(Apartment apartment) {
+        return ApartmentDto.builder()
+                .id(apartment.getId())
+                .apartmentName(apartment.getApartmentName())
+                .build();
+    }
+
     @QueryProjection
     public ApartmentDto(Long id, String apartmentName) {
         this.id = id;

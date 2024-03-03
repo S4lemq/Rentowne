@@ -1,6 +1,5 @@
 package pl.rentowne.tenant.repository.custom;
 
-import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.tenant.model.Tenant;
 
 import java.util.Optional;

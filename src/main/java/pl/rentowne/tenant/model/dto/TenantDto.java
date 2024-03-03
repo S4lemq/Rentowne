@@ -3,6 +3,7 @@ package pl.rentowne.tenant.model.dto;
 import lombok.Builder;
 import lombok.Getter;
 import pl.rentowne.address.model.dto.AddressDto;
+import pl.rentowne.apartment.model.dto.ApartmentDto;
 import pl.rentowne.lease_agreement.model.dto.LeaseAgreementDto;
 import pl.rentowne.rented_object.model.RentedObject;
 import pl.rentowne.rented_object.model.dto.RentedObjectDto;
@@ -20,7 +21,7 @@ public class TenantDto {
     private AddressDto addressDto;
     private LeaseAgreementDto leaseAgreementDto;
     private RentedObjectDto rentedObjectDto;
-    private Long apartmentId;
+    private ApartmentDto apartment;
 
 
     public static Tenant asEntity(TenantDto dto) {
@@ -48,7 +49,7 @@ public class TenantDto {
                 .addressDto(AddressDto.asDto(entity.getAddress()))
                 .leaseAgreementDto(LeaseAgreementDto.asDto(entity.getLeaseAgreement()))
                 .rentedObjectDto(RentedObjectDto.asDtoWithoutMeters(entity.getRentedObject()))
-                .apartmentId(entity.getRentedObject().getApartment().getId())
+                .apartment(ApartmentDto.asBasicDto(entity.getRentedObject().getApartment()))
                 .build();
     }
 

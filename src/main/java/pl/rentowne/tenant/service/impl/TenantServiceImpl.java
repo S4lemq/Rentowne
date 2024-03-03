@@ -99,7 +99,7 @@ public class TenantServiceImpl implements TenantService {
     private void secondUpdateFlags(TenantDto dto) {
         Long rentedObjectId = dto.getRentedObjectDto().getId();
         rentedObjectRepository.updateRentedFlag(rentedObjectId, true);
-        Long apartmentId = dto.getApartmentId();
+        Long apartmentId = dto.getApartment().getId();
         List<Long> ids = apartmentRepository.getAllRentedObjectsByApartmentIdAndRentedFlag(apartmentId, false);
         if (ids.isEmpty()) {
             apartmentRepository.updateRentedFlag(apartmentId, true);
