@@ -2,6 +2,8 @@ package pl.rentowne.settlement.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.rentowne.exception.RentowneBusinessException;
+import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.settlement.model.dto.SettlementDateAmountDto;
 import pl.rentowne.settlement.model.dto.SettlementStats;
 import pl.rentowne.settlement.repository.SettlementRepository;
@@ -26,6 +28,10 @@ public class SettlementStatsServiceImpl implements SettlementStatsService {
     public SettlementStats getStatistics() {
         Long id = userService.getLoggedUser().getId();
         List<SettlementDateAmountDto> settlements = settlementRepository.getDataForStatistics(id);
+
+        if (settlements.isEmpty()) {
+            throw new RentowneBusinessException(RentowneErrorCode.NO_SETTLEMENTS);
+        }
 
         LocalDateTime from = settlements.stream()
                 .map(SettlementDateAmountDto::getDate)

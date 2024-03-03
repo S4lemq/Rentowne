@@ -30,7 +30,8 @@ public class DTMeterReadingDefinition implements DTDefinition {
                 meterReading.currentReading,
                 meterReading.readingDate,
                 meterReading.consumption,
-                meterReading.settled
+                meterReading.settled,
+                meter.meterType
         );
     }
 
@@ -46,7 +47,11 @@ public class DTMeterReadingDefinition implements DTDefinition {
                 new DTColumnDefinition("currentReading", meterReading.currentReading),
                 new DTColumnDefinition("readingDate", meterReading.readingDate),
                 new DTColumnDefinition("consumption", meterReading.consumption),
-                new DTColumnDefinition("settled", meterReading.settled)
+                new DTColumnDefinition("settled", meterReading.settled),
+                new DTColumnDefinition("meterType",
+                        meter.meterType,
+                        jpaQuery -> jpaQuery
+                            .join(meter).on(meterReading.meter.id.eq(meter.id)))
         );
     }
 
