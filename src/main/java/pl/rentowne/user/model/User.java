@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.rentowne.address.model.Address;
 import pl.rentowne.apartment.model.Apartment;
 import pl.rentowne.common.model.BaseEntity;
 import pl.rentowne.housing_provider.model.HousingProvider;
+import pl.rentowne.payment_card.model.PaymentCard;
 import pl.rentowne.security.model.Token;
 
 import java.time.LocalDateTime;
@@ -74,6 +76,16 @@ public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "IMAGE", length = 128)
     private String image;
+
+    @Column(name = "PHONE_NUMBER", length = 20)
+    private String phoneNumber;
+
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
+    private PaymentCard paymentCard;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ADDRESS_ID")
+    private Address address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Token> tokens;

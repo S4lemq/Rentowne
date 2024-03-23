@@ -1,9 +1,12 @@
 package pl.rentowne.user.model.dto;
 
-import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
 import lombok.Getter;
+import pl.rentowne.address.model.dto.AddressDto;
+import pl.rentowne.payment_card.model.dto.PaymentCardDto;
 
 @Getter
+@Builder
 public class UserDto {
     private Long id;
     private String firstname;
@@ -13,13 +16,7 @@ public class UserDto {
     private String password;
     private String repeatPassword;
     private String image;
-
-    @QueryProjection
-    public UserDto(Long id, String firstname, String lastname, String email, String image) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.image = image;
-    }
+    private String phoneNumber;
+    private PaymentCardDto paymentCardDto;
+    private AddressDto addressDto;
 }

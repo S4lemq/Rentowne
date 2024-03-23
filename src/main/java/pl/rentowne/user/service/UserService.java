@@ -38,7 +38,7 @@ public interface UserService {
      * Pobiera dane zalogowanego użytkownika
      * @return dane użytkownika
      */
-    UserDto getUser();
+    UserDto getFullUserData();
 
     /**
      * Aktualizuje dane użytkownika

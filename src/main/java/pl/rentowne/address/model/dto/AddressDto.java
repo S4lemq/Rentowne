@@ -1,6 +1,5 @@
 package pl.rentowne.address.model.dto;
 
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 import pl.rentowne.address.model.Address;

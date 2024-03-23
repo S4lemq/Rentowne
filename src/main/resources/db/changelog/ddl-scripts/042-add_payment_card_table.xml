@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="042-add_payment_card_sequence">
+        <createSequence sequenceName="PAYMENT_CARD_SEQ" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="042-create_payment_card_table">
+        <createTable tableName="PAYMENT_CARD">
+            <column name="PAYMENT_CARD_ID" type="bigint" defaultValueSequenceNext="PAYMENT_CARD_SEQ">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_PAYMENT_CARD"/>
+            </column>
+            <column name="NUMBER" type="VARCHAR(16)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MONTH" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="YEAR" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CVV" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ACCOUNT_ID" type="bigint">
+                <constraints nullable="false" unique="true"
+                             foreignKeyName="FK_PAYMENT_CARD_ON_USER_ACCOUNT"
+                             references="USER_ACCOUNT(USER_ACCOUNT_ID)"/>
+            </column>
+            <column name="INSERT_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="timestamp"/>
+            <column name="INSERT_OPERATOR" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_OPERATOR" type="varchar(60)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="042-add_comments_to_payment_card_table">
+        <setTableRemarks tableName="PAYMENT_CARD" remarks="Tabela danych karty płatniczej" />
+        <setColumnRemarks tableName="PAYMENT_CARD" columnName="PAYMENT_CARD_ID" remarks="Klucz główny" />
+        <setColumnRemarks tableName="PAYMENT_CARD" columnName="NUMBER" remarks="Numer karty" />
+        <setColumnRemarks tableName="PAYMENT_CARD" columnName="MONTH" remarks="Miesiąc daty ważności" />
+        <setColumnRemarks tableName="PAYMENT_CARD" columnName="YEAR" remarks="Rok daty ważności" />
+        <setColumnRemarks tableName="PAYMENT_CARD" columnName="CVV" remarks="Kod cvv/cvc" />
+        <setColumnRemarks tableName="PAYMENT_CARD" columnName="USER_ACCOUNT_ID" remarks="Referencja do tabeli użytkowników" />
+        <setColumnRemarks tableName="PAYMENT_CARD" columnName="INSERT_DATE" remarks="Data wprowadzenia wiersza" />
+        <setColumnRemarks tableName="PAYMENT_CARD" columnName="UPDATE_DATE" remarks="Data aktualizacji wiersza" />
+        <setColumnRemarks tableName="PAYMENT_CARD" columnName="INSERT_OPERATOR" remarks="Operator wprowadzający wiersz" />
+        <setColumnRemarks tableName="PAYMENT_CARD" columnName="UPDATE_OPERATOR" remarks="Operator aktualizujący wiersz" />
+    </changeSet>
+
+    <changeSet author="plubowicz" id="042-rename_index_in_payment_card_table">
+        <sql>
+            ALTER INDEX payment_card_number_key RENAME TO UK_PAYMENT_CARD_1;
+            ALTER INDEX payment_card_user_account_id_key RENAME TO UK_PAYMENT_CARD_2;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

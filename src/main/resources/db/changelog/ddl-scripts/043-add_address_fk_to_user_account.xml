@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="043-add_address_fk_to_user_account">
+        <addColumn tableName="USER_ACCOUNT">
+            <column name="ADDRESS_ID" type="bigint">
+                <constraints foreignKeyName="FK_USER_ACCOUNT_ON_ADDRESS"
+                             references="ADDRESS(ADDRESS_ID)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="043-add_comment">
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="ADDRESS_ID" remarks="Referencja do danych adresowych" />
+    </changeSet>
+
+    <changeSet author="plubowicz" id="043-add_phone_number_to_user_account">
+        <addColumn tableName="USER_ACCOUNT">
+            <column name="PHONE_NUMBER" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="043-add_comment_to_phone_number_col">
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="PHONE_NUMBER" remarks="Numer telefonu" />
+    </changeSet>
+
+</databaseChangeLog>

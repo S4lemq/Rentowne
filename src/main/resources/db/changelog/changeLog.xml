@@ -43,5 +43,7 @@
     <include file="/db/changelog/ddl-scripts/039-remove_unused_columns_in_tenant_settlement_log.xml"/>
     <include file="/db/changelog/ddl-scripts/040-remove_unique_from_payment_id.xml"/>
     <include file="/db/changelog/ddl-scripts/041-add_column_settlement_status.xml"/>
+    <include file="/db/changelog/ddl-scripts/042-add_payment_card_table.xml"/>
+    <include file="/db/changelog/ddl-scripts/043-add_address_fk_to_user_account.xml"/>
 
 </databaseChangeLog>

@@ -27,8 +27,9 @@ public enum RentowneErrorCode implements Serializable {
     RENTED_OBJECT_DOES_NOT_HAVE_METERS(),
     PROVIDER_TYPE_ALREADY_EXISTS("type"),
     BAD_OLD_PASSWORD(),
-    NO_SETTLEMENTS()
-    ;
+    NO_SETTLEMENTS(),
+    EMPTY_REQUIRED_ADDRESS_FIELDS,
+    EMPTY_REQUIRED_PAYMENT_CARD_FIELDS;
 
     private Set<String> translateKeys;
 

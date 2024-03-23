@@ -34,7 +34,7 @@ public class UserController  extends AbstractController {
     )
     @GetMapping(value = "/api/users")
     public ResponseEntity<UserDto> getUser() throws RentowneNotFoundException {
-        return ResponseEntity.ok(userService.getUser());
+        return ResponseEntity.ok(userService.getFullUserData());
     }
 
     @Operation(

@@ -7,10 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.rentowne.address.model.dto.AddressDto;
 import pl.rentowne.common.mail.EmailClientService;
 import pl.rentowne.exception.RentowneBusinessException;
 import pl.rentowne.exception.RentowneErrorCode;
 import pl.rentowne.exception.RentowneNotFoundException;
+import pl.rentowne.payment_card.model.dto.PaymentCardDto;
+import pl.rentowne.payment_card.service.PaymentCardService;
 import pl.rentowne.tenant.repository.TenantRepository;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.model.dto.UserBasicDto;
@@ -23,6 +26,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Optional;
 
+import static pl.rentowne.util.StringUtils.isNotNullOrEmpty;
+
 @Service("USER_SERVICE")
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -31,6 +36,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmailClientService emailService;
     private final TenantRepository tenantRepository;
+    private final PaymentCardService paymentCardService;
 
     @Override
     public User getByEmail(String email) throws RentowneNotFoundException {
@@ -57,15 +63,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDto getUser() {
-        return userRepository.getUserDtoByEmail(getLoggedUserEmail());
+    public UserDto getFullUserData() {
+        User user = userRepository.getFullUserDataByEmail(getLoggedUserEmail());
+        return UserDto.builder()
+                .id(user.getId())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .email(user.getEmail())
+                .image(user.getImage())
+                .phoneNumber(user.getPhoneNumber())
+                .paymentCardDto(user.getPaymentCard() != null ? PaymentCardDto.asDto(user.getPaymentCard()) : null)
+                .addressDto(user.getAddress() != null ? AddressDto.asDto(user.getAddress()) : null)
+                .build();
     }
 
     @Override
     @Transactional
     public void updateUser(UserDto userDto) {
-
         User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new RentowneNotFoundException(userDto.getEmail()));
+        if (validateAddress(userDto.getAddressDto())) {
+            user.setAddress(AddressDto.asEntity(userDto.getAddressDto()));
+        }
+        if (validatePaymentCard(userDto.getPaymentCardDto())) {
+            paymentCardService.save(userDto.getPaymentCardDto(), user);
+        }
 
         boolean passwordToChange = userDto.getPassword() != null && userDto.getPassword().equals(userDto.getRepeatPassword());
         if (passwordToChange) {
@@ -81,6 +102,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstname(userDto.getFirstname());
         user.setLastname(userDto.getLastname());
         user.setImage(userDto.getImage());
+        user.setPhoneNumber(userDto.getPhoneNumber());
 
         userRepository.save(user);
 
@@ -96,6 +118,58 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public String getUserProfileImage() {
         return userRepository.getUserProfileImage(getLoggedUserEmail());
+    }
+
+    /**
+     * Waluduje adres, albo wszystkie pola wymagane puste (nr budynku, kod pocztowy, wojewódtwo, miejscowość) albo wypełnione
+     * @param address dane adresowe
+     * @return true/false
+     */
+    private boolean validateAddress(AddressDto address) {
+        boolean isAnyFieldSet = isNotNullOrEmpty(address.getBuildingNumber())
+                || isNotNullOrEmpty(address.getZipCode())
+                || isNotNullOrEmpty(address.getCityName())
+                || isNotNullOrEmpty(address.getVoivodeship());
+
+        if (isAnyFieldSet) {
+            boolean areAllFieldsSet = isNotNullOrEmpty(address.getBuildingNumber())
+                    && isNotNullOrEmpty(address.getZipCode())
+                    && isNotNullOrEmpty(address.getCityName())
+                    && isNotNullOrEmpty(address.getVoivodeship());
+
+            if (!areAllFieldsSet) {
+                throw new RentowneBusinessException(RentowneErrorCode.EMPTY_REQUIRED_ADDRESS_FIELDS);
+            }
+            return true; // Wszystkie wymagane pola są ustawione
+        }
+        return false; // Żadne z pól nie jest ustawione, więc adres nie zostanie zaktualizowany
+    }
+
+    /**
+     * Waliduje dane karty płatniczej, albo wszyskie pola wypełnione, albo żadne, nie może być tylko część wypełniona
+     * @param cardDto dane karty płatniczej
+     * @return true/false
+     */
+    private boolean validatePaymentCard(PaymentCardDto cardDto) {
+        if (cardDto == null) {
+            return false; // Obiekt PaymentCardDto jest null, więc nie ma co walidować
+        }
+
+        // Sprawdź, czy jakiekolwiek pole nie jest null i nie jest puste (dla String) lub większe od 0 (dla int)
+        boolean isAnyFieldSet = isNotNullOrEmpty(cardDto.getNumber()) || isNotNullOrEmpty(cardDto.getName())
+                || cardDto.getMonth() > 0 || cardDto.getYear() > 0 || cardDto.getCvv() > 0;
+
+        if (isAnyFieldSet) {
+            // Jeżeli jakiekolwiek pole jest ustawione, sprawdź czy wszystkie są ustawione
+            boolean areAllFieldsSet = isNotNullOrEmpty(cardDto.getNumber()) && isNotNullOrEmpty(cardDto.getName())
+                    && cardDto.getMonth() > 0 && cardDto.getYear() > 0 && cardDto.getCvv() > 0;
+
+            if (!areAllFieldsSet) {
+                throw new RentowneBusinessException(RentowneErrorCode.EMPTY_REQUIRED_PAYMENT_CARD_FIELDS);
+            }
+            return true; // Wszystkie pola są poprawnie wypełnione
+        }
+        return false; // Żadne z pól nie jest ustawione, więc karta nie zostanie zapisana
     }
 
     private String getLoggedUserEmail() {
