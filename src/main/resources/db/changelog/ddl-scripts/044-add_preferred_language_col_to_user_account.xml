@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="plubowicz" id="044-add_preferred_language_to_user_account_nullable">
+        <addColumn tableName="USER_ACCOUNT">
+            <column name="PREFERRED_LANGUAGE" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="044-set_preferred_language_default_for_existing_users">
+        <sql>UPDATE USER_ACCOUNT SET PREFERRED_LANGUAGE = 'POLISH' WHERE PREFERRED_LANGUAGE IS NULL</sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="044-alter_preferred_language_to_not_null">
+        <sql>ALTER TABLE USER_ACCOUNT ALTER COLUMN PREFERRED_LANGUAGE SET NOT NULL</sql>
+    </changeSet>
+
+    <changeSet author="plubowicz" id="044-add_comment_to_preferred_language_col">
+        <setColumnRemarks tableName="USER_ACCOUNT" columnName="PREFERRED_LANGUAGE" remarks="Preferowany język użytkownika" />
+    </changeSet>
+
+</databaseChangeLog>

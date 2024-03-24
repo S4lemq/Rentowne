@@ -1,5 +1,6 @@
 package pl.rentowne.user.repository.custom;
 
+import com.querydsl.core.Tuple;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.model.dto.UserBasicDto;
 
@@ -40,16 +41,18 @@ public interface UserRepositoryCustom {
     Optional<User> findByHash(String hash);
 
     /**
-     * Pobiera nazwę pliku graficznego profilu użytkownika
-     * @param loggedUserEmail email zalogowanego użytkownika
-     * @return nazwa pliku
-     */
-    String getUserProfileImage(String loggedUserEmail);
-
-    /**
      * Pobiera pełne dane użytkownika po adresie email
      * @param loggedUserEmail adres email
      * @return dane użytkownika
      */
     User getFullUserDataByEmail(String loggedUserEmail);
+
+
+    /**
+     * Pobiera zdjęcie oraz preferowany język użytkownika
+     * @param loggedUserEmail email użytkownika
+     * @return zdjecie oraz preferowany język
+     */
+    Tuple getUserProfileImageAndLang(String loggedUserEmail);
+
 }

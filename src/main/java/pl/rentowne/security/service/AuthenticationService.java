@@ -25,6 +25,7 @@ import pl.rentowne.security.model.dto.RegisterRequest;
 import pl.rentowne.security.repository.TokenRepository;
 import pl.rentowne.tenant.model.dto.TenantDto;
 import pl.rentowne.tfa.TwoFactorAuthenticationService;
+import pl.rentowne.user.model.PreferredLanguage;
 import pl.rentowne.user.model.Role;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.repository.UserRepository;
@@ -56,6 +57,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(PasswordGenerator.generatePassword()))
                 .role(Role.USER)
                 .mfaEnabled(false)
+                .preferredLanguage(PreferredLanguage.POLISH)
                 .build();
 
         User savedUser = userRepository.save(user);
@@ -76,6 +78,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.ADMIN)
                 .mfaEnabled(request.isMfaEnabled())
+                .preferredLanguage(PreferredLanguage.POLISH)
                 .build();
 
         if (request.isMfaEnabled()) {
@@ -128,6 +131,7 @@ public class AuthenticationService {
                 .refreshToken(refreshToken)
                 .mfaEnabled(user.isMfaEnabled())
                 .landlordAccess(user.getRole().equals(Role.ADMIN))
+                .preferredLanguage(user.getPreferredLanguage())
                 .build();
     }
 

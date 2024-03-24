@@ -47,14 +47,14 @@ public interface UserService {
     void updateUser(UserDto userDto);
 
     /**
-     * Pobiera nazwę pliku graficznego profilu użytkownika
-     * @return nazwa pliku
-     */
-    String getUserProfileImage();
-
-    /**
      * Zwraca id obiektu zalogowanego najemcy
      * @return id obiektu
      */
     Long getRentedObjectByLoggedTenant();
+
+    /**
+     * Pobiera zdjęcie oraz preferowany język użytkownika
+     * @return zdjęcie oraz preferowany język użytkownika
+     */
+    UserDto getUserProfileImageAndLang();
 }

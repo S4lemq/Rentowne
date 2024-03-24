@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.rentowne.user.model.PreferredLanguage;
 
 @Data
 @Builder
@@ -17,4 +18,5 @@ public class AuthenticationResponse {
     private boolean mfaEnabled;
     private String secretImageUri;
     private boolean landlordAccess;
+    private PreferredLanguage preferredLanguage;
 }

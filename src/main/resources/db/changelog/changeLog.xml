@@ -45,5 +45,6 @@
     <include file="/db/changelog/ddl-scripts/041-add_column_settlement_status.xml"/>
     <include file="/db/changelog/ddl-scripts/042-add_payment_card_table.xml"/>
     <include file="/db/changelog/ddl-scripts/043-add_address_fk_to_user_account.xml"/>
+    <include file="/db/changelog/ddl-scripts/044-add_preferred_language_col_to_user_account.xml"/>
 
 </databaseChangeLog>

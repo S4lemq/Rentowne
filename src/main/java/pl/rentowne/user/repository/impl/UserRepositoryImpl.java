@@ -1,5 +1,6 @@
 package pl.rentowne.user.repository.impl;
 
+import com.querydsl.core.Tuple;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import pl.rentowne.address.model.QAddress;
@@ -26,9 +27,12 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User, Long> implement
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return Optional.ofNullable(queryFactory.selectFrom(user)
+        return Optional.ofNullable(
+                queryFactory.select(user)
+                .from(user)
                 .where(user.email.eq(email))
-                .fetchOne());
+                .fetchOne()
+        );
     }
 
     @Override
@@ -59,18 +63,18 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User, Long> implement
     }
 
     @Override
-    public String getUserProfileImage(String loggedUserEmail) {
-        return queryFactory.select(user.image)
-                .from(user)
+    public User getFullUserDataByEmail(String loggedUserEmail) {
+        return queryFactory.selectFrom(user)
+                .leftJoin(user.address(), address).fetchJoin()
+                .leftJoin(user.paymentCard(), paymentCard).fetchJoin()
                 .where(user.email.eq(loggedUserEmail))
                 .fetchOne();
     }
 
     @Override
-    public User getFullUserDataByEmail(String loggedUserEmail) {
-        return queryFactory.selectFrom(user)
-                .leftJoin(user.address(), address).fetchJoin()
-                .leftJoin(user.paymentCard(), paymentCard).fetchJoin()
+    public Tuple getUserProfileImageAndLang(String loggedUserEmail) {
+        return queryFactory.select(user.preferredLanguage, user.image)
+                .from(user)
                 .where(user.email.eq(loggedUserEmail))
                 .fetchOne();
     }

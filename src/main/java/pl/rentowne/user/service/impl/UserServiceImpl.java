@@ -1,5 +1,6 @@
 package pl.rentowne.user.service.impl;
 
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,7 @@ import pl.rentowne.exception.RentowneNotFoundException;
 import pl.rentowne.payment_card.model.dto.PaymentCardDto;
 import pl.rentowne.payment_card.service.PaymentCardService;
 import pl.rentowne.tenant.repository.TenantRepository;
+import pl.rentowne.user.model.PreferredLanguage;
 import pl.rentowne.user.model.User;
 import pl.rentowne.user.model.dto.UserBasicDto;
 import pl.rentowne.user.model.dto.UserDto;
@@ -26,6 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Optional;
 
+import static pl.rentowne.user.model.QUser.user;
 import static pl.rentowne.util.StringUtils.isNotNullOrEmpty;
 
 @Service("USER_SERVICE")
@@ -72,6 +75,7 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .image(user.getImage())
                 .phoneNumber(user.getPhoneNumber())
+                .preferredLanguage(user.getPreferredLanguage())
                 .paymentCardDto(user.getPaymentCard() != null ? PaymentCardDto.asDto(user.getPaymentCard()) : null)
                 .addressDto(user.getAddress() != null ? AddressDto.asDto(user.getAddress()) : null)
                 .build();
@@ -103,6 +107,7 @@ public class UserServiceImpl implements UserService {
         user.setLastname(userDto.getLastname());
         user.setImage(userDto.getImage());
         user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setPreferredLanguage(userDto.getPreferredLanguage());
 
         userRepository.save(user);
 
@@ -116,8 +121,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public String getUserProfileImage() {
-        return userRepository.getUserProfileImage(getLoggedUserEmail());
+    public UserDto getUserProfileImageAndLang() {
+        Tuple userProfileData = userRepository.getUserProfileImageAndLang(getLoggedUserEmail());
+
+        String image = userProfileData.get(user.image);
+        PreferredLanguage preferredLanguage = userProfileData.get(user.preferredLanguage);
+
+        return UserDto.builder()
+                .image(image)
+                .preferredLanguage(preferredLanguage)
+                .build();
     }
 
     /**

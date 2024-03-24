@@ -80,6 +80,10 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "PHONE_NUMBER", length = 20)
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "PREFERRED_LANGUAGE", nullable = false, length = 20)
+    private PreferredLanguage preferredLanguage;
+
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
     private PaymentCard paymentCard;
 

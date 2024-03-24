@@ -54,8 +54,8 @@ public class UserController  extends AbstractController {
     }
 
     @Operation(
-        summary = "Pobiera nazwę zdjęcia profilowe użytkownika",
-        description = "Metoda zwracająca nazwę zdjęcia profilowego użytkownika",
+        summary = "Pobiera nazwę zdjęcia profilowego oraz preferowany język użytkownika",
+        description = "Metoda zwracająca nazwę zdjęcia profilowego  oraz preferowany język użytkownika",
         responses = {
                 @ApiResponse(responseCode = "200", description = "Sukces", content = @Content(mediaType = "application/json")),
                 @ApiResponse(responseCode = "400", description = "Niepoprawne dane wejściowe"),
@@ -63,9 +63,9 @@ public class UserController  extends AbstractController {
                 @ApiResponse(responseCode = "500", description = "Wewnętrzny błąd serwera")
         }
     )
-    @GetMapping(value = "/api/users/profile-image")
-    public String getUserProfileImage() throws RentowneNotFoundException {
-        return userService.getUserProfileImage();
+    @GetMapping(value = "/api/users/profile-image-lang")
+    public UserDto getUserProfileImageAndLang() throws RentowneNotFoundException {
+        return userService.getUserProfileImageAndLang();
     }
 
 }
