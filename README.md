@@ -17,31 +17,32 @@ Niniejsza aplikacja to zaawansowane narzędzie webowe, dedykowane do efektywnego
 
 Ponadto, aplikacja wyposażona jest w szereg narzędzi automatyzujących procesy administracyjne, takich jak zaplanowane zadania do zarządzania nieruchomościami, wysyłanie e-maili, oraz eksport danych.
 
-# Użyte technologie - BACKEND
-- Java 17
-- Spring Boot 3.2.0
-- Spring Boot Starter Data JPA
-- Spring Boot Starter Security
-- Spring Boot Starter Web
-- Spring Boot Starter WebFlux
-- Spring Boot Starter Actuator
-- Spring Boot Starter Mail
-- Spring Boot Starter Validation
-- SpringDoc OpenAPI
-- Liquibase Core
-- Lombok
-- JJwt
-- TOTP
-- Guava
-- Commons IO
-- Commons Codec
-- Commons CSV
-- QueryDSL JPA 5.0
-- JUnit
-- AssertJ
-- Mockito
+| Użyte technologie - BACKEND 🔧 |
+| ------------- |
+• Java 17
+• Spring Boot 3.2
+• Spring Boot Starter Data JPA
+• Spring Boot Starter Security
+• Spring Boot Starter Web
+• Spring Boot Starter WebFlux
+• Spring Boot Starter Actuator
+• Spring Boot Starter Mail
+• Spring Boot Starter Validation
+• SpringDoc OpenAPI
+• Liquibase Core
+• Lombok
+• JJwt
+• TOTP
+• Guava
+• Commons IO
+• Commons Codec
+• Commons CSV
+• QueryDSL JPA 5.0
+• JUnit
+• AssertJ
+• Mockito
 
-# Użyte technologie - FRONTEND
+# Użyte technologie - FRONTEND 🔧
 - Angular 15.2.0
 - Angular Material 15.2.6
 - RxJS 7.8.0
@@ -55,3 +56,5 @@ Ponadto, aplikacja wyposażona jest w szereg narzędzi automatyzujących procesy
 - TypeScript
 - Jasmine-core
 - Karma
+
+link do repozytorium frontend - https://github.com/S4lemq/RentowneFront
