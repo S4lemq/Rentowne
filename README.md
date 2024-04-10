@@ -42,19 +42,20 @@ Ponadto, aplikacja wyposażona jest w szereg narzędzi automatyzujących procesy
 • AssertJ
 • Mockito
 
-# Użyte technologie - FRONTEND 🔧
-- Angular 15.2.0
-- Angular Material 15.2.6
-- RxJS 7.8.0
-- @ngx-translate/core
-- Chart.js
-- Cropperjs
-- Express
-- JWT-decode
-- Moment
-- Ng-otp-input
-- TypeScript
-- Jasmine-core
-- Karma
+| Użyte technologie - FRONTEND 🔧 |
+| ------------- |
+• Angular 15.2
+• Angular Material 15.2.6
+• RxJS 7.8
+• @ngx-translate/core
+• Chart.js
+• Cropperjs
+• Express
+• JWT-decode
+• Moment
+• Ng-otp-input
+• TypeScript
+• Jasmine-core
+• Karma
 
 link do repozytorium frontend - https://github.com/S4lemq/RentowneFront
