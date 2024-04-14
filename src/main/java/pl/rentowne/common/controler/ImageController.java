@@ -37,6 +37,7 @@ public class ImageController extends AbstractController {
         Resource file = imageService.serveFiles(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
+                .header(HttpHeaders.CACHE_CONTROL, "public, max-age=31536000")
                 .body(file);
     }
 
